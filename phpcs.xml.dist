@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="Payment_API Standard">
+    <description>payment_api standard.</description>
+    <file>src</file>
+    <arg name="colors"/>
+    <arg name="extensions">php</arg>
+    <rule ref="PSR2"/>
+</ruleset>
