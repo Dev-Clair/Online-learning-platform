@@ -2,7 +2,7 @@ version: "3.1"
 services:
   mariadb:
     image: "mariadb:11.0"
-    container_name: payment_api_mariadb
+    container_name: e-learning_mariadb
     working_dir: /application
     volumes:
       - ".:/application"
@@ -12,21 +12,21 @@ services:
       - MYSQL_USER=${MARIADB_DB_USER}
       - MYSQL_PASSWORD=${MARIADB_DB_USER_PASSWORD}
     ports:
-      - "26003:3306"
+      - "8803:3306"
 
   webserver:
     image: "nginx:alpine"
-    container_name: payment_api_webserver
+    container_name: e-learning_webserver
     working_dir: /application
     volumes:
       - ".:/application"
       - "./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf"
     ports:
-      - "26000:80"
+      - "8800:80"
 
   php-fpm:
     build: phpdocker/php-fpm
-    container_name: payment_api_php
+    container_name: e-learning_php-fpm
     extra_hosts:
       - "host.docker.internal:host-gateway"
     working_dir: /application
@@ -41,16 +41,16 @@ services:
 
   phpmyadmin:
     image: "phpmyadmin/phpmyadmin:latest"
-    container_name: payment_api_phpmyadmin
+    container_name: e-learning_phpmyadmin
     ports:
-      - "26001:80"
+      - "8801:80"
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOST=payment_api_mariadb
+      - PMA_HOST=e-learning_mariadb
 
   composer:
     image: "composer:latest"
-    container_name: payment_api_composer
+    container_name: e-learning_composer
     command: ["composer", "update"]
     volumes:
       - ".:/app"
