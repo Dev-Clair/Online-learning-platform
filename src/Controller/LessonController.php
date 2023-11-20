@@ -11,8 +11,10 @@ class LessonController extends AbstractController
     #[Route('/lesson', name: 'app_lesson')]
     public function index(): Response
     {
+        $lessons = [];
+
         return $this->render('lesson/index.html.twig', [
-            'controller_name' => 'LessonController',
+            'lessons' => $lessons,
         ]);
     }
 }
