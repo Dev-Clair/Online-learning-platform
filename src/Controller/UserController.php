@@ -14,6 +14,7 @@ class UserController extends AbstractController
         $user = [];
 
         return $this->render('user/index.html.twig', [
+            'title' => 'Users',
             'user' => $user,
         ]);
     }
