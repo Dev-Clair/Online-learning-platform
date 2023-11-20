@@ -14,6 +14,7 @@ class LessonController extends AbstractController
         $lessons = [];
 
         return $this->render('lesson/index.html.twig', [
+            'title' => 'Lessons',
             'lessons' => $lessons,
         ]);
     }

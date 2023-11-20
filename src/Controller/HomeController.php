@@ -16,6 +16,7 @@ class HomeController extends AbstractController
         $testimonials = [];
 
         return $this->render('home/index.html.twig', [
+            'title' => 'Home',
             'courses' => $courses,
             'instructors' => $instructors,
             'testimonials' => $testimonials,

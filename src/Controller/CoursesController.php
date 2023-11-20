@@ -14,6 +14,7 @@ class CoursesController extends AbstractController
         $courses = [];
 
         return $this->render('courses/index.html.twig', [
+            'title' => 'Courses',
             'courses' => $courses,
         ]);
     }

@@ -14,6 +14,7 @@ class ProfileController extends AbstractController
         $profile = [];
 
         return $this->render('profile/index.html.twig', [
+            'title' => 'Profile',
             'profile' => $profile,
         ]);
     }
