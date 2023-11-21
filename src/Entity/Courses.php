@@ -30,6 +30,9 @@ class Courses
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]
     private Collection $enrollments;
 
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->enrollments = new ArrayCollection();
@@ -114,6 +117,18 @@ class Courses
                 $enrollment->setCourses(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
