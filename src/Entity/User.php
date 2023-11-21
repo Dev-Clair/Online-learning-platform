@@ -35,11 +35,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Profile $userProfile = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Enrollment::class)]
-    private Collection $enrolledCourses;
+    private Collection $enrollments;
 
     public function __construct()
     {
-        $this->enrolledCourses = new ArrayCollection();
+        $this->enrollments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,27 +132,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Enrollment>
      */
-    public function getEnrolledCourses(): Collection
+    public function getEnrollments(): Collection
     {
-        return $this->enrolledCourses;
+        return $this->enrollments;
     }
 
-    public function addEnrolledCourse(Enrollment $enrolledCourse): static
+    public function addEnrolledCourse(Enrollment $enrollments): static
     {
-        if (!$this->enrolledCourses->contains($enrolledCourse)) {
-            $this->enrolledCourses->add($enrolledCourse);
-            $enrolledCourse->setUser($this);
+        if (!$this->enrollments->contains($enrollments)) {
+            $this->enrollments->add($enrollments);
+            $enrollments->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeEnrolledCourse(Enrollment $enrolledCourse): static
+    public function removeEnrolledCourse(Enrollment $enrollments): static
     {
-        if ($this->enrolledCourses->removeElement($enrolledCourse)) {
+        if ($this->enrollments->removeElement($enrollments)) {
             // set the owning side to null (unless already changed)
-            if ($enrolledCourse->getUser() === $this) {
-                $enrolledCourse->setUser(null);
+            if ($enrollments->getUser() === $this) {
+                $enrollments->setUser(null);
             }
         }
 
