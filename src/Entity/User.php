@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,6 +33,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Profile $userProfile = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Enrollment::class)]
+    private Collection $enrolledCourses;
+
+    public function __construct()
+    {
+        $this->enrolledCourses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -115,6 +125,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->userProfile = $userProfile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Enrollment>
+     */
+    public function getEnrolledCourses(): Collection
+    {
+        return $this->enrolledCourses;
+    }
+
+    public function addEnrolledCourse(Enrollment $enrolledCourse): static
+    {
+        if (!$this->enrolledCourses->contains($enrolledCourse)) {
+            $this->enrolledCourses->add($enrolledCourse);
+            $enrolledCourse->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnrolledCourse(Enrollment $enrolledCourse): static
+    {
+        if ($this->enrolledCourses->removeElement($enrolledCourse)) {
+            // set the owning side to null (unless already changed)
+            if ($enrolledCourse->getUser() === $this) {
+                $enrolledCourse->setUser(null);
+            }
+        }
 
         return $this;
     }
