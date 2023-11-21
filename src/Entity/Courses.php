@@ -22,6 +22,9 @@ class Courses
     private ?string $description = null;
 
     #[ORM\Column]
+    private ?int $duration = null;
+
+    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
@@ -38,6 +41,7 @@ class Courses
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->enrollments = new ArrayCollection();
         $this->lessons = new ArrayCollection();
     }
@@ -163,6 +167,18 @@ class Courses
                 $lesson->setCourses(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(int $duration): static
+    {
+        $this->duration = $duration;
 
         return $this;
     }
