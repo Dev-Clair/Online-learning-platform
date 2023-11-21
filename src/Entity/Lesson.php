@@ -36,6 +36,7 @@ class Lesson
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->progress = new ArrayCollection();
     }
 
