@@ -30,6 +30,10 @@ class Lesson
     #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Progress::class)]
     private Collection $progress;
 
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Courses $courses = null;
+
     public function __construct()
     {
         $this->progress = new ArrayCollection();
@@ -114,6 +118,18 @@ class Lesson
                 $progress->setLesson(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCourses(): ?Courses
+    {
+        return $this->courses;
+    }
+
+    public function setCourses(?Courses $courses): static
+    {
+        $this->courses = $courses;
 
         return $this;
     }

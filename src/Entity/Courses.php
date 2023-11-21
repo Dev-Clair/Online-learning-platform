@@ -33,9 +33,13 @@ class Courses
     #[ORM\ManyToOne(inversedBy: 'courses')]
     private ?User $user = null;
 
+    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lesson::class, orphanRemoval: true)]
+    private Collection $lessons;
+
     public function __construct()
     {
         $this->enrollments = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -129,6 +133,36 @@ class Courses
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Lesson>
+     */
+    public function getLessons(): Collection
+    {
+        return $this->lessons;
+    }
+
+    public function addLesson(Lesson $lesson): static
+    {
+        if (!$this->lessons->contains($lesson)) {
+            $this->lessons->add($lesson);
+            $lesson->setCourses($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLesson(Lesson $lesson): static
+    {
+        if ($this->lessons->removeElement($lesson)) {
+            // set the owning side to null (unless already changed)
+            if ($lesson->getCourses() === $this) {
+                $lesson->setCourses(null);
+            }
+        }
 
         return $this;
     }
