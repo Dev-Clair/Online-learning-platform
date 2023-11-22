@@ -12,7 +12,7 @@ services:
       - MYSQL_USER=${MARIADB_DB_USER}
       - MYSQL_PASSWORD=${MARIADB_DB_USER_PASSWORD}
     ports:
-      - "8800:3306"
+      - "8803:3306"
 
   webserver:
     image: "nginx:alpine"
@@ -47,3 +47,13 @@ services:
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=e-learning_mariadb
+
+  nodejs:
+    image: "node:14"
+    container_name: e-learning_nodejs
+    working_dir: /application
+    volumes:
+      - ".:/application"
+    ports:
+      - "8802:3000"
+    command: "npm run start"
