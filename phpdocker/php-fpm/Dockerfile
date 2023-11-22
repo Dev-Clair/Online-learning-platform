@@ -6,16 +6,12 @@ WORKDIR "/application"
 RUN apt-get update \
     && apt-get -y --no-install-recommends install \
         php8.2-mysql \
-        php8.2-gd \
-        php8.2-pdo \
-        php8.2-pdo_mysql \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Node.js and npm
-RUN apt-get update \
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get -y --no-install-recommends install \
-        nodejs=14.* \
-        npm \
+        nodejs=18.* \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*

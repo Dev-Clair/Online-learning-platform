@@ -49,7 +49,7 @@ services:
       - PMA_HOST=e-learning_mariadb
 
   nodejs:
-    image: "node:14"
+    image: "node:18"
     container_name: e-learning_nodejs
     working_dir: /application
     volumes:
