@@ -11,6 +11,11 @@ class TestimonialController extends AbstractController
     #[Route('/testimonial', name: 'app_testimonial')]
     public function index(): Response
     {
-        return $this->render('testimonial/index.html.twig');
+        $testimonials = [];
+
+        return $this->render('testimonial/index.html.twig', [
+            'title' => 'Testimonials',
+            'testimonials' => $testimonials ?? "",
+        ]);
     }
 }
