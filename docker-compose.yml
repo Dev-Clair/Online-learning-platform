@@ -1,19 +1,5 @@
 version: "3.1"
 services:
-  mariadb:
-    image: "mariadb:11.0"
-    container_name: e-learning_mariadb
-    working_dir: /application
-    volumes:
-      - ".:/application"
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_USER}
-      - MYSQL_DATABASE=${MARIADB_DB_NAME}
-      - MYSQL_USER=${MARIADB_DB_USER}
-      - MYSQL_PASSWORD=${MARIADB_DB_USER_PASSWORD}
-    ports:
-      - "8803:3306"
-
   webserver:
     image: "nginx:alpine"
     container_name: e-learning_webserver
@@ -49,7 +35,7 @@ services:
       - PMA_HOST=e-learning_mariadb
 
   nodejs:
-    image: "node:18"
+    image: "node:20.9"
     container_name: e-learning_nodejs
     working_dir: /application
     volumes:
@@ -57,3 +43,17 @@ services:
     ports:
       - "8802:3000"
     command: "npm run start"
+
+  mariadb:
+    image: "mariadb:11.0"
+    container_name: e-learning_mariadb
+    working_dir: /application
+    volumes:
+      - ".:/application"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_USER}
+      - MYSQL_DATABASE=${MARIADB_DB_NAME}
+      - MYSQL_USER=${MARIADB_DB_USER}
+      - MYSQL_PASSWORD=${MARIADB_DB_USER_PASSWORD}
+    ports:
+      - "8803:3306"
