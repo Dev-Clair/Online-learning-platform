@@ -42,7 +42,6 @@ services:
       - ".:/application"
     ports:
       - "8802:3000"
-    command: "npm run start"
 
   mariadb:
     image: "mariadb:11.0"
