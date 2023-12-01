@@ -4,7 +4,7 @@ doctrine:
 
     # IMPORTANT: You MUST configure your server version,
     # either here or in the DATABASE_URL env var (see .env file)
-    # server_version: "11.0.3-MariaDB-1:11.0.3+maria~ubu2204"
+    server_version: "11.0-MariaDB-1:11.0.3+maria~ubu2204"
 
     profiling_collect_backtrace: "%kernel.debug%"
   orm:
