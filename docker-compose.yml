@@ -2,7 +2,8 @@ version: "3.1"
 services:
   webserver:
     image: "nginx:alpine"
-    container_name: e-learning_webserver
+    restart: always
+    container_name: online_learning_webserver
     working_dir: /application
     volumes:
       - ".:/application"
@@ -12,7 +13,7 @@ services:
 
   php-fpm:
     build: phpdocker/php-fpm
-    container_name: e-learning_php-fpm
+    container_name: online_learning_php-fpm
     extra_hosts:
       - "host.docker.internal:host-gateway"
     working_dir: /application
@@ -27,32 +28,32 @@ services:
 
   phpmyadmin:
     image: "phpmyadmin/phpmyadmin:latest"
-    container_name: e-learning_phpmyadmin
+    restart: always
+    container_name: online_learning_phpmyadmin
     ports:
       - "8801:80"
     environment:
       - PMA_ARBITRARY=1
-      - PMA_HOST=e-learning_mariadb
+      - PMA_HOST=online_learning_mariadb
 
   nodejs:
     image: "node:20.9"
-    container_name: e-learning_nodejs
+    restart: always
+    container_name: online_learning_nodejs
     working_dir: /application
     volumes:
       - ".:/application"
     ports:
       - "8802:3000"
 
-  mysql:
+  mariadb:
     image: "mariadb:11.0"
-    container_name: e-learning_mariadb
+    restart: always
+    container_name: online_learning_mariadb
     working_dir: /application
     volumes:
       - ".:/application"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_USER}
-      - MYSQL_DATABASE=${MYSQL_DB_NAME}
-      - MYSQL_USER=${MYSQL_DB_USER}
-      - MYSQL_PASSWORD=${MYSQL_DB_USER_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=root
     ports:
       - "8803:3306"
