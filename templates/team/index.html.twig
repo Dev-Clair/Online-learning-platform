@@ -1,158 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Team {% endblock %}
+{% block title %}Hello TeamController!{% endblock %}
 
 {% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
 
-    <!-- Header Start -->
-    <div class="container-fluid bg-primary py-5 mb-5 page-header">
-      <div class="container py-5">
-        <div class="row justify-content-center">
-          <div class="col-lg-10 text-center">
-            <h1 class="display-3 text-white animated slideInDown">Our Team</h1>
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb justify-content-center">
-                <li class="breadcrumb-item">
-                  <a class="text-white" href="#">Home</a>
-                </li>
-                <li class="breadcrumb-item">
-                  <a class="text-white" href="#">Pages</a>
-                </li>
-                <li
-                  class="breadcrumb-item text-white active"
-                  aria-current="page"
-                >
-                  Team
-                </li>
-              </ol>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Header End -->
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    <!-- Team Start -->
-    <div class="container-xxl py-5">
-      <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-          <h6 class="section-title bg-white text-center text-primary px-3">
-            Instructors
-          </h6>
-          <h1 class="mb-5">Expert Instructors</h1>
-        </div>
-        <div class="row g-4">
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-1.df075697.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Hennadii Shvedko</h5>
-                <small>Backend Coach</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-2.10ecf4f5.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Elina Chifeac</h5>
-                <small>Backend Coach</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-3.ea511638.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Raul Adrian</h5>
-                <small>Devops Engineering Coach</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-4.2c2eb82d.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Valentina Muller</h5>
-                <small>Graphics Design Coach</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Team End -->
-
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/Users/Samuel Ebuka/Desktop/Online_Learning_Platform/src/Controller/TeamController.php'|file_link(0) }}">src/Controller/TeamController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/Users/Samuel Ebuka/Desktop/Online_Learning_Platform/templates/team/index.html.twig'|file_link(0) }}">templates/team/index.html.twig</a></code></li>
+    </ul>
+</div>
 {% endblock %}
