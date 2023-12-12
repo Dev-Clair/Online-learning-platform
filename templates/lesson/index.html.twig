@@ -1,12 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-  Lesson
-{% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 {% block body %}
 
-  {% for lesson in lessons %}
-    <li>{{ lesson }} </li>
-  {% endfor %}
+
+
 {% endblock %}
