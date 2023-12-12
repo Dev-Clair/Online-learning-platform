@@ -1,18 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %} {{  title  }} {% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
 
     <section class="vh-100 bg-primary bg-gradient">
         <div class="container py-5 h-100">
@@ -22,7 +12,7 @@
                         <div class="card-body p-5 text-center">
                             <div class="mb-4">
                                 {% if error %}
-                                    <div>
+                                    <div class="alert alert-danger">
                                     {{ error.messageKey|trans(error.messageData, 'security') }}
                                     </div>
                                 {% endif %}
