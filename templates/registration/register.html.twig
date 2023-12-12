@@ -1,19 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    
+    <section class="vh-100 bg-primary bg-gradient">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-light text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="mb-4">
+                                <h1 class="fw-bold mb-5 text-uppercase text-primary d-flex justify-content-center align-items-center">
+                                        Register
+                                    </h1>
 
-    {{ form_errors(registrationForm) }}
+                                {% if form_errors(registrationForm) %}
+                                    <div class="alert alert-danger">
+                                        {{ form_errors(registrationForm) }}
+                                    </div>
+                                {% endif %}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                                {{ form_start(registrationForm) }}
+                                    <div class="form-outline form-white text-primary mb-4">
+                                        {{ form_row(registrationForm.email) }}
+                                    </div>
+                                    <div class="form-outline form-white text-primary mb-2">
+                                        {{ form_row(registrationForm.plainPassword) }}
+                                    </div>
+                                    <div class="form-outline form-white text-primary mb-4">
+                                        {{ form_row(registrationForm.agreeTerms) }}
+                                    </div>
+                                    <div class="form-outline form-white text-primary mb-4">
+                                        <button class="btn btn-primary bg-gradient text-white btn-lg px-5"  type="submit">Register</button>
+                                    {{ form_end(registrationForm) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
 {% endblock %}
