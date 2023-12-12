@@ -1,20 +1,112 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TestimonialController!{% endblock %}
+{% block title %} {{ title }} {% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h1 class="display-3 text-white animated slideInDown">
+              Testimonial
+            </h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item">
+                  <a class="text-white" href="#">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="text-white" href="#">Pages</a>
+                </li>
+                <li
+                  class="breadcrumb-item text-white active"
+                  aria-current="page"
+                >
+                  Testimonial
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Header End -->
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/Samuel Ebuka/Desktop/Online_Learning_Platform/src/Controller/TestimonialController.php'|file_link(0) }}">src/Controller/TestimonialController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/Samuel Ebuka/Desktop/Online_Learning_Platform/templates/testimonial/index.html.twig'|file_link(0) }}">templates/testimonial/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <!-- Testimonial Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+      <div class="container">
+        <div class="text-center">
+          <h6 class="section-title bg-white text-center text-primary px-3">
+            Testimonial
+          </h6>
+          <h1 class="mb-5">Our Students Say!</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel position-relative">
+          <div class="testimonial-item text-center">
+            <img
+              class="border rounded-circle p-2 mx-auto mb-3"
+              src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
+              style="width: 80px; height: 80px"
+            />
+            <h5 class="mb-0">Victoria Elena</h5>
+            <p>Frontend Development Student</p>
+            <div class="testimonial-text bg-light text-center p-4">
+              <p class="mb-0">
+                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
+                amet diam et eos. Clita erat ipsum et lorem et sit.
+              </p>
+            </div>
+          </div>
+          <div class="testimonial-item text-center">
+            <img
+              class="border rounded-circle p-2 mx-auto mb-3"
+              src="{{ asset('build/images/testimonial-2.d99a5ca6.jpg') }}"
+              style="width: 80px; height: 80px"
+            />
+            <h5 class="mb-0">Alexander Nwokorie</h5>
+            <p>Backend Engineering Student</p>
+            <div class="testimonial-text bg-light text-center p-4">
+              <p class="mb-0">
+                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
+                amet diam et eos. Clita erat ipsum et lorem et sit.
+              </p>
+            </div>
+          </div>
+          <div class="testimonial-item text-center">
+            <img
+              class="border rounded-circle p-2 mx-auto mb-3"
+              src="{{ asset('build/images/testimonial-3.27812fe3.jpg') }}"
+              style="width: 80px; height: 80px"
+            />
+            <h5 class="mb-0">Samuel Ebuka</h5>
+            <p>Devops Engineering Student</p>
+            <div class="testimonial-text bg-light text-center p-4">
+              <p class="mb-0">
+                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
+                amet diam et eos. Clita erat ipsum et lorem et sit.
+              </p>
+            </div>
+          </div>
+          <div class="testimonial-item text-center">
+            <img
+              class="border rounded-circle p-2 mx-auto mb-3"
+              src="{{ asset('build/images/testimonial-4.1d8a1837.jpg') }}"
+              style="width: 80px; height: 80px"
+            />
+            <h5 class="mb-0">Ruth Usoro</h5>
+            <p>Graphics Design Student</p>
+            <div class="testimonial-text bg-light text-center p-4">
+              <p class="mb-0">
+                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
+                amet diam et eos. Clita erat ipsum et lorem et sit.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Testimonial End -->
+
 {% endblock %}
