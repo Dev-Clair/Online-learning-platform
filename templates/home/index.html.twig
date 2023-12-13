@@ -3,50 +3,27 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-
-    <!-- Carousel Start -->
-    <div class="container-fluid p-0 mb-5">
-      <div class="owl-carousel header-carousel position-relative">
-        <div class="owl-carousel-item position-relative">
-          <img class="img-fluid" src="{{ asset('build/images/carousel-1.c37ef924.jpg') }}" alt="" />
-          <div
-            class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center"
-            style="background: rgba(24, 29, 56, 0.7)"
-          >
-            <div class="container">
-              <div class="row justify-content-start">
-                <div class="col-sm-10 col-lg-8">
-                  <h5
-                    class="text-primary text-uppercase mb-3 animated slideInDown"
-                  >
-                    Best Online Courses
-                  </h5>
-                  <h1 class="display-3 text-white animated slideInDown">
-                    The Best Online Learning Platform
-                  </h1>
-                  <p class="fs-5 text-white mb-4 pb-2">
-                    Vero elitr justo clita lorem. Ipsum dolor at sed stet sit
-                    diam no. Kasd rebum ipsum et diam justo clita et kasd rebum
-                    sea sanctus eirmod elitr.
-                  </p>
-                  <a
-                    href="#"
-                    class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
-                    >Read More</a
-                  >
-                  <a
-                    href="#"
-                    class="btn btn-light py-md-3 px-md-5 animated slideInRight"
-                    >Join Now</a
-                  >
-                </div>
-              </div>
-            </div>
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h1 class="display-3 text-white animated slideInDown">Home</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item">
+                  <a class="text-white" href="#">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="text-white" href="#">Page</a>
+                </li>
+              </ol>
+            </nav>
           </div>
         </div>
       </div>
     </div>
-    <!-- Carousel End -->
+    <!-- Header End -->
 
     <!-- Service Start -->
     <div class="container-xxl py-5">
@@ -58,8 +35,7 @@
                 <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
                 <h5 class="mb-3">Skilled Instructors</h5>
                 <p>
-                  Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                  amet diam
+                {{ _self }}
                 </p>
               </div>
             </div>
@@ -70,8 +46,7 @@
                 <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                 <h5 class="mb-3">Online Classes</h5>
                 <p>
-                  Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                  amet diam
+                {{ _self }}
                 </p>
               </div>
             </div>
@@ -82,8 +57,7 @@
                 <i class="fa fa-3x fa-home text-primary mb-4"></i>
                 <h5 class="mb-3">Home Projects</h5>
                 <p>
-                  Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                  amet diam
+                {{ _self }}
                 </p>
               </div>
             </div>
@@ -94,8 +68,7 @@
                 <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
                 <h5 class="mb-3">Book Library</h5>
                 <p>
-                  Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                  amet diam
+                {{ _self }}
                 </p>
               </div>
             </div>
@@ -129,13 +102,10 @@
             </h6>
             <h1 class="mb-4">Welcome to Jagaad Academy</h1>
             <p class="mb-4">
-              Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu
-              diam amet diam et eos. Clita erat ipsum et lorem et sit.
+                {{ _self }}
             </p>
             <p class="mb-4">
-              Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu
-              diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet
-              lorem sit clita duo justo magna dolore erat amet
+                {{ _self }}
             </p>
             <div class="row gy-2 gx-4 mb-4">
               <div class="col-sm-6">
@@ -214,7 +184,7 @@
                     style="margin: 1px"
                   >
                     <h5 class="m-0">Graphics Design</h5>
-                    <small class="text-primary">{{ _self }} Courses</small>
+                    <small class="text-primary"> {{ _self }} Courses</small>
                   </div>
                 </a>
               </div>
@@ -226,7 +196,7 @@
                     style="margin: 1px"
                   >
                     <h5 class="m-0">Devops</h5>
-                    <small class="text-primary">{{ _self }} Courses</small>
+                    <small class="text-primary"> {{ _self }} Courses</small>
                   </div>
                 </a>
               </div>
@@ -249,7 +219,7 @@
                 style="margin: 1px"
               >
                 <h5 class="m-0">Online Marketing</h5>
-                <small class="text-primary">{{ _self }} Courses</small>
+                <small class="text-primary"> {{ _self }} Courses</small>
               </div>
             </a>
           </div>
@@ -305,13 +275,13 @@
               </div>
               <div class="d-flex border-top">
                 <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-user-tie text-primary me-2"></i>{{ _self }}</small
+                  ><i class="fa fa-user-tie text-primary me-2"></i> {{ _self }}</small
                 >
                 <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-clock text-primary me-2"></i>{{ _self }} Hrs</small
+                  ><i class="fa fa-clock text-primary me-2"></i> {{ _self }} Hrs</small
                 >
                 <small class="flex-fill text-center py-2"
-                  ><i class="fa fa-user text-primary me-2"></i>{{ _self }}
+                  ><i class="fa fa-user text-primary me-2"></i> {{ _self }}
                   Students</small
                 >
               </div>
@@ -354,13 +324,13 @@
               </div>
               <div class="d-flex border-top">
                 <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-user-tie text-primary me-2"></i>{{ _self }}</small
+                  ><i class="fa fa-user-tie text-primary me-2"></i> {{ _self }}</small
                 >
                 <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-clock text-primary me-2"></i>{{ _self }} Hrs</small
+                  ><i class="fa fa-clock text-primary me-2"></i> {{ _self }} Hrs</small
                 >
                 <small class="flex-fill text-center py-2"
-                  ><i class="fa fa-user text-primary me-2"></i>{{ _self }}
+                  ><i class="fa fa-user text-primary me-2"> </i>{{ _self }}
                   Students</small
                 >
               </div>
@@ -403,13 +373,13 @@
               </div>
               <div class="d-flex border-top">
                 <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-user-tie text-primary me-2"></i>{{ _self }}</small
+                  ><i class="fa fa-user-tie text-primary me-2"></i> {{ _self }}</small
                 >
                 <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-clock text-primary me-2"></i>{{ _self }} Hrs</small
+                  ><i class="fa fa-clock text-primary me-2"></i> {{ _self }} Hrs</small
                 >
                 <small class="flex-fill text-center py-2"
-                  ><i class="fa fa-user text-primary me-2"></i>{{ _self }}
+                  ><i class="fa fa-user text-primary me-2"></i> {{ _self }}
                   Students</small
                 >
               </div>
@@ -563,8 +533,7 @@
             <p>Frontend Development Student</p>
             <div class="testimonial-text bg-light text-center p-4">
               <p class="mb-0">
-                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
-                amet diam et eos. Clita erat ipsum et lorem et sit.
+                {{ _self }}
               </p>
             </div>
           </div>
@@ -578,8 +547,7 @@
             <p>Backend Engineering Student</p>
             <div class="testimonial-text bg-light text-center p-4">
               <p class="mb-0">
-                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
-                amet diam et eos. Clita erat ipsum et lorem et sit.
+                {{ _self }}
               </p>
             </div>
           </div>
@@ -593,8 +561,7 @@
             <p>Devops Engineering Student</p>
             <div class="testimonial-text bg-light text-center p-4">
               <p class="mb-0">
-                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
-                amet diam et eos. Clita erat ipsum et lorem et sit.
+                {{ _self }}
               </p>
             </div>
           </div>
@@ -608,8 +575,7 @@
             <p>Graphics Design Student</p>
             <div class="testimonial-text bg-light text-center p-4">
               <p class="mb-0">
-                Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam
-                amet diam et eos. Clita erat ipsum et lorem et sit.
+                {{ _self }}
               </p>
             </div>
           </div>
