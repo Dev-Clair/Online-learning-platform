@@ -13,8 +13,8 @@ class Testimonial
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'testimonials')]
-    private ?Courses $courses = null;
+    // #[ORM\ManyToOne(inversedBy: 'testimonials')]
+    // private ?Courses $courses = null;
 
     #[ORM\ManyToOne(inversedBy: 'testimonials')]
     private ?User $users = null;
@@ -24,17 +24,17 @@ class Testimonial
         return $this->id;
     }
 
-    public function getCourses(): ?Courses
-    {
-        return $this->courses;
-    }
+    // public function getCourses(): ?Courses
+    // {
+    //     return $this->courses;
+    // }
 
-    public function setCourses(?Courses $courses): static
-    {
-        $this->courses = $courses;
+    // public function setCourses(?Courses $courses): static
+    // {
+    //     $this->courses = $courses;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getUsers(): ?User
     {
