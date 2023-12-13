@@ -19,16 +19,16 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/contact', name: 'app_inquiry')]
-    public function inquiry(): Response
+    #[Route('/contact', name: 'app_contact')]
+    public function store(): Response
     {
         $inquiry_error = false;
 
         $inquiry_success = true;
 
-        return $this->render('contact/index.html.twig', [
-            'title' => 'Contact',
-            'inquiry_response' => $inquiry_success ?? $inquiry_error
-        ]);
+        // return $this->render('contact/index.html.twig', [
+        //     'title' => 'Contact',
+        //     'inquiry_response' => $inquiry_success ?? $inquiry_error
+        // ]);
     }
 }
