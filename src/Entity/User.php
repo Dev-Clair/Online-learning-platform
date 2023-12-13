@@ -240,7 +240,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->testimonials->contains($testimonial)) {
             $this->testimonials->add($testimonial);
-            $testimonial->setUsers($this);
+            $testimonial->setUser($this);
         }
 
         return $this;
@@ -250,8 +250,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->testimonials->removeElement($testimonial)) {
             // set the owning side to null (unless already changed)
-            if ($testimonial->getUsers() === $this) {
-                $testimonial->setUsers(null);
+            if ($testimonial->getUser() === $this) {
+                $testimonial->setUser(null);
             }
         }
 
