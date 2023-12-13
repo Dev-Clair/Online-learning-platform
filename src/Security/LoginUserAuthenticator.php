@@ -22,6 +22,8 @@ class LoginUserAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
+    public const HOME_ROUTE = 'app_home';
+
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
@@ -48,9 +50,7 @@ class LoginUserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
+        return new RedirectResponse($this->urlGenerator->generate(self::HOME_ROUTE));
     }
 
     protected function getLoginUrl(Request $request): string
