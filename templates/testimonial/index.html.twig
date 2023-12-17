@@ -35,71 +35,101 @@
     <!-- Header End -->
 
     <!-- Testimonial Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container-xxl py-5">
       <div class="container">
-        <div class="text-center">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
           <h6 class="section-title bg-white text-center text-primary px-3">
-            Testimonial
+            TESTIMONIALS
           </h6>
-          <h1 class="mb-5">Our Students Say!</h1>
+          <h1 class="mb-5">Share your experience with us</h1>
         </div>
-        <div class="owl-carousel testimonial-carousel position-relative">
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Victoria Elena</h5>
-            <p>Frontend Development Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-              {{ _self }}
-              </p>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="bg-white text-center text-primary px-3">Follow Us!</h5>
+            <p class="mb-4">
+              We will like to connect with you on any of our social media channels.
+            </p>
+            <div class="d-flex align-items-center mb-4">
+                <a id="twitter" class="btn btn-outline-blue btn-primary text-center btn-social" href="https://twitter.com/Claircorp"
+                ><i class="fab fa-twitter"></i
+              ></a> Twitter
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-red btn-danger text-center btn-social" href="#"
+                ><i class="fab fa-youtube"></i
+              ></a> YouTube
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-blue btn-primary text-center btn-social" href="https://linkedin.com/in/samuel-aniogbu"
+                ><i class="fab fa-linkedin-in"></i
+              ></a> LinkedIn
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-blue btn-primary text-center btn-social" href="https://facebook.com/samuel-aniogbu"
+                ><i class="fab fa-facebook"></i
+              ></a> Facebook
             </div>
           </div>
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-2.d99a5ca6.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Alexander Nwokorie</h5>
-            <p>Backend Engineering Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-              {{ _self }}
-              </p>
+          <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+            <h5 class="bg-white text-center text-primary px-3">Help us get better!!</h5>
+            <p class="mb-4">
+              Kindly fill in the form, telling us about your experience and we will share them with everyone.
+            </p>
+            {{ form_start(testimonialForm, {'attr': {'class': 'form-review'}}) }}
+
+            {% if form_errors(testimonialForm) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(testimonialForm) }}
+                </div>
+            {% endif %}
+
+            <div class="mb-4 text-primary">
+                {{ form_label(testimonialForm.name, 'Your Name', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(testimonialForm.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter your name'}}) }}
+                {{ form_errors(testimonialForm.name) }}
+            </div>
+
+            <div class="mb-4 text-primary">
+                {{ form_label(testimonialForm.email, 'Your Email', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(testimonialForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your email'}}) }}
+                {{ form_errors(testimonialForm.email) }}
+            </div>
+
+            <div class="mb-4 text-primary">
+                {{ form_label(testimonialForm.testimonial, 'Your Review', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(testimonialForm.testimonial, {'attr': {'class': 'form-control', 'placeholder': 'Enter your review here', 'height': '150px'}}) }}
+                {{ form_errors(testimonialForm.testimonial) }}
+            </div>
+
+            <div class="mb-2">
+                <button class="btn btn-primary btn-lg px-5" type="submit">Submit</button>
+            </div>
+
+            {{ form_end(testimonialForm) }}
+          </div>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="text-center">
+              <h5 class="bg-white text-center text-primary px-3">Our Students Say!!!</h5>
+            </div>
+            <div class="owl-carousel testimonial-carousel position-relative">
+              {% for testimonial in testimonials %}
+                <div class="testimonial-item text-center">
+                    <img
+                        class="border rounded-circle p-2 mx-auto mb-3"
+                        src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
+                        style="width: 80px; height: 80px"
+                    />
+                    <h5 class="mb-0">{{ testimonial.name }}</h5>
+                    <div class="testimonial-text bg-light text-center p-4">
+                        <p class="mb-0">
+                            {{ testimonial.testimonial }}
+                        </p>
+                    </div>
+                </div>
+              {% endfor %}
             </div>
           </div>
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-3.27812fe3.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Samuel Ebuka</h5>
-            <p>Devops Engineering Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-              {{ _self }}
-              </p>
-            </div>
-          </div>
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-4.1d8a1837.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Ruth Usoro</h5>
-            <p>Graphics Design Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-              {{ _self }}
-              </p>
-            </div>
-          </div>
+        </div>
         </div>
       </div>
     </div>

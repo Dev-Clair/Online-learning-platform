@@ -22,28 +22,10 @@ class Testimonial
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $testimonial = null;
 
-    // #[ORM\ManyToOne(inversedBy: 'testimonials')]
-    // private ?Courses $courses = null;
-
-    #[ORM\ManyToOne(inversedBy: 'testimonials')]
-    private ?User $user = null;
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
-    // public function getCourses(): ?Courses
-    // {
-    //     return $this->courses;
-    // }
-
-    // public function setCourses(?Courses $courses): static
-    // {
-    //     $this->courses = $courses;
-
-    //     return $this;
-    // }
 
     public function getName(): ?string
     {
@@ -77,18 +59,6 @@ class Testimonial
     public function setTestimonial(string $testimonial): static
     {
         $this->testimonial = $testimonial;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }

@@ -7,54 +7,56 @@ use App\Entity\Testimonial;
 use App\Form\TestimonialType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TestimonialController extends AbstractController
 {
     #[Route('/testimonial', name: 'app_testimonial')]
-    public function index(): Response
+    #[IsGranted('ROLE_STUDENT')]
+    public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $testimonials = [];
-
-        return $this->render('testimonial/index.html.twig', [
-            'title' => 'Testimonial',
-            'testimonials' => $testimonials ?? "",
-        ]);
-    }
-
-    #[Route('/review', name: 'app_review')]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
-    {
+        // Create new testimonial instance 
         $testimonial = new Testimonial();
         $form = $this->createForm(TestimonialType::class, $testimonial);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // $form_user = $form->get('users')->getData();
+            // Retrieve the email submitted by user
             $form_email = $form->get('email')->getData();
-
+            // Check if a valid user with the email address exists in the database
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $form_email]);
 
-            $form_name = $form->get('name')->getData();
-            $form_testimonial = $form->get('testimonial')->getData();
+            if ($user) {
+                // Retrieve and assign other form fields
+                $form_name = $form->get('name')->getData();
+                $form_testimonial = $form->get('testimonial')->getData();
 
-            $testimonial->setName($form_name);
-            $testimonial->setEmail($form_email);
-            $testimonial->setTestimonial($form_testimonial);
-            $testimonial->setUser($user);
+                $testimonial->setName($form_name);
+                $testimonial->setEmail($form_email);
+                $testimonial->setTestimonial($form_testimonial);
 
-            $entityManager->persist($testimonial);
-            $entityManager->flush();
+                // Create new testimonial
+                $entityManager->persist($testimonial);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_testimonial');
+                return $this->redirectToRoute('app_testimonial');
+            }
+
+            // 
         }
 
-        return $this->render('testimonial/create.html.twig', [
+        // Fetch testimonials
+        // $testimonials = $entityManager->getRepository(Testimonial::class)->findAll() ?? [];
+
+        return $this->render('testimonial/index.html.twig', [
             'title' => 'Testimonial',
-            'testimonialForm' => $form->createView(),
+            'testimonials' => $testimonials ?? "",
+            'testimonialForm' => $form->createView()
         ]);
     }
 }
