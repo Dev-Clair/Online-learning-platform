@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TestimonialController extends AbstractController
 {
     #[Route('/testimonial', name: 'app_testimonial')]
-    #[IsGranted('ROLE_STUDENT')]
+    // #[IsGranted('ROLE_STUDENT')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Create new testimonial instance 
@@ -47,11 +47,13 @@ class TestimonialController extends AbstractController
                 return $this->redirectToRoute('app_testimonial');
             }
 
-            // 
+            // Redirect with form errors if any
+            $form->get('email')->addError(new FormError('No user found with this email address.'));
+            return $this->redirectToRoute('app_testimonial');
         }
 
         // Fetch testimonials
-        // $testimonials = $entityManager->getRepository(Testimonial::class)->findAll() ?? [];
+        $testimonials = $entityManager->getRepository(Testimonial::class)->findAll() ?? [];
 
         return $this->render('testimonial/index.html.twig', [
             'title' => 'Testimonial',

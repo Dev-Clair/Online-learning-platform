@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TestimonialRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TestimonialRepository::class)]
 class Testimonial
@@ -17,6 +18,7 @@ class Testimonial
     private ?string $name = null;
 
     #[ORM\Column(length: 255, unique: true)]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255, nullable: true)]
