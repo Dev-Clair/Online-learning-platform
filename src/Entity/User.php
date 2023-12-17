@@ -54,7 +54,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->enrollments = new ArrayCollection();
         $this->courses = new ArrayCollection();
-        $this->testimonials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -234,27 +233,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getTestimonials(): Collection
     {
         return $this->testimonials;
-    }
-
-    public function addTestimonial(Testimonial $testimonial): static
-    {
-        if (!$this->testimonials->contains($testimonial)) {
-            $this->testimonials->add($testimonial);
-            $testimonial->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTestimonial(Testimonial $testimonial): static
-    {
-        if ($this->testimonials->removeElement($testimonial)) {
-            // set the owning side to null (unless already changed)
-            if ($testimonial->getUser() === $this) {
-                $testimonial->setUser(null);
-            }
-        }
-
-        return $this;
     }
 }
