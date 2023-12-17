@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TestimonialController extends AbstractController
 {
     #[Route('/testimonial', name: 'app_testimonial')]
-    // #[IsGranted('ROLE_STUDENT')]
+    #[IsGranted('ROLE_STUDENT')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Create new testimonial instance 
