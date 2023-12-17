@@ -39,15 +39,11 @@ class Courses
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lesson::class, orphanRemoval: true)]
     private Collection $lessons;
 
-    // #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Testimonial::class)]
-    // private Collection $testimonials;
-
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->enrollments = new ArrayCollection();
         $this->lessons = new ArrayCollection();
-        // $this->testimonials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,34 +182,4 @@ class Courses
 
         return $this;
     }
-
-    // /**
-    //  * @return Collection<int, Testimonial>
-    //  */
-    // public function getTestimonials(): Collection
-    // {
-    //     return $this->testimonials;
-    // }
-
-    // public function addTestimonial(Testimonial $testimonial): static
-    // {
-    //     if (!$this->testimonials->contains($testimonial)) {
-    //         $this->testimonials->add($testimonial);
-    //         $testimonial->setCourses($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeTestimonial(Testimonial $testimonial): static
-    // {
-    //     if ($this->testimonials->removeElement($testimonial)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($testimonial->getCourses() === $this) {
-    //             $testimonial->setCourses(null);
-    //         }
-    //     }
-
-    //     return $this;
-    // }
 }
