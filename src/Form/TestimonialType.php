@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Testimonial;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,7 +16,7 @@ class TestimonialType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('email', TextType::class)
+            ->add('email', EmailType::class)
             ->add('testimonial', TextareaType::class);
     }
 
