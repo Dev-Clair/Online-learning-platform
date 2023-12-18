@@ -75,7 +75,7 @@
             <p class="mb-4">
               Kindly fill in the form, telling us about your experience and we will share them with everyone.
             </p>
-            {{ form_start(testimonialForm, {'attr': {'class': 'form-review'}}) }}
+            {{ form_start(testimonialForm, {'attr': {'id': 'form-testimonial'}}) }}
 
             {% if form_errors(testimonialForm) %}
                 <div class="alert alert-danger">

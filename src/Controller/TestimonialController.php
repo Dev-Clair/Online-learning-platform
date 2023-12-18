@@ -16,12 +16,12 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TestimonialController extends AbstractController
 {
     #[Route('/testimonial', name: 'app_testimonial')]
-    // #[IsGranted('ROLE_STUDENT')]
+    #[IsGranted('ROLE_STUDENT')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Create new testimonial instance 
         $testimonial = new Testimonial();
-        $form = $this->createForm(TestimonialType::class, $testimonial);
+        $form = $this->createForm(TestimonialType::class, $testimonial, ['method' => 'post', 'action' => 'app_testimonial']);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -33,7 +33,7 @@ class TestimonialController extends AbstractController
 
             if ($user) {
                 // Retrieve and assign other form fields
-                $form_name = $form->get('name')->getData();
+                $form_name = ucwords($form->get('name')->getData());
                 $form_testimonial = $form->get('testimonial')->getData();
 
                 $testimonial->setName($form_name);
