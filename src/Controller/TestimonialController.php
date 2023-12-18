@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Testimonial;
-use App\Form\TestimonialType;
+use App\Form\TestimonialFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -15,13 +15,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TestimonialController extends AbstractController
 {
-    #[Route('/testimonial', name: 'app_testimonial')]
+    #[Route('/testimonial', name: 'app_testimonial', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_STUDENT')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Create new testimonial instance 
         $testimonial = new Testimonial();
-        $form = $this->createForm(TestimonialType::class, $testimonial, ['method' => 'post', 'action' => 'app_testimonial']);
+        $form = $this->createForm(TestimonialFormType::class, $testimonial);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
