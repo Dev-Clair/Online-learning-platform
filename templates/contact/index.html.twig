@@ -96,59 +96,43 @@
             ></iframe>
           </div>
           <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
-            <form action="{{ path('app_contact') }}" method="post">
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <div class="form-floating">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name"
-                      placeholder="Your Name"
-                    />
-                    <label for="name">Your Name</label>
-                  </div>
+            {{ form_start(contactForm, {'attr': {'id': 'form-contact'}}) }}
+
+            {% if form_errors(contactForm) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(contactForm) }}
                 </div>
-                <div class="col-md-6">
-                  <div class="form-floating">
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email"
-                      placeholder="Your Email"
-                    />
-                    <label for="email">Your Email</label>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="subject"
-                      placeholder="Subject"
-                    />
-                    <label for="subject">Subject</label>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <textarea
-                      class="form-control"
-                      placeholder="Leave a message here"
-                      id="message"
-                      style="height: 150px"
-                    ></textarea>
-                    <label for="message">Message</label>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <button class="btn btn-primary w-100 py-3" type="submit">
-                    Send Message
-                  </button>
-                </div>
-              </div>
-            </form>
+            {% endif %}
+
+            <div class="mb-4 text-primary">
+                {{ form_label(contactForm.name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(contactForm.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter your name'}}) }}
+                {{ form_errors(contactForm.name) }}
+            </div>
+
+            <div class="mb-4 text-primary">
+                {{ form_label(contactForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(contactForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your email'}}) }}
+                {{ form_errors(contactForm.email) }}
+            </div>
+
+            <div class="mb-4 text-primary">
+                {{ form_label(contactForm.subject, 'Subject', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(contactForm.subject, {'attr': {'class': 'form-control', 'placeholder': 'Enter subject'}}) }}
+                {{ form_errors(contactForm.subject) }}
+            </div>
+
+            <div class="mb-4 text-primary">
+                {{ form_label(contactForm.message, 'Message', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(contactForm.message, {'attr': {'class': 'form-control', 'placeholder': 'Enter your concerns or questions here', 'style': 'height:150px'}}) }}
+                {{ form_errors(contactForm.message) }}
+            </div>
+
+            <div class="mb-2">
+                <button class="btn btn-primary btn-lg px-5" type="submit">Submit</button>
+            </div>
+
+            {{ form_end(contactForm) }}
           </div>
         </div>
       </div>
