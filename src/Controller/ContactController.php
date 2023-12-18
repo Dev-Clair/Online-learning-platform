@@ -12,12 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/contact', name: 'app_contact')]
+    #[Route('/contact', name: 'app_contact', methods: ['GET', 'POST'])]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Create new testimonial instance 
+        // Create new contact instance 
         $contact = new Contact();
-        $form = $this->createForm(ContactFormType::class, $contact, ['method' => 'post', 'action' => 'app_contact']);
+        $form = $this->createForm(ContactFormType::class, $contact);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -34,11 +34,15 @@ class ContactController extends AbstractController
             $contact->setSubject($form_subject);
             $contact->setMessage($form_message);
 
+            // Set status to zero
+            $default_status = 0;
+            $contact->setStatus($default_status);
+
             // Create new contact
             $entityManager->persist($contact);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_testimonial');
+            return $this->redirectToRoute('app_contact');
         }
 
         return $this->render('contact/index.html.twig', [

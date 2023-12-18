@@ -28,8 +28,16 @@ class Contact
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $resolvedAt = null;
+
+    #[ORM\Column]
+    private ?int $status = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +112,18 @@ class Contact
     public function setResolvedAt(\DateTimeImmutable $resolvedAt): static
     {
         $this->resolvedAt = $resolvedAt;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
