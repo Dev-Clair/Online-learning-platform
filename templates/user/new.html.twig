@@ -24,22 +24,17 @@
                               </div>
 
                               <div class="mb-4 text-primary">
-                                  {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter user password'}}) }}
-                              </div>
+                                {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter user password', 'disabled': false}}) }}
+                            </div>
 
                               <div class="mb-4 form-check form-check-inline text-primary">
                                   {{ form_row(form.roles, {'attr': {'class': 'form-check'}}) }}
                               </div>
 
-                              {# <div class="mb-4 text-primary">
-                                  {{ form_label(form.userProfile, 'Profile', {'label_attr': {'class': 'form-label'}}) }}
-                                  {{ form_widget(form.userProfile, {'attr': {'class': 'form-control', 'placeholder': '-Select Profile--'}}) }}
-                                  {{ form_errors(form.userProfile) }}
-                              </div> #}
-
                               <div class="mb-2">
-                                  <button class="btn btn-primary btn-sm px-5" type="submit">Submit</button>
                                   <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_user_index') }}"> <<< </a>
+                                  
+                                  <button class="btn btn-success btn-sm px-5" type="submit">Create</button>
                               </div>
 
                               {{ form_end(form) }}
