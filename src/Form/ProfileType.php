@@ -15,8 +15,7 @@ class ProfileType extends AbstractType
             ->add('dateOfBirth')
             ->add('address')
             ->add('country')
-            ->add('user')
-        ;
+            ->add('user');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
