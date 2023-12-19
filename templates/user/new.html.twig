@@ -1,11 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}New Account{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-light text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="mb-4">
+                              <h4 class="fw-bold mb-5 text-uppercase text-primary d-flex justify-content-center align-items-center">Create New User Account</h4>
 
-    {{ include('user/_form.html.twig') }}
+                              {{ form_start(form, {'attr': {'id': 'form-new-user'}}) }}
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+                              {% if form_errors(form) %}
+                                  <div class="alert alert-danger">
+                                      {{ form_errors(form) }}
+                                  </div>
+                              {% endif %}
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter user email'}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter user password'}}) }}
+                              </div>
+
+                              <div class="mb-4 form-check form-check-inline text-primary">
+                                  {{ form_row(form.roles, {'attr': {'class': 'form-check'}}) }}
+                              </div>
+
+                              {# <div class="mb-4 text-primary">
+                                  {{ form_label(form.userProfile, 'Profile', {'label_attr': {'class': 'form-label'}}) }}
+                                  {{ form_widget(form.userProfile, {'attr': {'class': 'form-control', 'placeholder': '-Select Profile--'}}) }}
+                                  {{ form_errors(form.userProfile) }}
+                              </div> #}
+
+                              <div class="mb-2">
+                                  <button class="btn btn-primary btn-sm px-5" type="submit">Submit</button>
+                                  <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_user_index') }}"> <<< </a>
+                              </div>
+
+                              {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}
