@@ -37,16 +37,16 @@ class UserType extends AbstractType
                     'multiple' => true,
                     'expanded' => true
                 ]
-            )
-            ->add(
-                'userProfile',
-                EntityType::class,
-                [
-                    'mapped' => false,
-                    'class' => Profile::class,
-                    // 'choice_label' => 'userProfile',
-                ]
             );
+        // ->add(
+        //     'userProfile',
+        //     EntityType::class,
+        //     [
+        //         'mapped' => false,
+        //         'class' => Profile::class,
+        //         'choice_label' => 'userProfile',
+        //     ]
+        // );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
