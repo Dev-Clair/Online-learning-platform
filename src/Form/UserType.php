@@ -42,8 +42,9 @@ class UserType extends AbstractType
                 'userProfile',
                 EntityType::class,
                 [
+                    'mapped' => false,
                     'class' => Profile::class,
-                    'choice_label' => 'userProfile',
+                    // 'choice_label' => 'userProfile',
                 ]
             );
     }
