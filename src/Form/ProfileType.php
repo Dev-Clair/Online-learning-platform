@@ -2,8 +2,9 @@
 
 namespace App\Form;
 
-use AddressInfo;
+use App\Entity\User;
 use App\Entity\Profile;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -19,7 +20,14 @@ class ProfileType extends AbstractType
             ->add('dateOfBirth', DateType::class)
             ->add('address', TextType::class)
             ->add('country', CountryType::class)
-            ->add('user', UserType::class);
+            ->add(
+                'user',
+                EntityType::class,
+                [
+                    'class' => User::class,
+                    'choice_label' => 'userProfile',
+                ]
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
