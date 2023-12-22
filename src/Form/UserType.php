@@ -32,7 +32,6 @@ class UserType extends AbstractType
                         'Admin' => 'ROLE_ADMIN',
                         'Instructor' => 'ROLE_INSTRUCTOR',
                         'Student' => 'ROLE_STUDENT',
-                        'User' => 'ROLE_USER',
                     ],
                     'multiple' => true,
                     'expanded' => true
