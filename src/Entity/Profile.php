@@ -81,6 +81,6 @@ class Profile
 
     public function __toString(): string
     {
-        return $this->user->getEmail();
+        return $this->user->getId();
     }
 }
