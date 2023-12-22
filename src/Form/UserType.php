@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Profile;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -36,15 +37,15 @@ class UserType extends AbstractType
                     'multiple' => true,
                     'expanded' => true
                 ]
+            )
+            ->add(
+                'userProfile',
+                EntityType::class,
+                [
+                    'class' => Profile::class,
+                    'choice_label' => 'userProfile',
+                ]
             );
-        // ->add(
-        //     'userProfile',
-        //     EntityType::class,
-        //     [
-        //         'class' => User::class,
-        //         'choice_label' => 'userProfile',
-        //     ]
-        // );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
