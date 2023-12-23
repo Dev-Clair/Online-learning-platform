@@ -14,6 +14,11 @@ class Testimonial
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "Name field cannot be blank")]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z]+(\s[a-zA-Z]+)?$/",
+        message: "Name must contain only letters"
+    )]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
@@ -21,6 +26,7 @@ class Testimonial
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private ?string $email = null;
 
+    #[Assert\NotBlank(message: "Testimonial field cannot be blank")]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $testimonial = null;
 
