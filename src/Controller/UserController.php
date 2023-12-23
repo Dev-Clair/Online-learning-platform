@@ -9,7 +9,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -27,7 +26,7 @@ class UserController extends AbstractController
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User;
         $form = $this->createForm(UserType::class, $user);
@@ -42,18 +41,6 @@ class UserController extends AbstractController
             $user->setEmail($form->get('email')->getData());
 
             $user->setRoles($form->get('roles')->getData());
-
-            $password = $form->get('password')->getData() ?? "";
-
-            if (!empty($password)) {
-                // Set password using the password hasher
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $password
-                    )
-                );
-            }
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -78,7 +65,7 @@ class UserController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function edit(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -92,18 +79,6 @@ class UserController extends AbstractController
             $user->setEmail($form->get('email')->getData());
 
             $user->setRoles($form->get('roles')->getData());
-
-            $password = $form->get('password')->getData() ?? "";
-
-            if (!empty($password)) {
-                // Update password using the password hasher
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $password
-                    )
-                );
-            }
 
             $entityManager->flush();
 
