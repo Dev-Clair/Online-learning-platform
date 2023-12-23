@@ -21,13 +21,7 @@ class ProfileType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('address', TextareaType::class, [
-                'attr' => [
-                    'placeholder' => 'Enter your address here',
-                    'class' => 'form-control',
-                    'style' => ['height' => '150px']
-                ]
-            ])
+            ->add('address', TextareaType::class)
             ->add('country', CountryType::class, [
                 'mapped' => false,
                 'placeholder' => '-- Click to Select Country --',

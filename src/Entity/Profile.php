@@ -15,7 +15,7 @@ class Profile
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $dateOfBirth = null;
+    private ?\DateTime $dateOfBirth = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
@@ -33,12 +33,12 @@ class Profile
         return $this->id;
     }
 
-    public function getDateOfBirth(): ?\DateTimeImmutable
+    public function getDateOfBirth(): ?\DateTime
     {
         return $this->dateOfBirth;
     }
 
-    public function setDateOfBirth(\DateTimeImmutable $dateOfBirth): static
+    public function setDateOfBirth(\DateTime $dateOfBirth): static
     {
         $this->dateOfBirth = $dateOfBirth;
 
