@@ -47,6 +47,12 @@ class UserController extends AbstractController
                 );
             }
 
+            $user->setFirstname($form->get('firstname')->getData());
+
+            $user->setLastname($form->get('lastname')->getData());
+
+            $user->setRoles(["ROLE_INSTRUCTOR"]);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
