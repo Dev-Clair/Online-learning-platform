@@ -32,17 +32,12 @@ class TestimonialController extends AbstractController
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $form_email]);
 
             if ($user) {
-                // Retrieve and assign other form fields
-                $form_name = ucwords($form->get('name')->getData());
-                $form_testimonial = $form->get('testimonial')->getData();
-
-                $testimonial->setName($form_name);
-                $testimonial->setEmail($form_email);
-                $testimonial->setTestimonial($form_testimonial);
 
                 // Create new testimonial
                 $entityManager->persist($testimonial);
                 $entityManager->flush();
+
+                $this->addFlash('success', 'Thanks for helping us get better! Kindly subscribe to our newsletter to be in the loop about our future events and activities.');
 
                 return $this->redirectToRoute('app_testimonial');
             }

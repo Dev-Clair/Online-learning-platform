@@ -75,6 +75,11 @@
             <p class="mb-4">
               Kindly fill in the form, telling us about your experience and we will share them with everyone.
             </p>
+            {% if app.flashes('info-success') is not empty %}
+                <div class="alert alert-success">
+                    {{ app.flashes('success') }}
+                </div>
+            {% endif %}
             {{ form_start(testimonialForm, {'attr': {'id': 'form-testimonial'}}) }}
 
             {% if form_errors(testimonialForm) %}
