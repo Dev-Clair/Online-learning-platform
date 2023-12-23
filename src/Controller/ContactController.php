@@ -21,19 +21,6 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // Retrieve values from form fields
-            $form_name = ucwords($form->get('name')->getData());
-            $form_email = $form->get('email')->getData();
-            $form_subject = $form->get('subject')->getData();
-            $form_message = $form->get('message')->getData();
-
-            // Assign form values to entity properties
-            $contact->setName($form_name);
-            $contact->setEmail($form_email);
-            $contact->setSubject($form_subject);
-            $contact->setMessage($form_message);
-
             // Set status to zero
             $default_status = 0;
             $contact->setStatus($default_status);
@@ -41,6 +28,8 @@ class ContactController extends AbstractController
             // Create new contact
             $entityManager->persist($contact);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Thanks for reaching out! Our correspondent will be in touch shortly if you have submitted a question.');
 
             return $this->redirectToRoute('app_contact');
         }

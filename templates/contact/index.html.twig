@@ -96,6 +96,11 @@
             ></iframe>
           </div>
           <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+            {% if app.flashes('info-success') is not empty %}
+                <div class="alert alert-success">
+                    {{ app.flashes('success') }}
+                </div>
+            {% endif %}
             {{ form_start(contactForm, {'attr': {'id': 'form-contact'}}) }}
 
             {% if form_errors(contactForm) %}
