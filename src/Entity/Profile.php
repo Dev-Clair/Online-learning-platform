@@ -13,13 +13,13 @@ class Profile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateOfBirth = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     private ?string $country = null;
 
     #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
@@ -77,10 +77,5 @@ class Profile
         $this->user = $user;
 
         return $this;
-    }
-
-    public function __toString(): string
-    {
-        return $this->user->getId();
     }
 }
