@@ -20,7 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank(message: "First name cannot be blank")]
+    #[Assert\NotBlank(message: "First name field cannot be blank")]
     #[Assert\Regex(
         pattern: "/^[a-zA-Z]+$/",
         message: "First name must contain only letters"
@@ -28,7 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $firstName = null;
 
-    #[Assert\NotBlank(message: "Last name cannot be blank")]
+    #[Assert\NotBlank(message: "Last name field cannot be blank")]
     #[Assert\Regex(
         pattern: "/^[a-zA-Z]+$/",
         message: "Last name must contain only letters"
@@ -36,8 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $lastName = null;
 
-    #[Assert\NotBlank(message: "Email cannot be blank")]
-    #[Assert\Email(message: "Invalid email format")]
+    #[Assert\NotBlank(message: "Email field cannot be blank")]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     private ?string $email = null;
 
@@ -56,6 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
+    #[Assert\Type(Profile::class)]
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Profile $userProfile = null;
 
@@ -65,11 +66,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Courses::class)]
     private Collection $courses;
 
-    #[Assert\DateTime()]
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Assert\DateTime()]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
