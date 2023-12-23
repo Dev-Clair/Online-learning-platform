@@ -17,11 +17,11 @@ class UserType extends AbstractType
     {
         $builder
             ->add(
-                'firstname',
+                'firstName',
                 TextType::class
             )
             ->add(
-                'lastname',
+                'lastName',
                 TextType::class
             )
             ->add(

@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <div class="container scrollable-container"> 
+    <div class="container scrollable-container py-5"> 
         <h4>User Accounts</h4>
         
         <a class="btn btn-sm btn-success rounded my-3 mb-3 float-end" href="{{ path('app_user_new') }}">Create Account</a>
@@ -21,7 +21,7 @@
                     <th>actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="text-center">
             {% for user in users %}
                 <tr>
                     <td>{{ user.id }}</td>

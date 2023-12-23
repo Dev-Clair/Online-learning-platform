@@ -11,11 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
+    // #[IsGranted('ROLE_ADMIN')]
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
@@ -24,6 +26,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    // #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $user = new User;
@@ -31,13 +34,18 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Retrieve the values from the form
-            $email = $form->get('email')->getData();
-            $password = $form->get('password')->getData();
+            // Retrieve the values from the form and Assign them to the user entity
+            $user->setFirstname(ucwords($form->get('firstName')->getData()));
 
-            $user->setEmail($email);
+            $user->setLastname(ucwords($form->get('lastName')->getData()));
 
-            if ($password !== null) {
+            $user->setEmail($form->get('email')->getData());
+
+            $user->setRoles($form->get('roles')->getData());
+
+            $password = $form->get('password')->getData() ?? "";
+
+            if (!empty($password)) {
                 // Set password using the password hasher
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -46,12 +54,6 @@ class UserController extends AbstractController
                     )
                 );
             }
-
-            $user->setFirstname(ucwords($form->get('firstname')->getData()));
-
-            $user->setLastname(ucwords($form->get('lastname')->getData()));
-
-            $user->setRoles(["ROLE_INSTRUCTOR"]);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -66,6 +68,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    // #[IsGranted('ROLE_ADMIN')]
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
@@ -74,19 +77,25 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    // #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, User $user, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Retrieve the values from the form
-            $email = $form->get('email')->getData();
-            $password = $form->get('password')->getData();
+            // Retrieve the values from the form and Assign them to the user entity
+            $user->setFirstname(ucwords($form->get('firstName')->getData()));
 
-            $user->setEmail($email);
+            $user->setLastname(ucwords($form->get('lastName')->getData()));
 
-            if ($password !== null) {
+            $user->setEmail($form->get('email')->getData());
+
+            $user->setRoles($form->get('roles')->getData());
+
+            $password = $form->get('password')->getData() ?? "";
+
+            if (!empty($password)) {
                 // Update password using the password hasher
                 $user->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -108,6 +117,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    // #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
