@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -19,15 +20,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: "First name cannot be blank")]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z]+$/",
+        message: "First name must contain only letters"
+    )]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $firstName = null;
 
+    #[Assert\NotBlank(message: "Last name cannot be blank")]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z]+$/",
+        message: "Last name must contain only letters"
+    )]
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $lastName = null;
 
+    #[Assert\NotBlank(message: "Email cannot be blank")]
+    #[Assert\Email(message: "Invalid email format")]
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     private ?string $email = null;
 
+    #[Assert\Choice(
+        choices: ["ROLE_ADMIN", "ROLE_INSTRUCTOR", "ROLE_STUDENT"],
+        multiple: true,
+        min: 1,
+        minMessage: "User must have at least one valid role"
+    )]
     #[ORM\Column]
     private array $roles = [];
 
@@ -46,9 +65,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Courses::class)]
     private Collection $courses;
 
+    #[Assert\DateTime()]
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Assert\DateTime()]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
@@ -57,6 +78,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->enrollments = new ArrayCollection();
         $this->courses = new ArrayCollection();
+
+        // Create and assign new profile to user
+        $this->userProfile = new Profile;
+        $this->userProfile->setUser($this);
     }
 
     public function getId(): ?int

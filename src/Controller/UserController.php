@@ -90,7 +90,6 @@ class UserController extends AbstractController
                 );
             }
 
-            $entityManager->persist($user);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
