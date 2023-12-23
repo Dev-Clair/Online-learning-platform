@@ -29,9 +29,9 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $user->setFirstname($form->get('firstname')->getData());
+            $user->setFirstname($form->get('firstName')->getData());
 
-            $user->setLastname($form->get('lastname')->getData());
+            $user->setLastname($form->get('lastName')->getData());
 
             $user->setRoles(["ROLE_STUDENT"]);
 
@@ -42,7 +42,6 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'title' => 'Register',
             'registrationForm' => $form,
         ]);
     }
