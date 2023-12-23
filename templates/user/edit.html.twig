@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Account{% endblock %}
+{% block title %}Edit &#128100;{% endblock %}
 
 {% block body %}
         <div class="container py-5 h-100">
@@ -9,7 +9,7 @@
                     <div class="card bg-light text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
                             <div class="mb-4">
-                              <h4 class="fw-bold mb-5 text-primary d-flex justify-content-center align-items-center">Edit Acccount: {{ user.email|lower }}</h4>
+                              <h4 class="fw-bold mb-5 text-primary d-flex justify-content-center align-items-center">&#128100;: {{ user.id }}</h4>
 
                               {{ form_start(form, {'attr': {'id': 'form-edit-user'}}) }}
 
@@ -20,11 +20,19 @@
                               {% endif %}
 
                               <div class="mb-4 text-primary">
+                                  {{ form_row(form.firstName, {'attr': {'class': 'form-control', 'placeholder': 'Enter firstname'}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.lastName, {'attr': {'class': 'form-control', 'placeholder': 'Enter lastname'}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
                                   {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter user email', 'disabled': false}}) }}
                               </div>
 
                               <div class="mb-4 text-primary">
-                                  {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter your password', 'disabled': false}}) }}
+                                  {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter your password', 'disabled': true}}) }}
                               </div>
 
                               <div class="mb-4 form-check form-check-inline text-primary">
