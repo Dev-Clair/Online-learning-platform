@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
@@ -13,16 +14,25 @@ class Contact
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Name field cannot be blank")]
+    #[Assert\Regex(
+        pattern: "/^[a-zA-Z]+(\s[a-zA-Z]+)?$/",
+        message: "Name must contain only letters"
+    )]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Email field cannot be blank")]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
+    #[ORM\Column(length: 255, unique: true, nullable: false)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message: "Subject field cannot be blank")]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $subject = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Message field cannot be blank")]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $message = null;
 
     #[ORM\Column]
@@ -51,7 +61,7 @@ class Contact
 
     public function setName(string $name): static
     {
-        $this->name = $name;
+        $this->name = ucwords($name);
 
         return $this;
     }
