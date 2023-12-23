@@ -47,7 +47,7 @@ class UserController extends AbstractController
 
             // Send email to user with link/token to create password
             /**
-             *  Send email section
+             *  Require Mailer
              */
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
