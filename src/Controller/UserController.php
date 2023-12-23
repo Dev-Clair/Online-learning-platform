@@ -47,9 +47,9 @@ class UserController extends AbstractController
                 );
             }
 
-            $user->setFirstname($form->get('firstname')->getData());
+            $user->setFirstname(ucwords($form->get('firstname')->getData()));
 
-            $user->setLastname($form->get('lastname')->getData());
+            $user->setLastname(ucwords($form->get('lastname')->getData()));
 
             $user->setRoles(["ROLE_INSTRUCTOR"]);
 
