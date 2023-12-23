@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 class Profile
@@ -13,12 +14,15 @@ class Profile
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Date('Y-m-d')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateOfBirth = null;
 
+    #[Assert\NotBlank(message: 'Address field cannot be blank')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
+    #[Assert\Country(message: 'Kindly select a valid country option')]
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $country = null;
 
