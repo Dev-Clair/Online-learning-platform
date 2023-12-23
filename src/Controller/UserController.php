@@ -45,6 +45,11 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            // Send email to user with link/token to create password
+            /**
+             *  Send email section
+             */
+
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
