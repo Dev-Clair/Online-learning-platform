@@ -18,11 +18,11 @@ class ProfileType extends AbstractType
         $builder
             ->add('dateOfBirth', DateType::class)
             ->add('address', TextType::class)
-            ->add('country', CountryType::class)
-            ->add('user', EntityType::class, [
-                'class' => 'App\Entity\User',
-                'choice_label' => 'email',
-            ]);
+            ->add('country', CountryType::class);
+        // ->add('user', EntityType::class, [
+        //     'class' => 'App\Entity\User',
+        //     'choice_label' => 'email',
+        // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
