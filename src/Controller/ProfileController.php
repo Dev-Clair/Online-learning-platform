@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Profile;
 use App\Form\ProfileType;
 use App\Repository\ProfileRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ProfileController extends AbstractController
 {
     #[Route('/', name: 'app_profile_index', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
+    // #[IsGranted('ROLE_ADMIN')]
     public function index(ProfileRepository $profileRepository): Response
     {
         return $this->render('profile/index.html.twig', [
@@ -25,14 +26,23 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/new', name: 'app_profile_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    // #[IsGranted('ROLE_ADMIN')]
+    public function new(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $profile = new Profile();
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Retrieve User email
+            $id = $form->get('user')->getData();
+
+            // Find User by email
+            $user = $userRepository?->findOneBy(['id' => $id]);
+
+            // Set User on Profile
+            $profile->setUser($user);
+
             $entityManager->persist($profile);
             $entityManager->flush();
 
@@ -46,7 +56,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_profile_show', methods: ['GET'])]
-    #[IsGranted('ROLE_INSTRUCTOR' | 'ROLE_STUDENT')]
+    // #[IsGranted('ROLE_INSTRUCTOR' | 'ROLE_STUDENT')]
     public function show(Profile $profile): Response
     {
         return $this->render('profile/show.html.twig', [
@@ -55,13 +65,19 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_profile_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_INSTRUCTOR', 'ROLE_STUDENT')]
+    // #[IsGranted('ROLE_INSTRUCTOR', 'ROLE_STUDENT')]
     public function edit(Request $request, Profile $profile, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Retrieve unmapped values from form
+            $country = $form->get('country')->getData();
+
+            // Set value to corresponding property on profile
+            $profile->setCountry($country);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_profile_index', [], Response::HTTP_SEE_OTHER);
@@ -74,7 +90,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_profile_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_INSTRUCTOR', 'ROLE_STUDENT')]
+    // #[IsGranted('ROLE_INSTRUCTOR', 'ROLE_STUDENT')]
     public function delete(Request $request, Profile $profile, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $profile->getId(), $request->request->get('_token'))) {

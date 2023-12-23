@@ -14,18 +14,16 @@ class Profile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\Date('Y-m-d')]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateOfBirth = null;
 
-    #[Assert\NotBlank(message: 'Address field cannot be blank')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
-    #[Assert\Country(message: 'Kindly select a valid country option')]
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $country = null;
 
+    #[Assert\Type(User::class)]
     #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
