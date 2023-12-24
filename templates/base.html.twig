@@ -57,12 +57,21 @@
     <nav
       class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0"
     >
-      <a
-        href="#"
-        class="navbar-brand d-flex align-items-center px-4 px-lg-5"
-      >
-        <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Jagaad</h2>
-      </a>
+      {% if app.user %} 
+        <a
+          href="{{ path('app_profile_show', {'id': app.user.id}) }}"
+          class="navbar-brand d-flex align-items-center px-4 px-lg-5"
+        >
+          <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Welcome {{ app.user.firstName }}</h2>
+        </a>
+      {% else %}
+        <a
+          href="#"
+          class="navbar-brand d-flex align-items-center px-4 px-lg-5"
+        >
+          <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Jagaad</h2>
+        </a>
+      {% endif %}
       <button
         type="button"
         class="navbar-toggler me-4"
@@ -74,33 +83,64 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
           <a href="/home" class="nav-iem nav-link active">Home</a>
-          <a href="/about" class="nav-item nav-link">About</a>
-          <a href="/courses" class="nav-item nav-link">Courses</a>
-          <div class="nav-item dropdown">
-            <a
-              href="#"
-              class="nav-link dropdown-toggle"
-              data-bs-toggle="dropdown"
-              >Pages</a
-            >
-            <div class="dropdown-menu fade-down m-0">
-              <a href="/team" class="dropdown-item">Our Team</a>
-              <a href="/testimonial" class="dropdown-item">Testimonial</a>
-            </div>
-          </div>
-          <a href="/contact" class="nav-item nav-link">Contact</a>
-        </div>
-        {% if app.user %}
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">&#128100;</a>
-                <div class="dropdown-menu fade-down m-0">
-                    <a href="{{ path('app_profile_show', {'id': app.user.id}) }}" class="dropdown-item">Profile</a>
-                    <a href="/logout" class="dropdown-item">Log out</a>
+            {% if app.user %}
+              {% if 'ROLE_ADMIN' in app.user.roles %}
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Admin Options</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="/admin-dashboard" class="dropdown-item">Dashboard</a>
+                        <a href="/admin-settings" class="dropdown-item">Settings</a>
+                    </div>
+                  </div>
+              {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
+                  <a href="/courses/index" class="nav-item nav-link">Courses</a>
+                  <a href="/courses/create" class="nav-item nav-link">Create</a>
+                  <a href="/courses/edit" class="nav-item nav-link">Modify</a>
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Manage</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="course/progress" class="dropdown-item">Progress</a>
+                        <a href="course/enrolled" class="dropdown-item">Enrolled</a>
+                        <a href="course/enrolled/students" class="dropdown-item">View Students</a>
+                    </div>
+                  </div>
+              {% elseif 'ROLE_STUDENT' in app.user.roles %}
+                  <a href="/user/wishlist" class="nav-item nav-link">Wishlist</a>
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">My Learning</a>
+                        <div class="dropdown-menu fade-down m-0">
+                            <a href="user/progress" class="dropdown-item">Progress</a>
+                            <a href="user/enrolled" class="dropdown-item">Enrolled</a>
+                        </div>
+                  </div>
+              {% else %}
+                  {# Additional roles or default behavior #}
+                {% endif %}
+            {% else %}
+                {# User is not logged in #}
+                <a href="/about" class="nav-item nav-link">About</a>
+                <a href="/courses" class="nav-item nav-link">Courses</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="/team" class="dropdown-item">Our Team</a>
+                        <a href="/testimonial" class="dropdown-item">Testimonial</a>
+                    </div>
                 </div>
-            </div>
-        {% else %}
-            <a href="/login" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
-        {% endif %}
+                <a href="/contact" class="nav-item nav-link">Contact</a>
+            {% endif %}
+            {% if app.user %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile &#128100;</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="{{ path('app_profile_show', {'id': app.user.id}) }}" class="dropdown-item">Profile</a>
+                        <a href="/logout" class="dropdown-item">Log out</a>
+                    </div>
+                </div>
+            {% else %}
+                <a href="/login" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Join Now<i class="fa fa-arrow-right ms-3"></i></a>
+            {% endif %}
+        </div>
       </div>
     </nav>
     <!-- Navbar End -->
