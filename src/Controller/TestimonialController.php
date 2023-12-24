@@ -7,7 +7,6 @@ use App\Entity\Testimonial;
 use App\Form\TestimonialFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,8 +41,6 @@ class TestimonialController extends AbstractController
                 return $this->redirectToRoute('app_testimonial');
             }
 
-            // Redirect with form errors if any
-            $form->get('email')->addError(new FormError('No user found with this email address.'));
             return $this->redirectToRoute('app_testimonial');
         }
 
