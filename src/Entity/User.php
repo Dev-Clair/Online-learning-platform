@@ -41,13 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true, nullable: false)]
     private ?string $email = null;
 
-    #[Assert\Choice(
-        choices: ["ROLE_ADMIN", "ROLE_INSTRUCTOR", "ROLE_STUDENT", "ROLE_USER"],
-        multiple: true,
-        min: 1,
-        minMessage: "User must have at least one valid role"
-    )]
-    #[ORM\Column]
+    #[ORM\Column(nullable: false)]
     private array $roles = [];
 
     /**
@@ -81,9 +75,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // Create and assign new profile to user
         $this->userProfile = new Profile;
         $this->userProfile->setUser($this);
-
-        // Assign the default role
-        $this->roles[] = 'ROLE_USER';
     }
 
     public function getId(): ?int
