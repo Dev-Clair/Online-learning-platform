@@ -56,7 +56,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_profile_show', methods: ['GET'])]
-    #[IsGranted('ROLE_INSTRUCTOR' | 'ROLE_STUDENT')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function show(Profile $profile): Response
     {
         return $this->render('profile/show.html.twig', [
@@ -65,7 +65,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_profile_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_INSTRUCTOR', 'ROLE_STUDENT')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function edit(Request $request, Profile $profile, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProfileType::class, $profile);
@@ -80,7 +80,7 @@ class ProfileController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_profile_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_profile_show', ['id' => $profile->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('profile/edit.html.twig', [
@@ -90,7 +90,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_profile_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_INSTRUCTOR', 'ROLE_STUDENT')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function delete(Request $request, Profile $profile, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $profile->getId(), $request->request->get('_token'))) {
@@ -98,6 +98,6 @@ class ProfileController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_profile_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
     }
 }
