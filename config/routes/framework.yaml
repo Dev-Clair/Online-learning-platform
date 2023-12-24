@@ -1,4 +1,14 @@
 when@dev:
-    _errors:
-        resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
-        prefix: /_error
+  _errors:
+    resource: "@FrameworkBundle/Resources/config/routing/errors.xml"
+    prefix: /_error
+
+# Homepage route
+home:
+  path: /
+  controller: App\Controller\HomeController::index
+  methods: ["GET"]
+
+# Set the default route to homepage
+index:
+  path: app_home
