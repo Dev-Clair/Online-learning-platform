@@ -94,7 +94,7 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">&#128100;</a>
                 <div class="dropdown-menu fade-down m-0">
-                    <a href="/profile" class="dropdown-item">Profile</a>
+                    <a href="{{ path('app_profile_show', {'id': app.user.id}) }}" class="dropdown-item">Profile</a>
                     <a href="/logout" class="dropdown-item">Log out</a>
                 </div>
             </div>
