@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Profile;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -29,8 +30,10 @@ class ProfileType extends AbstractType
             ])
             ->add('user', EntityType::class, [
                 'mapped' => false,
-                'class' => 'App\Entity\User',
-                'choice_label' => 'firstName' . 'LastName',
+                'class' => User::class,
+                'choice_label' => function (User $user) {
+                    return $user->getLastname() . ' ' . $user->getFirstname();
+                },
                 'placeholder' => '-- Click to Select User Account --',
                 'attr' => ['class' => 'form-select'],
             ]);
