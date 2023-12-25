@@ -87,12 +87,30 @@
             {% if app.user %}
               {% if 'ROLE_ADMIN' in app.user.roles %}
                   <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Admin Options</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Account Management</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="/admin/user" class="dropdown-item">All Users</a>
+                        <a href="/admin/user/team" class="dropdown-item">Team</a>
+                        <a href="/admin/user/students" class="dropdown-item">Students</a>
+                    </div>
+                  </div>
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile Management</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="/profile/admin" class="dropdown-item">All Profiles</a>
+                        {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                          <a href="/profile/admin/new" class="dropdown-item">New Profile</a>
+                        {% endif %}
+                    </div>
+                  </div>
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Go to</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="/admin-dashboard" class="dropdown-item">Dashboard</a>
                         <a href="/admin-settings" class="dropdown-item">Settings</a>
                     </div>
                   </div>
+                  <a href="/admin/user/products" class="nav-iem nav-link active">Products</a>
               {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
                   <a href="/courses/index" class="nav-item nav-link">Courses</a>
                   <a href="/courses/create" class="nav-item nav-link">Create</a>
@@ -134,7 +152,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile &#128100;</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_profile_show', {'id': app.user.id}) }}" class="dropdown-item">Profile</a>
+                        <a href="{{ path('app_profile_show', {'id': app.user.id}) }}" class="dropdown-item">View Profile</a>
                         <a href="/logout" class="dropdown-item">Log out</a>
                     </div>
                 </div>
