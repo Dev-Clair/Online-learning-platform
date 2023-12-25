@@ -30,8 +30,8 @@ class ProfileType extends AbstractType
             ->add('user', EntityType::class, [
                 'mapped' => false,
                 'class' => 'App\Entity\User',
-                'choice_label' => 'email',
-                'placeholder' => '-- Click to Select User Email --',
+                'choice_label' => 'firstName' . 'LastName',
+                'placeholder' => '-- Click to Select User Account --',
                 'attr' => ['class' => 'form-select'],
             ]);
     }
