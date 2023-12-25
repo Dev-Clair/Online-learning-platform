@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Entity\Testimonial;
 use App\Form\TestimonialFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +16,7 @@ class TestimonialController extends AbstractController
 {
     #[Route('/testimonial', name: 'app_testimonial', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_STUDENT')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         // Create new testimonial instance 
         $testimonial = new Testimonial();
@@ -28,7 +28,7 @@ class TestimonialController extends AbstractController
             // Retrieve the email submitted by user
             $form_email = $form->get('email')->getData();
             // Check if a valid user with the email address exists in the database
-            $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $form_email]);
+            $user = $userRepository->findOneBy(['email' => $form_email]);
 
             if ($user) {
 
