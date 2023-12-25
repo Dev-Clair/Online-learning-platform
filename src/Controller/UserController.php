@@ -33,7 +33,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Retrieve the values from the form and Assign them to the user entity
+
             $formData = $form->getData();
 
             $formData['firstName'] = ucwords($formData['firstName']);
