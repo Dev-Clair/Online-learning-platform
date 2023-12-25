@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/profile')]
 class ProfileController extends AbstractController
 {
-    #[Route('/', name: 'app_profile_index', methods: ['GET'])]
+    #[Route('/admin', name: 'app_profile_index', methods: ['GET'])]
     #[IsGranted('IS_AUTHENTICATED')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(ProfileRepository $profileRepository): Response
@@ -26,7 +26,7 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_profile_new', methods: ['GET', 'POST'])]
+    #[Route('/admin/new', name: 'app_profile_new', methods: ['GET', 'POST'])]
     #[IsGranted('IS_AUTHENTICATED')]
     #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
