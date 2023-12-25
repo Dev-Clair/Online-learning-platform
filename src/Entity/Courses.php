@@ -6,6 +6,7 @@ use App\Repository\CoursesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CoursesRepository::class)]
 class Courses
@@ -15,12 +16,16 @@ class Courses
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Title field cannot be blank')]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\NotBlank(message: 'Description field cannot be blank')]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
+    #[Assert\NotBlank(message: 'Time field cannot be blank')]
+    #[Assert\Time(message: '{{value}} time format is not valid')]
     #[ORM\Column]
     private ?int $duration = null;
 
