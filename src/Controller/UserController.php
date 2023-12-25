@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\CoursesRepository;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,6 +26,42 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/team', name: 'app_user_team', methods: ['GET'])]
+    public function index_team(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->createQueryBuilder('u')
+            ->where('u.roles NOT LIKE :role')
+            ->setParameter('role', '%ROLE_STUDENT%')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/students', name: 'app_user_students', methods: ['GET'])]
+    public function index_students(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->createQueryBuilder('u')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_STUDENT%')
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/products', name: 'app_user_product', methods: ['GET'])]
+    public function index_products(CoursesRepository $coursesRepository): Response
+    {
+        return $this->render('courses/index.html.twig', [
+            'courses' => $coursesRepository->findAll(),
+        ]);
+    }
+
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -34,15 +71,13 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $formData = $form->getData();
+            $user->setFirstname($form->get('firstName')->getData());
 
-            $formData['firstName'] = ucwords($formData['firstName']);
+            $user->setLastname($form->get('lastName')->getData());
 
-            $formData['lastName'] = ucwords($formData['lastName']);
+            $user->setEmail($form->get('email')->getData());
 
-            $formData['email'] = ucwords($formData['email']);
-
-            $formData['roles'] = ucwords($formData['roles']);
+            $user->setRoles($form->get('roles')->getData());
 
             $entityManager->persist($user);
             $entityManager->flush();
