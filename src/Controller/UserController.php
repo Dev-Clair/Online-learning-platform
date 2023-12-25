@@ -71,9 +71,9 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setFirstname($form->get('firstName')->getData());
+            $user->setFirstname(ucwords($form->get('firstName')->getData()));
 
-            $user->setLastname($form->get('lastName')->getData());
+            $user->setLastname(ucwords($form->get('lastName')->getData()));
 
             $user->setEmail($form->get('email')->getData());
 
