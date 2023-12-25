@@ -32,7 +32,7 @@ class ProfileType extends AbstractType
                 'mapped' => false,
                 'class' => User::class,
                 'choice_label' => function (User $user) {
-                    return $user->getLastname() . ' ' . $user->getFirstname();
+                    return $user->getFirstname() . ' ' . $user->getLastname();
                 },
                 'placeholder' => '-- Click to Select User Account --',
                 'attr' => ['class' => 'form-select'],
