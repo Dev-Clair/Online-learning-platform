@@ -34,13 +34,15 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Retrieve the values from the form and Assign them to the user entity
-            $user->setFirstname(ucwords($form->get('firstName')->getData()));
+            $formData = $form->getData();
 
-            $user->setLastname(ucwords($form->get('lastName')->getData()));
+            $formData['firstName'] = ucwords($formData['firstName']);
 
-            $user->setEmail($form->get('email')->getData());
+            $formData['lastName'] = ucwords($formData['lastName']);
 
-            $user->setRoles($form->get('roles')->getData());
+            $formData['email'] = ucwords($formData['email']);
+
+            $formData['roles'] = ucwords($formData['roles']);
 
             $entityManager->persist($user);
             $entityManager->flush();
