@@ -1,9 +1,106 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Courses index{% endblock %}
+{% block title %}Courses{% endblock %}
 
 {% block body %}
-    <h1>Courses index</h1>
+
+    <!-- Categories Start -->
+    <div class="container-xxl py-5 category">
+      <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+          <h6 class="section-title bg-white text-center text-primary px-3">
+            Categories
+          </h6>
+          <h1 class="mb-5">Courses Categories</h1>
+        </div>
+        <div class="row g-3">
+          <div class="col-lg-7 col-md-6">
+            <div class="row g-3">
+              <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img class="img-fluid" src="{{ asset('build/images/cat-1.c251f2cc.jpg') }}" alt="" />
+                  <div
+                    class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                    style="margin: 1px"
+                  >
+                    <h5 class="m-0">FrontEnd Design</h5>
+                    <small class="text-primary">{{ _self }} Courses</small>
+                    {# <a class="position-relative d-block overflow-hidden" href="{{ path('app_courses_show', {'id': app.user.id})}}">View Course</a> #}
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img class="img-fluid" src="{{ asset('build/images/cat-2.f7ebf377.jpg') }}" alt="" />
+                  <div
+                    class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                    style="margin: 1px"
+                  >
+                    <h5 class="m-0">Backend Design</h5>
+                    <small class="text-primary"> {{ _self }} Courses</small>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img class="img-fluid" src="{{ asset('build/images/cat-3.a54e04e9.jpg') }}" alt="" />
+                  <div
+                    class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                    style="margin: 1px"
+                  >
+                    <h5 class="m-0">Devops</h5>
+                    <small class="text-primary"> {{ _self }} Courses</small>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-5 col-md-6 wow zoomIn"
+            data-wow-delay="0.7s"
+            style="min-height: 350px"
+          >
+            <a class="position-relative d-block h-100 overflow-hidden" href="">
+              <img
+                class="img-fluid position-absolute w-100 h-100"
+                src="{{ asset('build/images/cat-4.7e07c574.jpg') }}"
+                alt=""
+                style="object-fit: cover"
+              />
+              <div
+                class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                style="margin: 1px"
+              >
+                <h5 class="m-0">Graphic Design</h5>
+                <small class="text-primary"> {{ _self }} Courses</small>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Categories Start -->
+
+    {# {% if app.user %}
+        <div class="row">
+            {% for course in courses %}
+                <!-- Display :: View for Logged-In Users -->
+                <div class="col-md-3">
+                    <div class="container text-center"> #}
+                        {# <img src="{{ asset() }}" alt=""> #}
+                        {# <h6> {{ _self }} </h6>
+                        <div class="btn-group">
+                            <!-- Display Each Book Entity -->
+                            
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %} #}
+{% endblock %}
+{# 
+    <h1>Courses</h1>
 
     <table class="table">
         <thead>
@@ -12,9 +109,9 @@
                 <th>Title</th>
                 <th>Description</th>
                 <th>Duration</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -39,5 +136,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_courses_new') }}">Create new</a>
-{% endblock %}
+    <a href="{{ path('app_courses_new') }}">Create new</a> #}
