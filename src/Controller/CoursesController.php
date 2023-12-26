@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Courses;
+use App\Entity\Enrollment;
 use App\Form\CoursesType;
 use App\Repository\CoursesRepository;
-use DateTimeImmutable;
+use App\Repository\EnrollmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,14 @@ class CoursesController extends AbstractController
     public function index(CoursesRepository $coursesRepository): Response
     {
         return $this->render('courses/index.html.twig', [
+            'courses' => $coursesRepository->findAll(),
+        ]);
+    }
+    #[Route('/admin/products', name: 'app_courses_admin_products', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function products(CoursesRepository $coursesRepository): Response
+    {
+        return $this->render('courses/products.html.twig', [
             'courses' => $coursesRepository->findAll(),
         ]);
     }
@@ -38,7 +47,10 @@ class CoursesController extends AbstractController
 
             $course->setDescription(ucwords($form->get('description')->getData()));
 
-            $course->setUser($this->getUser());
+            // Get User ID from form
+            $user = $form->get('instructor')->getData();
+
+            $course->setUser($user ?? $this->getUser());
 
             $entityManager->persist($course);
             $entityManager->flush();
@@ -70,7 +82,7 @@ class CoursesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $course->setUpdatedAt(new DateTimeImmutable());
+            $course->setUpdatedAt(new \DateTimeImmutable());
 
             $entityManager->flush();
 
@@ -81,6 +93,37 @@ class CoursesController extends AbstractController
             'course' => $course,
             'form' => $form,
         ]);
+    }
+
+    #[IsGranted('ROLE_STUDENT')]
+    #[Route('/{id}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
+    public function enroll(Courses $course, EntityManagerInterface $entityManager): Response
+    {
+        $enrollment = new Enrollment;
+        $enrollment->setEnrolledDate(new \DateTimeImmutable());
+        $enrollment->setUser($this->getUser());
+        $enrollment->setCourses($course);
+
+        $entityManager->persist($enrollment);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Enrolled');
+
+        return $this->redirectToRoute('app_courses_index');
+    }
+
+    #[IsGranted('ROLE_STUDENT')]
+    #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
+    public function unenroll(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
+    {
+        $enrollment = $enrollmentRepository->findOneBy(['course' => $course, 'user' => $this->getUser()]);
+
+        $entityManager->remove($enrollment);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Unenrolled');
+
+        return $this->redirectToRoute('app_courses_index');
     }
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
