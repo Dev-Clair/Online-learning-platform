@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank(message: "First name field cannot be blank")]
     #[Assert\Regex(
-        pattern: "/^[a-zA-Z]+$/",
+        pattern: "/^[a-zA-Z\-]+$/",
         message: "First name must contain only letters"
     )]
     #[ORM\Column(length: 255, nullable: false)]
@@ -30,7 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank(message: "Last name field cannot be blank")]
     #[Assert\Regex(
-        pattern: "/^[a-zA-Z]+$/",
+        pattern: "/^[a-zA-Z\-]+$/",
         message: "Last name must contain only letters"
     )]
     #[ORM\Column(length: 255, nullable: false)]
