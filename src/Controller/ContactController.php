@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactFormType;
 use App\Repository\ContactRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,26 +41,40 @@ class ContactController extends AbstractController
         return $this->render('contact/index.html.twig', ['contactForm' => $form]);
     }
 
-    #[Route('/show', name: 'app_contact_show', methods: ['GET', 'POST'])]
+    // #[Route('/newsletter', name: 'app_newsletter', methods: ['GET'])]
+    // #[IsGranted('ROLE_CUSTOMER_CARE')]
+    // public function newsletter(NewsletterRepository $newsletterRepository): Response
+    // {
+    //     return $this->render('newsletter/index.html.twig', [
+    //         'newsletters' => $newsletterRepository->findAll()
+    //     ]);
+    // }
+
+    #[Route('/support', name: 'app_contact_support', methods: ['GET'])]
     #[IsGranted('ROLE_CUSTOMER_CARE')]
-    public function show(ContactRepository $contactRepository): Response
+    public function support(ContactRepository $contactRepository): Response
     {
-        return $this->render('contact/show.html.twig', [
-            'contact' => $contactRepository->findAll()
+        return $this->render('contact/support.html.twig', [
+            'contacts' => $contactRepository->findAll()
         ]);
     }
 
-    #[Route('/care/{id}/edit', name: 'app_contact_care', methods: ['POST'])]
-    #[IsGranted('ROLE_CUSTOMER_CARE')]
+    #[Route('/care/{id}/edit', name: 'app_contact_care', methods: ['GET'])]
     public function customercare(Contact $contact, EntityManagerInterface $entityManager): Response
     {
-        // Set status to 1 (Reviewed)
-        $contact->setStatus(1);
+        if ($this->isGranted('ROLE_CUSTOMER_CARE')) {
+            // Update status
+            $contact->setStatus(1);
 
-        // Update status in database
-        $entityManager->persist($contact);
-        $entityManager->flush();
+            // Update time
+            $contact->setResolvedAt(new DateTimeImmutable());
 
-        return $this->redirectToRoute('app_contact_show');
+            $entityManager->persist($contact);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_contact_support');
+        }
+
+        return $this->redirectToRoute('app_contact_support', [], 401);
     }
 }
