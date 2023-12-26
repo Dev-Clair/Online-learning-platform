@@ -21,11 +21,7 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_admin_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
-        $users = $userRepository->createQueryBuilder('u')
-            ->where('u.roles NOT LIKE :role')
-            ->setParameter('role', '%ROLE_SUPER_ADMIN%')
-            ->getQuery()
-            ->getResult();
+        $users = $userRepository->getGlobal();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
@@ -35,11 +31,17 @@ class UserController extends AbstractController
     #[Route('/team', name: 'app_admin_user_team', methods: ['GET'])]
     public function index_team(UserRepository $userRepository): Response
     {
-        $users = $userRepository->createQueryBuilder('u')
-            ->where('u.roles NOT LIKE :role')
-            ->setParameter('role', '%ROLE_STUDENT%')
-            ->getQuery()
-            ->getResult();
+        $users = $userRepository->getTeam();
+
+        return $this->render('user/index.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+    #[Route('/instructors', name: 'app_admin_user_instructors', methods: ['GET'])]
+    public function index_instructors(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->getInstructors();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
@@ -49,11 +51,7 @@ class UserController extends AbstractController
     #[Route('/students', name: 'app_admin_user_students', methods: ['GET'])]
     public function index_students(UserRepository $userRepository): Response
     {
-        $users = $userRepository->createQueryBuilder('u')
-            ->where('u.roles LIKE :role')
-            ->setParameter('role', '%ROLE_STUDENT%')
-            ->getQuery()
-            ->getResult();
+        $users = $userRepository->getStudents();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,

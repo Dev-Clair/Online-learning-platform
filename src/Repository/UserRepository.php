@@ -64,14 +64,53 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //        ;
     //    }
 
-    public function getInstructorsQueryBuilder()
+    public function getGlobal()
     {
         try {
             return $this->createQueryBuilder('u')
-                ->andWhere('u.roles = :val')
-                ->setParameter('val', 'ROLE_INSTRUCTOR')
+                ->where('u.roles NOT LIKE :role')
+                ->setParameter('role', '%ROLE_SUPER_ADMIN%')
                 ->getQuery()
-                ->getOneOrNullResult();
+                ->getResult();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getTeam()
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.roles NOT like :role')
+                ->setParameter('role', '%ROLE_STUDENT%')
+                ->getQuery()
+                ->getResult();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getInstructors()
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.roles like :role')
+                ->setParameter('role', '%ROLE_INSTRUCTOR%')
+                ->getQuery()
+                ->getResult();
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function getStudents()
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->where('u.roles like :role')
+                ->setParameter('role', '%ROLE_STUDENT%')
+                ->getQuery()
+                ->getResult();
         } catch (\Exception $e) {
             return null;
         }
