@@ -7,7 +7,7 @@
         <h4>Manage User Profiles</h4>
         
         {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-            <a class="btn btn-success btn-sm rounded my-3 mb-3 float-end" href="{{ path('app_profile_new') }}">Create new</a>
+            <a class="btn btn-success btn-sm rounded my-3 mb-3 float-end" href="{{ path('app_profile_admin_new') }}">Create new</a>
         {% endif %}
 
         <table class="table table-striped table-bordered mt-4">
