@@ -1,13 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Courses{% endblock %}
+{% block title %}Courses{% endblock %}
 
 {% block body %}
-    <h1>Edit Courses</h1>
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-light text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="mb-4">
+                              <h4 class="fw-bold mb-5 text-uppercase text-primary d-flex justify-content-center align-items-center">Edit Course</h4>
 
-    {{ include('courses/_form.html.twig', {'button_label': 'Update'}) }}
+                              {{ form_start(form, {'attr': {'id': 'form-new-course'}}) }}
 
-    <a href="{{ path('app_courses_index') }}">back to list</a>
+                              {% if form_errors(form) %}
+                                  <div class="alert alert-danger">
+                                      {{ form_errors(form) }}
+                                  </div>
+                              {% endif %}
 
-    {{ include('courses/_delete_form.html.twig') }}
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.title, {'attr': {'class':'form-control', 'placeholder': 'Enter course title','disabled': false}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.description, {'attr': {'class':'form-control', 'placeholder': 'Enter course description', 'style':'height:150px', 'disabled': false}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.duration, {'attr': {'class':'form-control', 'placeholder': 'Enter course duration hours', 'disabled':false}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.instructor, {'attr': {'class':'form-control', 'disabled':false}}) }}
+                              </div>
+
+                              <div class="mb-2">
+                                  <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_courses_index') }}"> <<< </a>
+                                  
+                                  <button class="btn btn-success btn-sm px-5" type="submit">Update</button>
+                              </div>
+
+                              {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 {% endblock %}

@@ -112,9 +112,8 @@
                   </div>
                   <a href="/admin/user/products" class="nav-iem nav-link active">Products</a>
               {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
-                  <a href="/courses/index" class="nav-item nav-link">Courses</a>
-                  <a href="/courses/create" class="nav-item nav-link">Create</a>
-                  <a href="/courses/edit" class="nav-item nav-link">Modify</a>
+                  <a href="/courses" class="nav-item nav-link">Courses</a>
+                  <a href="/courses/new" class="nav-item nav-link">Create Course</a>
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Manage</a>
                     <div class="dropdown-menu fade-down m-0">
@@ -133,7 +132,10 @@
                         </div>
                   </div>
               {% else %}
-                  {# Additional roles or default behavior #}
+                  {# Default nav for other roles #}
+                   <a href="/people" class="nav-iem nav-link active">People Management</a>
+                   <a href="/newsletter" class="nav-iem nav-link active">Newsletter Subscriptions</a>
+                   <a href="/contact/support" class="nav-iem nav-link active">Customer Support</a>
                 {% endif %}
             {% else %}
                 {# User is not logged in #}

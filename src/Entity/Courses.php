@@ -25,14 +25,13 @@ class Courses
     private ?string $description = null;
 
     #[Assert\NotBlank(message: 'Time field cannot be blank')]
-    #[Assert\Time(message: '{{value}} time format is not valid')]
     #[ORM\Column]
     private ?int $duration = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]

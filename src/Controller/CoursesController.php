@@ -17,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CoursesController extends AbstractController
 {
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
-    #[IsGranted('ROLE_INSTRUCTOR')]
     public function index(CoursesRepository $coursesRepository): Response
     {
         return $this->render('courses/index.html.twig', [
@@ -35,11 +34,11 @@ class CoursesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $formData = $form->getData();
+            $course->setTitle(ucwords($form->get('title')->getData()));
 
-            $formData['title'] = ucwords($formData['title']);
+            $course->setDescription(ucwords($form->get('description')->getData()));
 
-            $formData['description'] = ucwords($formData['description']);
+            $course->setUser($this->getUser());
 
             $entityManager->persist($course);
             $entityManager->flush();
