@@ -41,15 +41,6 @@ class ContactController extends AbstractController
         return $this->render('contact/index.html.twig', ['contactForm' => $form]);
     }
 
-    // #[Route('/newsletter', name: 'app_newsletter', methods: ['GET'])]
-    // #[IsGranted('ROLE_CUSTOMER_CARE')]
-    // public function newsletter(NewsletterRepository $newsletterRepository): Response
-    // {
-    //     return $this->render('newsletter/index.html.twig', [
-    //         'newsletters' => $newsletterRepository->findAll()
-    //     ]);
-    // }
-
     #[Route('/support', name: 'app_contact_support', methods: ['GET'])]
     #[IsGranted('ROLE_CUSTOMER_CARE')]
     public function support(ContactRepository $contactRepository): Response
