@@ -22,14 +22,22 @@ class TestimonialController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Verify permissions
-            if (!$this->isGranted('ROLE_STUDENT')) {
+
+            // Retrieve the email submitted by user
+            $form_email = $form->get('email')->getData();
+            // Check if a valid user with the email address exists in the database
+            $user = $userRepository->findOneBy(['email' => $form_email]);
+
+            if ($user) {
+
+                // Create new testimonial
+                $entityManager->persist($testimonial);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Thanks for helping us get better! Kindly subscribe to our newsletter to be in the loop about our future events and activities.');
+
                 return $this->redirectToRoute('app_testimonial');
             }
-
-            // Create new testimonial
-            $entityManager->persist($testimonial);
-            $entityManager->flush();
 
             return $this->redirectToRoute('app_testimonial');
         }
