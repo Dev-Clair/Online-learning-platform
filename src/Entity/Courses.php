@@ -138,6 +138,17 @@ class Courses
         return $this;
     }
 
+    public function isUserEnrolled(User $user): bool
+    {
+        foreach ($this->enrollments as $enrollment) {
+            if ($enrollment->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;

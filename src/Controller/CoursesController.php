@@ -66,7 +66,6 @@ class CoursesController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_courses_show', methods: ['GET'])]
-    #[IsGranted('ROLE_INSTRUCTOR')]
     public function show(Courses $course): Response
     {
         return $this->render('courses/show.html.twig', [

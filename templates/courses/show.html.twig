@@ -25,6 +25,7 @@
                     <td>{{ course.duration }}</td>
                 </tr>
                 <tr>
+                {% if app.user and 'ROLE_INSTRUCTOR' in app.user.roles %}
                     <th>CreatedAt</th>
                     <td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
@@ -32,9 +33,11 @@
                     <th>UpdatedAt</th>
                     <td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
+                {% endif %}
             </tbody>
         </table>
 
+        {% if app.user and 'ROLE_INSTRUCTOR' in app.user.roles %}
         <div class="mb-2 btn-group float-end">
             <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_index') }}"> <<< </a>
 
@@ -43,5 +46,6 @@
 
             {{ include('courses/_delete_form.html.twig') }}
         </div>
+        {% endif %}
     </div>
 {% endblock %}
