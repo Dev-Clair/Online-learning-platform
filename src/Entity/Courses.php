@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CoursesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -27,6 +28,10 @@ class Courses
     #[Assert\NotBlank(message: 'Time field cannot be blank')]
     #[ORM\Column]
     private ?int $duration = null;
+
+    #[Assert\NotBlank(message: 'Value field cannot be blank')]
+    #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
+    private ?string $value = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -183,6 +188,18 @@ class Courses
     public function setDuration(int $duration): static
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(?string $value): static
+    {
+        $this->value = $value;
 
         return $this;
     }

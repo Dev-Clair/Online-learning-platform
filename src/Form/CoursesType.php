@@ -19,6 +19,7 @@ class CoursesType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
             ->add('duration', TextType::class)
+            ->add('value', TextType::class)
             ->add('instructor', EntityType::class, [
                 'mapped' => false,
                 'class' => User::class,

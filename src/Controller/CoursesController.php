@@ -24,6 +24,7 @@ class CoursesController extends AbstractController
             'courses' => $coursesRepository->findAll(),
         ]);
     }
+
     #[Route('/admin/products', name: 'app_courses_admin_products', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function products(CoursesRepository $coursesRepository): Response
