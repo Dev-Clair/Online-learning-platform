@@ -89,7 +89,7 @@
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Accounts</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_admin_user') }}" class="dropdown-item">All Users</a>
+                        <a href="{{ path('app_admin_user_index') }}" class="dropdown-item">All Users</a>
                         <a href="{{ path('app_admin_user_team') }}" class="dropdown-item">Team</a>
                         <a href="{{ path('app_admin_user_instructors') }}" class="dropdown-item">Instructors</a>
                         <a href="{{ path('app_admin_user_students') }}" class="dropdown-item">Students</a>
@@ -116,14 +116,14 @@
                   <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
                   <a href="{{ path('app_courses_new') }}" class="nav-item nav-link">Create Course</a>
               {% elseif 'ROLE_STUDENT' in app.user.roles %}
-                  <a href="{{ path('app_courses_wishlist') }}" class="nav-item nav-link">Wishlist</a>
+                  {# <a href="{{ path('app_courses_wishlist') }}" class="nav-item nav-link">Wishlist</a> #}
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">My Learning</a>
-                        <div class="dropdown-menu fade-down m-0">
+                        {# <div class="dropdown-menu fade-down m-0">
                             <a href="{{ path('app_courses_progress') }}" class="dropdown-item">View Progress</a>
                             <a href="{{ path('app_courses_enrolled', {'id': app.user.id}) }}" class="dropdown-item">View Enrolled</a>
                             <a href="courses/completed" class="dropdown-item">View Completed</a>
-                        </div>
+                        </div> #}
                   </div>
               {% else %}
                   {# Default nav for other roles #}
