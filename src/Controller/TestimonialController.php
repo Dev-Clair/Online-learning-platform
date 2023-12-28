@@ -22,7 +22,7 @@ class TestimonialController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Verify Permissions
+            // Verify permissions
             if (!$this->isGranted('ROLE_STUDENT')) {
                 return $this->redirectToRoute('app_testimonial');
             }
