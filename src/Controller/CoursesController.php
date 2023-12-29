@@ -116,12 +116,17 @@ class CoursesController extends AbstractController
     #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
     public function unenroll(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
     {
-        $enrollment = $enrollmentRepository->findOneBy(['course' => $course, 'user' => $this->getUser()]);
+        $user = $this->getUser();
+        $enrollment = $enrollmentRepository->findOneBy(['user' => $user, 'courses' => $course]);
 
-        $entityManager->remove($enrollment);
-        $entityManager->flush();
+        if ($enrollment) {
+            $entityManager->remove($enrollment);
+            $entityManager->flush();
 
-        $this->addFlash('success', 'Unenrolled');
+            $this->addFlash('success', 'Unenrolled');
+        } else {
+            $this->addFlash('warning', 'You are not enrolled in this course.');
+        }
 
         return $this->redirectToRoute('app_courses_index');
     }
