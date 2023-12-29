@@ -45,14 +45,18 @@ class Courses
     #[ORM\ManyToOne(inversedBy: 'courses')]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lesson::class, orphanRemoval: true)]
-    private Collection $lessons;
+    // #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lesson::class, orphanRemoval: true)]
+    // private Collection $lessons;
+
+    #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Chapter::class, orphanRemoval: true)]
+    private Collection $chapters;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->enrollments = new ArrayCollection();
-        $this->lessons = new ArrayCollection();
+        // $this->lessons = new ArrayCollection();
+        $this->chapters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,35 +165,35 @@ class Courses
         return $this;
     }
 
-    /**
-     * @return Collection<int, Lesson>
-     */
-    public function getLessons(): Collection
-    {
-        return $this->lessons;
-    }
+    // /**
+    //  * @return Collection<int, Lesson>
+    //  */
+    // public function getLessons(): Collection
+    // {
+    //     return $this->lessons;
+    // }
 
-    public function addLesson(Lesson $lesson): static
-    {
-        if (!$this->lessons->contains($lesson)) {
-            $this->lessons->add($lesson);
-            $lesson->setCourses($this);
-        }
+    // public function addLesson(Lesson $lesson): static
+    // {
+    //     if (!$this->lessons->contains($lesson)) {
+    //         $this->lessons->add($lesson);
+    //         $lesson->setCourses($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeLesson(Lesson $lesson): static
-    {
-        if ($this->lessons->removeElement($lesson)) {
-            // set the owning side to null (unless already changed)
-            if ($lesson->getCourses() === $this) {
-                $lesson->setCourses(null);
-            }
-        }
+    // public function removeLesson(Lesson $lesson): static
+    // {
+    //     if ($this->lessons->removeElement($lesson)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($lesson->getCourses() === $this) {
+    //             $lesson->setCourses(null);
+    //         }
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getDuration(): ?int
     {
@@ -211,6 +215,36 @@ class Courses
     public function setValue(?string $value): static
     {
         $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Chapter>
+     */
+    public function getChapters(): Collection
+    {
+        return $this->chapters;
+    }
+
+    public function addChapter(Chapter $chapter): static
+    {
+        if (!$this->chapters->contains($chapter)) {
+            $this->chapters->add($chapter);
+            $chapter->setCourses($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChapter(Chapter $chapter): static
+    {
+        if ($this->chapters->removeElement($chapter)) {
+            // set the owning side to null (unless already changed)
+            if ($chapter->getCourses() === $this) {
+                $chapter->setCourses(null);
+            }
+        }
 
         return $this;
     }
