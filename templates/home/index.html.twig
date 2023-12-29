@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
-
 {% block body %}
     <!-- Header Start -->
     <div class="container-fluid bg-primary py-5 mb-5 page-header">
@@ -33,9 +31,9 @@
             <div class="service-item text-center pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
-                <h5 class="mb-3">Skilled Instructors</h5>
+                <h5 class="mb-3">Expert Instructors</h5>
                 <p>
-                {{ _self }}
+                  Learn from skilled instructors who are experts in their fields.
                 </p>
               </div>
             </div>
@@ -46,7 +44,7 @@
                 <i class="fa fa-3x fa-globe text-primary mb-4"></i>
                 <h5 class="mb-3">Online Classes</h5>
                 <p>
-                {{ _self }}
+                  Access high-quality education from anywhere with our online classes.
                 </p>
               </div>
             </div>
@@ -55,9 +53,9 @@
             <div class="service-item text-center pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-home text-primary mb-4"></i>
-                <h5 class="mb-3">Home Projects</h5>
+                <h5 class="mb-3">Hands-On Projects</h5>
                 <p>
-                {{ _self }}
+                  Apply your knowledge through hands-on projects for practical experience.
                 </p>
               </div>
             </div>
@@ -66,9 +64,9 @@
             <div class="service-item text-center pt-3">
               <div class="p-4">
                 <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
-                <h5 class="mb-3">Book Library</h5>
+                <h5 class="mb-3">e-Library Access</h5>
                 <p>
-                {{ _self }}
+                  Explore our extensive e-Library for additional learning resources.
                 </p>
               </div>
             </div>
@@ -102,50 +100,35 @@
             </h6>
             <h1 class="mb-4">Welcome to Jagaad Academy</h1>
             <p class="mb-4">
-                {{ _self }}
+              Embark on a journey of discovery with Jagaad Academy, your gateway to a world of knowledge and learning. 
+              Dive into a diverse range of courses designed to enrich your mind and elevate your skills. Our online learning platform is crafted to provide you with an immersive and engaging educational experience.
             </p>
             <p class="mb-4">
-                {{ _self }}
+              Uncover new insights, acquire valuable skills, and connect with a community of learners from around the globe. Whether you're a seasoned professional or a curious enthusiast, Jagaad Academy is here to support your continuous learning journey. Join us, and let the pursuit of knowledge lead you to new horizons.
             </p>
             <div class="row gy-2 gx-4 mb-4">
               <div class="col-sm-6">
                 <p class="mb-0">
-                  <i class="fa fa-arrow-right text-primary me-2"></i>Skilled
-                  Instructors
+                  <i class="fa fa-arrow-right text-primary me-2"></i>Expert Instructors
                 </p>
               </div>
               <div class="col-sm-6">
                 <p class="mb-0">
-                  <i class="fa fa-arrow-right text-primary me-2"></i>Online
-                  Classes
+                  <i class="fa fa-arrow-right text-primary me-2"></i>Online Classes
                 </p>
               </div>
               <div class="col-sm-6">
                 <p class="mb-0">
-                  <i class="fa fa-arrow-right text-primary me-2"></i
-                  >International Certificate
+                  <i class="fa fa-arrow-right text-primary me-2"></i>Hands-On Projects
                 </p>
               </div>
               <div class="col-sm-6">
                 <p class="mb-0">
-                  <i class="fa fa-arrow-right text-primary me-2"></i>Skilled
-                  Instructors
-                </p>
-              </div>
-              <div class="col-sm-6">
-                <p class="mb-0">
-                  <i class="fa fa-arrow-right text-primary me-2"></i>Online
-                  Classes
-                </p>
-              </div>
-              <div class="col-sm-6">
-                <p class="mb-0">
-                  <i class="fa fa-arrow-right text-primary me-2"></i
-                  >International Certificate
+                  <i class="fa fa-arrow-right text-primary me-2"></i>e-Library Access
                 </p>
               </div>
             </div>
-            <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+            <a class="btn btn-primary py-3 px-5 mt-2" href="{{ path('app_courses_index') }}">See Courses</a>
           </div>
         </div>
       </div>
@@ -171,8 +154,8 @@
                     class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
                     style="margin: 1px"
                   >
-                    <h5 class="m-0">Web Design</h5>
-                    <small class="text-primary">{{ _self }} Courses</small>
+                    <h5 class="m-0">Software Engineering</h5>
+                    <small class="text-primary">15 Courses</small>
                   </div>
                 </a>
               </div>
@@ -183,8 +166,8 @@
                     class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
                     style="margin: 1px"
                   >
-                    <h5 class="m-0">Graphics Design</h5>
-                    <small class="text-primary"> {{ _self }} Courses</small>
+                    <h5 class="m-0">Cloud Engineering</h5>
+                    <small class="text-primary">12 Courses</small>
                   </div>
                 </a>
               </div>
@@ -195,8 +178,8 @@
                     class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
                     style="margin: 1px"
                   >
-                    <h5 class="m-0">Devops</h5>
-                    <small class="text-primary"> {{ _self }} Courses</small>
+                    <h5 class="m-0">Product Management</h5>
+                    <small class="text-primary">8 Courses</small>
                   </div>
                 </a>
               </div>
@@ -218,8 +201,8 @@
                 class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
                 style="margin: 1px"
               >
-                <h5 class="m-0">Online Marketing</h5>
-                <small class="text-primary"> {{ _self }} Courses</small>
+                <h5 class="m-0">Blockchain and Smart Contracts</h5>
+                <small class="text-primary">5 Courses</small>
               </div>
             </a>
           </div>
@@ -227,7 +210,7 @@
       </div>
     </div>
     <!-- Categories Start -->
-
+    
     <!-- Courses Start -->
     <div class="container-xxl py-5">
       <div class="container">
@@ -237,154 +220,58 @@
           </h6>
           <h1 class="mb-5">Popular Courses</h1>
         </div>
-        <div class="row g-4 justify-content-center">
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="course-item bg-light">
-              <div class="position-relative overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/course-1.d8bd3ee1.jpg') }}" alt="" />
-                <div
-                  class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4"
-                >
-                  <a
-                    href="#"
-                    class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="#"
-                    class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Join Now</a
-                  >
+        <div class="row g-4 justify-content-left">
+          {# {% if app.user %} #}
+            {% for course in courses %}
+              <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="course-item bg-light">
+                  <div class="position-relative overflow-hidden">
+                    <img class="img-fluid" src="{{ asset('build/images/course-1.d8bd3ee1.jpg') }}" alt="" />
+                    <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+
+                      {% if app.user is null %}
+                        <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
+
+                        <a href="{{ path('app_courses_enroll', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0">Enroll Now</a>
+                      {% endif %}
+
+                      {% if app.user and 'ROLE_STUDENT' in app.user.roles %}
+                        <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
+                        {% if course.isUserEnrolled(app.user) %}
+                          <a href="{{ path('app_courses_unenroll', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-danger px-3" style="border-radius: 0 30px 30px 0">Unenroll</a>
+                        {% else %}
+                          <a href="{{ path('app_courses_enroll', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0">Enroll Now</a>
+                        {% endif %}
+                      {% endif %}
+
+                      {% if app.user and 'ROLE_INSTRUCTOR' in app.user.roles %}
+                        <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
+
+                        <a href="{{ path('app_courses_edit', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 0 30px 30px 0">Edit Course</a>
+                      {% endif %}
+
+                    </div>
+                  </div>
+                  <div class="text-center p-4 pb-0">
+                    <h3 class="mb-4">${{ course.value }}</h3>
+                    <h5 class="mb-4">{{ course.title }}</h5>
+                  </div>
+                  <div class="d-flex border-top">
+                    <small class="flex-fill text-center border-end py-2"
+                      ><i class="fa fa-user-tie text-primary me-2"></i>{{ course.user.firstName }} {{ course.user.lastName }}</small
+                    >
+                    <small class="flex-fill text-center border-end py-2"
+                      ><i class="fa fa-clock text-primary me-2"></i>{{ course.duration }} Hrs</small
+                    >
+                    <small class="flex-fill text-center py-2"
+                      ><i class="fa fa-user text-primary me-2"></i>{{ course.enrollments.count }}
+                      Students</small
+                    >
+                  </div>
                 </div>
               </div>
-              <div class="text-center p-4 pb-0">
-                <h3 class="mb-0">$149.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small>(123)</small>
-                </div>
-                <h5 class="mb-4">
-                  Frontend Development Course for Beginners
-                </h5>
-              </div>
-              <div class="d-flex border-top">
-                <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-user-tie text-primary me-2"></i> {{ _self }}</small
-                >
-                <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-clock text-primary me-2"></i> {{ _self }} Hrs</small
-                >
-                <small class="flex-fill text-center py-2"
-                  ><i class="fa fa-user text-primary me-2"></i> {{ _self }}
-                  Students</small
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="course-item bg-light">
-              <div class="position-relative overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/course-2.caaa5962.jpg') }}" alt="" />
-                <div
-                  class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4"
-                >
-                  <a
-                    href="#"
-                    class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="#"
-                    class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Join Now</a
-                  >
-                </div>
-              </div>
-              <div class="text-center p-4 pb-0">
-                <h3 class="mb-0">$149.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small>(123)</small>
-                </div>
-                <h5 class="mb-4">
-                  Devops Engineering Course for Beginners
-                </h5>
-              </div>
-              <div class="d-flex border-top">
-                <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-user-tie text-primary me-2"></i> {{ _self }}</small
-                >
-                <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-clock text-primary me-2"></i> {{ _self }} Hrs</small
-                >
-                <small class="flex-fill text-center py-2"
-                  ><i class="fa fa-user text-primary me-2"> </i>{{ _self }}
-                  Students</small
-                >
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-            <div class="course-item bg-light">
-              <div class="position-relative overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/course-3.a1c27eb1.jpg') }}" alt="" />
-                <div
-                  class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4"
-                >
-                  <a
-                    href="#"
-                    class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
-                    style="border-radius: 30px 0 0 30px"
-                    >Read More</a
-                  >
-                  <a
-                    href="#"
-                    class="flex-shrink-0 btn btn-sm btn-primary px-3"
-                    style="border-radius: 0 30px 30px 0"
-                    >Join Now</a
-                  >
-                </div>
-              </div>
-              <div class="text-center p-4 pb-0">
-                <h3 class="mb-0">$149.00</h3>
-                <div class="mb-3">
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small class="fa fa-star text-primary"></small>
-                  <small>(123)</small>
-                </div>
-                <h5 class="mb-4">
-                  Graphics Design Course for Beginners
-                </h5>
-              </div>
-              <div class="d-flex border-top">
-                <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-user-tie text-primary me-2"></i> {{ _self }}</small
-                >
-                <small class="flex-fill text-center border-end py-2"
-                  ><i class="fa fa-clock text-primary me-2"></i> {{ _self }} Hrs</small
-                >
-                <small class="flex-fill text-center py-2"
-                  ><i class="fa fa-user text-primary me-2"></i> {{ _self }}
-                  Students</small
-                >
-              </div>
-            </div>
-          </div>
+            {% endfor %}
+          {# {% endif %} #}
         </div>
       </div>
     </div>
@@ -450,7 +337,7 @@
               </div>
               <div class="text-center p-4">
                 <h5 class="mb-0">Elina Chifeac</h5>
-                <small>Backend Coach</small>
+                <small>Frontend Coach</small>
               </div>
             </div>
           </div>
@@ -512,71 +399,85 @@
       </div>
     </div>
     <!-- Team End -->
-
+    
     <!-- Testimonial Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container-xxl py-5">
       <div class="container">
-        <div class="text-center">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
           <h6 class="section-title bg-white text-center text-primary px-3">
-            Testimonial
+            TESTIMONIALS
           </h6>
-          <h1 class="mb-5">Our Students Say!</h1>
+          <h1 class="mb-5">Share your experience with us</h1>
         </div>
-        <div class="owl-carousel testimonial-carousel position-relative">
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Victoria Elena</h5>
-            <p>Frontend Development Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-                {{ _self }}
-              </p>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="bg-white text-center text-primary px-3">Follow Us!</h5>
+            <p class="mb-4">
+              We would like to connect with you on any of our social media channels.
+            </p>
+            <div class="d-flex align-items-center mb-4">
+              <a id="twitter" class="btn btn-outline-blue btn-primary text-center btn-social" href="https://twitter.com/Claircorp"
+                ><i class="fab fa-twitter"></i
+              ></a> Twitter
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-red btn-danger text-center btn-social" href="#"
+                ><i class="fab fa-youtube"></i
+              ></a> YouTube
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-blue btn-primary text-center btn-social" href="https://linkedin.com/in/samuel-aniogbu"
+                ><i class="fab fa-linkedin-in"></i
+              ></a> LinkedIn
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-blue btn-primary text-center btn-social" href="https://facebook.com/samuel-aniogbu"
+                ><i class="fab fa-facebook"></i
+              ></a> Facebook
             </div>
           </div>
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-2.d99a5ca6.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Alexander Nwokorie</h5>
-            <p>Backend Engineering Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-                {{ _self }}
+          <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+            <div class="mb-4">
+              <h5 class="bg-white text-center text-primary px-3">Help us get better!!</h5>
+              <p class="mb-4">
+                We will love to hear about your experience. Kindly click the link to share your thoughts about the program, and we will share them with everyone.
               </p>
+              <a class="mb-4" href="{{ path('app_testimonial') }}">
+                <h6 class="bg-white text-center text-success px-3">Click to Share</h6>
+              </a>
+            </div>
+            <div>
+              <h5 class="bg-white text-center text-primary px-3">Questions or Enquiries!!</h5>
+              <p class="mb-4">
+                Do you have any questions or enquiries about any of our programs and events. Click the button and our correspondent will be in touch.
+              </p>
+              <a href="{{ path('app_contact') }}">
+                <h6 class="bg-white text-center text-success px-3">Questions or Enquiries</h6>
+              </a>
             </div>
           </div>
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-3.27812fe3.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Samuel Ebuka</h5>
-            <p>Devops Engineering Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-                {{ _self }}
-              </p>
+          <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="text-center">
+              <h5 class=" text-center text-primary px-3">Alumni Students!!!</h5>
             </div>
-          </div>
-          <div class="testimonial-item text-center">
-            <img
-              class="border rounded-circle p-2 mx-auto mb-3"
-              src="{{ asset('build/images/testimonial-4.1d8a1837.jpg') }}"
-              style="width: 80px; height: 80px"
-            />
-            <h5 class="mb-0">Ruth Usoro</h5>
-            <p>Graphics Design Student</p>
-            <div class="testimonial-text bg-light text-center p-4">
-              <p class="mb-0">
-                {{ _self }}
-              </p>
+            <div class="testimonial-container" style="max-height: 400px; overflow-y: auto;">
+              <div class="owl-carousel testimonial-carousel position-relative">
+                {% for testimonial in testimonials %}
+                  <div class="testimonial-item text-center">
+                    <img
+                      class="border rounded-circle p-2 mx-auto mb-3"
+                      src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
+                      style="width: 80px; height: 80px"
+                    />
+                    <h5 class="mb-0">{{ testimonial.name }}</h5>
+                    <div class="testimonial-text bg-light text-center p-4">
+                      <p class="mb-0">
+                        {{ testimonial.testimonial }}
+                      </p>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
         </div>
