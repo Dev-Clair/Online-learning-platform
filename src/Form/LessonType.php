@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Courses;
 use App\Entity\Lesson;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,11 +15,17 @@ class LessonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('contents')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('courses');
+            ->add('title', TextType::class)
+            ->add('contents', TextType::class)
+            ->add('courses', EntityType::class, [
+                'mapped' => false,
+                'class' => Courses::class,
+                'choice_label' => function (Courses $courses) {
+                    return sprintf('%s', $courses->getTitle());
+                },
+                'placeholder' => '-- Select Course for Lesson --',
+                'attr' => ['class' => 'form-select']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
