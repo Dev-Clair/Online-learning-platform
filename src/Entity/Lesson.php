@@ -24,15 +24,18 @@ class Lesson
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Progress::class)]
     private Collection $progress;
 
+    // #[ORM\ManyToOne(inversedBy: 'lessons')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // private ?Courses $courses = null;
+
     #[ORM\ManyToOne(inversedBy: 'lessons')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Courses $courses = null;
+    private ?Chapter $chapter = null;
 
     public function __construct()
     {
@@ -123,14 +126,26 @@ class Lesson
         return $this;
     }
 
-    public function getCourses(): ?Courses
+    // public function getCourses(): ?Courses
+    // {
+    //     return $this->courses;
+    // }
+
+    // public function setCourses(?Courses $courses): static
+    // {
+    //     $this->courses = $courses;
+
+    //     return $this;
+    // }
+
+    public function getChapter(): ?Chapter
     {
-        return $this->courses;
+        return $this->chapter;
     }
 
-    public function setCourses(?Courses $courses): static
+    public function setChapter(?Chapter $chapter): static
     {
-        $this->courses = $courses;
+        $this->chapter = $chapter;
 
         return $this;
     }
