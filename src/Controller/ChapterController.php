@@ -11,8 +11,6 @@ class ChapterController extends AbstractController
     #[Route('/chapter', name: 'app_chapter')]
     public function index(): Response
     {
-        return $this->render('chapter/index.html.twig', [
-            'controller_name' => 'ChapterController',
-        ]);
+        return $this->render('chapter/index.html.twig');
     }
 }
