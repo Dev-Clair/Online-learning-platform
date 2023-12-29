@@ -32,15 +32,15 @@
                     <th>Instructor</th>
                     <td>{{ course.user.firstName }} {{ course.user.lastName }}</td>
                 </tr>
-                <tr>
                 {% if app.user is not null and 'ROLE_INSTRUCTOR' in app.user.roles %}
-                    <th>CreatedAt</th>
-                    <td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                </tr>
-                <tr>
-                    <th>UpdatedAt</th>
-                    <td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                </tr>
+                    <tr>
+                        <th>CreatedAt</th>
+                        <td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>UpdatedAt</th>
+                        <td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
                 {% endif %}
             </tbody>
         </table>
