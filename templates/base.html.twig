@@ -90,7 +90,7 @@
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Accounts</a>
                     <div class="dropdown-menu fade-down m-0">
                         <a href="{{ path('app_admin_user_index') }}" class="dropdown-item">All Users</a>
-                        <a href="{{ path('app_admin_user_team') }}" class="dropdown-item">Team</a>
+                        {# <a href="{{ path('app_admin_user_team') }}" class="dropdown-item">Team</a> #}
                         <a href="{{ path('app_admin_user_instructors') }}" class="dropdown-item">Instructors</a>
                         <a href="{{ path('app_admin_user_students') }}" class="dropdown-item">Students</a>
                     </div>
@@ -98,33 +98,34 @@
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profiles</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_profile_admin') }}" class="dropdown-item">All Profiles</a>
+                        <a href="{{ path('app_profile_admin_index') }}" class="dropdown-item">All Profiles</a>
                         {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
                           <a href="{{ path('app_profile_admin_new') }}" class="dropdown-item">New Profile</a>
                         {% endif %}
                     </div>
                   </div>
-                  <a href="{{ path('app_courses_admin_products') }}" class="nav-iem nav-link">Products</a>
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Products</a>
+                    <div class="dropdown-menu fade-down m-0">
+                      <a href="{{ path('app_courses_index') }}" class="dropdown-item">View</a>
+                      <a href="{{ path('app_courses_admin_products') }}" class="dropdown-item">Manage</a>
+                    </div>
+                  </div>
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Go to</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_admin_dashboard') }}" class="dropdown-item">Dashboard</a>
-                        <a href="{{ path('app_admin_settings') }}" class="dropdown-item">Settings</a>
+                        {# <a href="{{ path('app_admin_dashboard') }}" class="dropdown-item">Dashboard</a>
+                        <a href="{{ path('app_admin_settings') }}" class="dropdown-item">Settings</a> #}
                     </div>
                   </div>
               {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
                   <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
                   <a href="{{ path('app_courses_new') }}" class="nav-item nav-link">Create Course</a>
+                  <a href="{{ path('app_lesson_new') }}" class="nav-item nav-link">Create Lesson</a>
               {% elseif 'ROLE_STUDENT' in app.user.roles %}
+                  <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
+                  {# <a href="{{ path('app_courses_progress') }}" class="nav-item nav-link">Progess</a> #}
                   {# <a href="{{ path('app_courses_wishlist') }}" class="nav-item nav-link">Wishlist</a> #}
-                  <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">My Learning</a>
-                        {# <div class="dropdown-menu fade-down m-0">
-                            <a href="{{ path('app_courses_progress') }}" class="dropdown-item">View Progress</a>
-                            <a href="{{ path('app_courses_enrolled', {'id': app.user.id}) }}" class="dropdown-item">View Enrolled</a>
-                            <a href="courses/completed" class="dropdown-item">View Completed</a>
-                        </div> #}
-                  </div>
               {% else %}
                   {# Default nav for other roles #}
                    <a href="{{ path('app_people') }}" class="nav-iem nav-link active">People</a>
