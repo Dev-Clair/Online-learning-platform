@@ -28,15 +28,15 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/team', name: 'app_admin_user_team', methods: ['GET'])]
-    public function index_team(UserRepository $userRepository): Response
-    {
-        $users = $userRepository->getTeam();
+    // #[Route('/team', name: 'app_admin_user_team', methods: ['GET'])]
+    // public function index_team(UserRepository $userRepository): Response
+    // {
+    //     $users = $userRepository->getTeam();
 
-        return $this->render('user/index.html.twig', [
-            'users' => $users,
-        ]);
-    }
+    //     return $this->render('user/index.html.twig', [
+    //         'users' => $users,
+    //     ]);
+    // }
 
     #[Route('/instructors', name: 'app_admin_user_instructors', methods: ['GET'])]
     public function index_instructors(UserRepository $userRepository): Response
