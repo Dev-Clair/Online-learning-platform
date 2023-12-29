@@ -20,9 +20,6 @@ class Progress
     private ?\DateTimeImmutable $lastAccessed = null;
 
     #[ORM\ManyToOne(inversedBy: 'progress')]
-    private ?Enrollment $enrollment = null;
-
-    #[ORM\ManyToOne(inversedBy: 'progress')]
     private ?Lesson $lesson = null;
 
     public function getId(): ?int
@@ -54,17 +51,6 @@ class Progress
         return $this;
     }
 
-    public function getEnrollment(): ?Enrollment
-    {
-        return $this->enrollment;
-    }
-
-    public function setEnrollment(?Enrollment $enrollment): static
-    {
-        $this->enrollment = $enrollment;
-
-        return $this;
-    }
 
     public function getLesson(): ?Lesson
     {
