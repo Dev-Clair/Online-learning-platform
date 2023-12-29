@@ -16,25 +16,22 @@ class TestimonialController extends AbstractController
     #[Route('/testimonial', name: 'app_testimonial', methods: ['GET', 'POST'])]
     public function index(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
-        // Create new testimonial instance 
         $testimonial = new Testimonial();
         $form = $this->createForm(TestimonialFormType::class, $testimonial);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // Retrieve the email submitted by user
             $form_email = $form->get('email')->getData();
-            // Check if a valid user with the email address exists in the database
+
             $user = $userRepository->findOneBy(['email' => $form_email]);
 
             if ($user) {
 
-                // Create new testimonial
                 $entityManager->persist($testimonial);
                 $entityManager->flush();
 
-                $this->addFlash('success', 'Thanks for helping us get better! Kindly subscribe to our newsletter to be in the loop about our future events and activities.');
+                $this->addFlash('success', 'Thanks for helping us get better!');
 
                 return $this->redirectToRoute('app_testimonial');
             }
@@ -46,7 +43,7 @@ class TestimonialController extends AbstractController
         $testimonials = $entityManager->getRepository(Testimonial::class)->findAll() ?? [];
 
         return $this->render('testimonial/index.html.twig', [
-            'testimonials' => $testimonials ?? [],
+            'testimonials' => $testimonials,
             'testimonialForm' => $form
         ]);
     }
