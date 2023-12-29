@@ -19,7 +19,6 @@ class ContactController extends AbstractController
     #[Route('/', name: 'app_contact', methods: ['GET', 'POST'])]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Create new contact instance 
         $contact = new Contact();
         $form = $this->createForm(ContactFormType::class, $contact);
         $form->handleRequest($request);
@@ -29,11 +28,10 @@ class ContactController extends AbstractController
             $default_status = 0;
             $contact->setStatus($default_status);
 
-            // Create new contact
             $entityManager->persist($contact);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Thanks for reaching out! Our correspondent will be in touch shortly if you have submitted a question.');
+            $this->addFlash('success', 'Thanks for reaching out! Our correspondent will be in touch.');
 
             return $this->redirectToRoute('app_contact');
         }
