@@ -25,12 +25,14 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/products', name: 'app_courses_admin_products', methods: ['GET'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function products(CoursesRepository $coursesRepository): Response
+    #[Route('/manage', name: 'app_courses_manage', methods: ['GET'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function manage(CoursesRepository $coursesRepository): Response
     {
-        return $this->render('courses/products.html.twig', [
-            'courses' => $coursesRepository->findAll(),
+        $courses = $coursesRepository->findBy(['user' => $this->getUser()]);
+
+        return $this->render('courses/manage.html.twig', [
+            'courses' => $courses,
         ]);
     }
 
@@ -77,6 +79,11 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function edit(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
+        if (($this->getUser())->getUserIdentifier() !== ($course->getUser())->getEmail()) {
+            $this->addFlash('warning', 'You are not authorized to edit this course.');
+            return $this->redirectToRoute('app_courses_index');
+        }
+
         $form = $this->createForm(CoursesType::class, $course);
         $form->handleRequest($request);
 
@@ -107,7 +114,7 @@ class CoursesController extends AbstractController
         $entityManager->persist($enrollment);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Enrolled');
+        $this->addFlash('success', 'Successfully enrolled for '  . $course->getTitle());
 
         return $this->redirectToRoute('app_courses_index');
     }
@@ -123,7 +130,7 @@ class CoursesController extends AbstractController
             $entityManager->remove($enrollment);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Unenrolled');
+            $this->addFlash('success', 'Successfully unenrolled '  . $course->getTitle());
         } else {
             $this->addFlash('warning', 'You are not enrolled in this course.');
         }
