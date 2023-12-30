@@ -6,6 +6,7 @@ use App\Repository\ChapterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChapterRepository::class)]
 class Chapter
@@ -18,6 +19,7 @@ class Chapter
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Assert\Type(Courses::class, message: 'Invalid Object Type')]
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Courses $courses = null;

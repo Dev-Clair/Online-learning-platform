@@ -71,7 +71,7 @@ class ChapterController extends AbstractController
     #[Route('/{id}', name: 'app_chapter_delete', methods: ['POST'])]
     public function delete(Request $request, Chapter $chapter, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$chapter->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $chapter->getId(), $request->request->get('_token'))) {
             $entityManager->remove($chapter);
             $entityManager->flush();
         }
