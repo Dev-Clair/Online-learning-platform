@@ -1,53 +1,53 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                    <div class="card bg-light text-white" style="border-radius: 1rem;">
-                        <div class="card-body p-5 text-center">
-                            <div class="mb-4">
-                              <h4 class="fw-bold mb-5 text-uppercase text-primary d-flex justify-content-center align-items-center">Create New Course</h4>
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-light text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <h4 class="fw-bold mb-5 text-uppercase text-primary d-flex justify-content-center align-items-center">Create New Course</h4>
 
-                              {{ form_start(form, {'attr': {'id': 'form-new-course'}}) }}
+                            {{ form_start(form, {'attr': {'id': 'form-new-course'}}) }}
 
-                              {% if form_errors(form) %}
-                                  <div class="alert alert-danger">
-                                      {{ form_errors(form) }}
-                                  </div>
-                              {% endif %}
+                            {% if form_errors(form) %}
+                                <div class="alert alert-danger">
+                                    {{ form_errors(form) }}
+                                </div>
+                            {% endif %}
 
-                              <div class="mb-4 text-primary">
-                                  {{ form_row(form.title, {'attr': {'class':'form-control', 'placeholder': 'Enter course title','disabled': false}}) }}
-                              </div>
-
-                              <div class="mb-4 text-primary">
-                                  {{ form_row(form.description, {'attr': {'class':'form-control', 'placeholder': 'Enter course description', 'style':'height:150px', 'disabled': false}}) }}
-                              </div>
-
-                              <div class="mb-4 text-primary">
-                                  {{ form_row(form.duration, {'attr': {'class':'form-control', 'placeholder': 'Enter course duration hours', 'disabled':false}}) }}
-                              </div>
-
-                              <div class="mb-4 text-primary">
-                                  {{ form_row(form.value, {'attr': {'class':'form-control', 'placeholder': 'Enter course price i.e 000.00', 'disabled':false}}) }}
-                              </div>
-
-                              <div class="mb-4 text-primary">
-                                  {{ form_row(form.instructor, {'attr': {'class':'form-control', 'disabled':false}}) }}
-                              </div>
-
-                              <div class="mb-2">
-                                  <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_courses_index') }}"> <<< </a>
-                                  
-                                  <button class="btn btn-success btn-sm px-5" type="submit">Create</button>
-                              </div>
-
-                              {{ form_end(form) }}
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.title, {'attr': {'class':'form-control', 'placeholder': 'Enter course title','disabled': false}}) }}
                             </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.description, {'attr': {'class':'form-control', 'placeholder': 'Enter course description', 'style':'height:150px', 'disabled': false}}) }}
+                            </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.duration, {'attr': {'class':'form-control', 'placeholder': 'Enter course duration hours', 'disabled':false}}) }}
+                            </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.value, {'attr': {'class':'form-control', 'placeholder': 'Enter course price i.e 000.00', 'disabled':false}}) }}
+                            </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.instructor, {'attr': {'disabled':false}}) }}
+                            </div>
+
+                            <div class="mb-2">
+                                <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_courses_index') }}"> <<< </a>
+                                
+                                <button class="btn btn-success btn-sm px-5" type="submit">Create</button>
+                            </div>
+
+                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}
