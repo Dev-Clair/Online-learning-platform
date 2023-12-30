@@ -83,12 +83,12 @@
                       <div class="card bg-light text-white" style="border-radius: 1rem;">
                           <div class="card-body p-5 text-center">
                               <div class="mb-4">
-                                  {% if app.flashes('info-success') is not empty %}
+                                  {% for message in app.flashes('success') %}
                                       <div class="alert alert-success">
-                                          {{ app.flashes('success') }}
+                                          {{ message }}
                                       </div>
-                                  {% endif %}
-
+                                  {% endfor %}
+                                  
                                   {% if error %}
                                       <div class="alert alert-danger">
                                       {{ error.messageKey|trans(error.messageData, 'security') }}
