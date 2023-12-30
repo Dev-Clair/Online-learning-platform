@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Courses;
+use App\Entity\Chapter;
 use App\Entity\Lesson;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,13 +17,13 @@ class LessonType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('contents', TextType::class)
-            ->add('courses', EntityType::class, [
+            ->add('chapter', EntityType::class, [
                 'mapped' => false,
-                'class' => Courses::class,
-                'choice_label' => function (Courses $courses) {
-                    return sprintf('%s', $courses->getTitle());
+                'class' => Chapter::class,
+                'choice_label' => function (Chapter $chapter) {
+                    return sprintf('%s', $chapter->getTitle());
                 },
-                'placeholder' => '-- Select Course for Lesson --',
+                'placeholder' => '-- Select Chapter --',
                 'attr' => ['class' => 'form-select']
             ]);
     }
