@@ -34,7 +34,8 @@
                             </div>
 
                             <div class="mb-4 text-primary">
-                                {{ form_row(form.user, {'attr': {'disabled':false}}) }}
+                                {{ form_label(form.user, 'Instructor', {'label_attr': {'class': 'form-label'}}) }}
+                                {{ form_widget(form.user, {'attr': {'disabled':false}}) }}
                             </div>
 
                             <div class="mb-2">
