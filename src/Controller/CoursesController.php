@@ -74,7 +74,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function edit(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
-        if (($this->getUser())->getUserIdentifier() !== ($course->getUser())->getEmail()) {
+        if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
 
             $this->addFlash('warning', 'You are not authorized to edit this course.');
 
