@@ -25,13 +25,13 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/manage', name: 'app_courses_manage', methods: ['GET'])]
+    #[Route('/instructor', name: 'app_courses_instructor', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function manage(CoursesRepository $coursesRepository): Response
+    public function instructor(CoursesRepository $coursesRepository): Response
     {
         $courses = $coursesRepository->findBy(['user' => $this->getUser()]);
 
-        return $this->render('courses/manage.html.twig', [
+        return $this->render('courses/instructor.html.twig', [
             'courses' => $courses,
         ]);
     }
@@ -49,11 +49,6 @@ class CoursesController extends AbstractController
             $course->setTitle(ucwords($form->get('title')->getData()));
 
             $course->setDescription(ucwords($form->get('description')->getData()));
-
-            // Get User ID from form
-            $user = $form->get('instructor')->getData();
-
-            $course->setUser($user ?? $this->getUser());
 
             $entityManager->persist($course);
             $entityManager->flush();

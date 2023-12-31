@@ -42,6 +42,7 @@ class Courses
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]
     private Collection $enrollments;
 
+    #[Assert\Type(User::class)]
     #[ORM\ManyToOne(inversedBy: 'courses')]
     private ?User $user = null;
 

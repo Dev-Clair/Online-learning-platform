@@ -20,8 +20,8 @@ class CoursesType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('duration', TextType::class)
             ->add('value', TextType::class)
-            ->add('instructor', EntityType::class, [
-                'mapped' => false,
+            ->add('user', EntityType::class, [
+                'mapped' => true,
                 'class' => User::class,
                 'choice_label' => function (User $user) {
                     return sprintf('%s %s', $user->getFirstname(), $user->getLastname());
