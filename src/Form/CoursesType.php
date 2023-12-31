@@ -24,7 +24,9 @@ class CoursesType extends AbstractType
                 'mapped' => true,
                 'class' => User::class,
                 'choice_label' => function (User $user) {
-                    return sprintf('%s %s', $user->getFirstname(), $user->getLastname());
+                    if (in_array('ROLE_INSTRUCTOR', $user->getRoles())) {
+                        return sprintf('%s %s', $user->getFirstname(), $user->getLastname());
+                    }
                 },
                 'placeholder' => '-- Click to Select Instructor --',
                 'attr' => ['class' => 'form-select']
