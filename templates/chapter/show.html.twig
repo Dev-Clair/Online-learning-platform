@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Chapter{% endblock %}
-
 {% block body %}
     <div class="container scrollable-container py-2">
         <h4>Chapter</h4>
@@ -15,6 +13,14 @@
             <tr>
                 <th>Title</th>
                 <td>{{ chapter.title }}</td>
+            </tr>
+            <tr>
+                <th>Course</th>
+                <td>{{ chapter.courses.title }}</td>
+            </tr>
+            <tr>
+                <th>Instructor</th>
+                <td>{{ chapter.courses.user.firstName }} {{ chapter.courses.user.lastName }}</td>
             </tr>
             </tbody>
         </table>

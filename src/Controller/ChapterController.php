@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/chapter')]
 class ChapterController extends AbstractController
@@ -19,6 +20,19 @@ class ChapterController extends AbstractController
     {
         return $this->render('chapter/index.html.twig', [
             'chapters' => $chapterRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/', name: 'app_chapter_instructor', methods: ['GET'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function instructor(ChapterRepository $chapterRepository): Response
+    {
+        $user = $this->getUser();
+
+        $chapters = $chapterRepository->findAll();
+
+        return $this->render('chapter/index.html.twig', [
+            'chapters' => $chapters,
         ]);
     }
 
@@ -51,6 +65,7 @@ class ChapterController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_chapter_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function edit(Request $request, Chapter $chapter, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ChapterType::class, $chapter);
@@ -69,6 +84,7 @@ class ChapterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chapter_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function delete(Request $request, Chapter $chapter, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $chapter->getId(), $request->request->get('_token'))) {
