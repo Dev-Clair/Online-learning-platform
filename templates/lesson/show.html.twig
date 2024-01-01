@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lesson{% endblock %}
-
 {% block body %}
     <div class="container scrollable-container py-2">
         <h4>Lessons</h4>
@@ -19,6 +17,10 @@
                 <tr>
                     <th>Contents</th>
                     <td>{{ lesson.contents }}</td>
+                </tr>
+                <tr>
+                    <th>Duration</th>
+                    <td>{{ lesson.duration }}</td>
                 </tr>
                 {% if app.user is not null and 'ROLE_INSTRUCTOR' in app.user.roles %}
                     <tr>

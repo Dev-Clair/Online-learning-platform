@@ -7,6 +7,7 @@ use App\Entity\Lesson;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,6 +18,7 @@ class LessonType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('contents', TextType::class)
+            ->add('duration', TimeType::class)
             ->add('chapter', EntityType::class, [
                 'mapped' => false,
                 'class' => Chapter::class,

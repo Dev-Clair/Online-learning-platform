@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Lesson index{% endblock %}
-
 {% block body %}
     <h1>Lesson index</h1>
 
@@ -11,6 +9,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Contents</th>
+                <th>Duration</th>
                 <th>Created</th>
                 <th>Updated</th>
                 <th>Actions</th>
@@ -22,6 +21,7 @@
                 <td>{{ lesson.id }}</td>
                 <td>{{ lesson.title }}</td>
                 <td>{{ lesson.contents }}</td>
+                <td>{{ lesson.duration }}</td>
                 <td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ lesson.updatedAt ? lesson.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
@@ -31,7 +31,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="7">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -27,6 +27,9 @@ class Lesson
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(type: 'time')]
+    private ?\DateTimeInterface $duration = null;
+
     #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Progress::class)]
     private Collection $progress;
 
