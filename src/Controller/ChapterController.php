@@ -23,6 +23,11 @@ class ChapterController extends AbstractController
         ]);
     }
 
+    /** 
+     * 
+     * Implement author verification
+     * 
+     */
     #[Route('/', name: 'app_chapter_instructor', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function instructor(ChapterRepository $chapterRepository): Response
@@ -64,6 +69,11 @@ class ChapterController extends AbstractController
         ]);
     }
 
+    /** 
+     * 
+     * Implement author verification
+     * 
+     */
     #[Route('/{id}/edit', name: 'app_chapter_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function edit(Request $request, Chapter $chapter, EntityManagerInterface $entityManager): Response
