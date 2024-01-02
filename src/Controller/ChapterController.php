@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ChapterController extends AbstractController
 {
     #[Route('/', name: 'app_chapter_index', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED')]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function index(ChapterRepository $chapterRepository): Response
     {
         $chapters = $chapterRepository->findBy(['user' => $this->getUser()]);
@@ -27,7 +27,7 @@ class ChapterController extends AbstractController
     }
 
     #[Route('/new', name: 'app_chapter_new', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHENTICATED')]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $chapter = new Chapter();
@@ -48,7 +48,7 @@ class ChapterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chapter_show', methods: ['GET'])]
-    #[IsGranted('IS_AUTHENTICATED')]
+    #[IsGranted('ROLE_INSTRUCTOR')]
     public function show(Chapter $chapter): Response
     {
         return $this->render('chapter/show.html.twig', [
