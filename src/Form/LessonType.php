@@ -21,7 +21,7 @@ class LessonType extends AbstractType
             ->add('contents', TextType::class)
             ->add('duration', TimeType::class)
             ->add('chapter', EntityType::class, [
-                'mapped' => false,
+                'mapped' => true,
                 'class' => Chapter::class,
                 'choice_label' => function (Chapter $chapter) {
                     return sprintf('%s', $chapter->getTitle());

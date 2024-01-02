@@ -14,12 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/lesson')]
 class LessonController extends AbstractController
 {
-
-    /** 
-     * 
-     * Implement author verification
-     * 
-     */
     #[Route('/', name: 'app_lesson_index', methods: ['GET'])]
     public function index(LessonRepository $lessonRepository): Response
     {
@@ -56,12 +50,6 @@ class LessonController extends AbstractController
         ]);
     }
 
-
-    /** 
-     * 
-     * Implement author verification
-     * 
-     */
     #[Route('/{id}/edit', name: 'app_lesson_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Lesson $lesson, EntityManagerInterface $entityManager): Response
     {
@@ -69,6 +57,9 @@ class LessonController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $lesson->setUpdatedAt(new \DateTimeImmutable());
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_lesson_index', [], Response::HTTP_SEE_OTHER);

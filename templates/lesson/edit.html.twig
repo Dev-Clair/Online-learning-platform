@@ -1,13 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Lesson{% endblock %}
-
 {% block body %}
-    <h1>Edit Lesson</h1>
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-light text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <h4 class="fw-bold mb-5 text-uppercase text-primary d-flex justify-content-center align-items-center">Edit Lesson</h4>
 
-    {{ include('lesson/_form.html.twig', {'button_label': 'Update'}) }}
+                            {{ form_start(form, {'attr': {'id': 'form-edit-lesson'}}) }}
 
-    <a href="{{ path('app_lesson_index') }}">back to list</a>
+                            {% if form_errors(form) %}
+                                <div class="alert alert-danger">
+                                    {{ form_errors(form) }}
+                                </div>
+                            {% endif %}
 
-    {{ include('lesson/_delete_form.html.twig') }}
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.title, {'attr': {'class':'form-control', 'placeholder': 'Enter lesson title','disabled': false}}) }}
+                            </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.contents, {'attr': {'class':'form-control', 'placeholder': 'Enter lesson content','disabled': false}}) }}
+                            </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.duration, {'attr': {'class':'form-select', 'disabled': false}}) }}
+                            </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.chapter) }}
+                            </div>
+
+                            <div class="mb-4 text-primary">
+                                {{ form_row(form.user) }}
+                            </div>
+
+                            <div class="mb-2">
+                                <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_lesson_index') }}"> <<< </a>
+                                
+                                <button class="btn btn-success btn-sm px-5" type="submit">Update</button>
+                            </div>
+
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -30,7 +30,7 @@ class Lesson
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Assert\Time('message: Time {{value}} must be a valid 12-HR or 24-HR format')]
+    // #[Assert\Time('message: Time must be a valid 12-HR or 24-HR format')]
     #[ORM\Column(type: 'time')]
     private ?\DateTimeInterface $duration = null;
 
@@ -101,9 +101,9 @@ class Lesson
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $duration): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
-        $this->duration = $duration;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -113,9 +113,9 @@ class Lesson
         return $this->duration;
     }
 
-    public function setDuration(\DateTimeInterface $updatedAt): static
+    public function setDuration(\DateTimeInterface $duration): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->duration = $duration;
 
         return $this;
     }
