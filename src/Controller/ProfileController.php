@@ -34,13 +34,11 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Retrieve User email
+
             $id = $form->get('user')->getData();
 
-            // Find User by email
             $user = $userRepository?->findOneBy(['id' => $id]);
 
-            // Set User on Profile
             $profile->setUser($user);
 
             $entityManager->persist($profile);
@@ -72,10 +70,9 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Retrieve unmapped values from form
+
             $country = $form->get('country')->getData();
 
-            // Set value to corresponding property on profile
             $profile->setCountry($country);
 
             $entityManager->flush();
