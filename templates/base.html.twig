@@ -113,12 +113,17 @@
                   </div>
               {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
                   <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
-                  <a href="{{ path('app_courses_instructor') }}" class="nav-item nav-link">Manage Course</a>
-                  <a href="{{ path('app_courses_new') }}" class="nav-item nav-link">Create Course</a>
+                  <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Course Management</a>
+                    <div class="dropdown-menu fade-down m-0">
+                        <a href="{{ path('app_courses_new') }}" class="dropdown-item">Create Course</a> 
+                        <a href="{{ path('app_courses_instructor') }}" class="dropdown-item">Manage Courses</a>
+                    </div>
+                  </div>
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Course Content</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_chapter_index') }}" class="dropdown-item">Chapter</a>
+                        <a href="{{ path('app_chapter_index') }}" class="dropdown-item">Chapters</a>
                         <a href="{{ path('app_lesson_index') }}" class="dropdown-item">Lessons</a> 
                     </div>
                   </div>
