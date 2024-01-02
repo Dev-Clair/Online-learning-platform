@@ -2,26 +2,27 @@
 
 {% block body %}
 
-  {% for message in app.flashes('success') %}
-      <div class="alert alert-success">
-          {{ message }}
-      </div>
-  {% endfor %}
-
-  {% for message in app.flashes('error') %}
-      <div class="alert alert-danger">
-          {{ message }}
-      </div>
-  {% endfor %}
-  
-  {% for message in app.flashes('warning') %}
-      <div class="alert alert-warning">
-          {{ message }}
-      </div>
-  {% endfor %}
-
   <!-- Categories Start -->
   <div class="container-xxl py-5 category">
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <div class="container">
       <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
         <h6 class="section-title bg-white text-center text-primary px-3">

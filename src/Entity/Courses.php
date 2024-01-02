@@ -42,7 +42,7 @@ class Courses
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]
     private Collection $enrollments;
 
-    #[Assert\Type(User::class, message: '{{value}} is not an instance of type' . User::class)]
+    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
