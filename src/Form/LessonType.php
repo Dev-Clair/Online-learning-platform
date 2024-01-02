@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Chapter;
 use App\Entity\Lesson;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,6 +27,17 @@ class LessonType extends AbstractType
                     return sprintf('%s', $chapter->getTitle());
                 },
                 'placeholder' => '-- Select Chapter --',
+                'attr' => ['class' => 'form-select']
+            ])
+            ->add('user', EntityType::class, [
+                'mapped' => true,
+                'class' => User::class,
+                'choice_label' => function (User $user) {
+                    if (in_array('ROLE_INSTRUCTOR', $user->getRoles())) {
+                        return sprintf('%s %s', $user->getFirstname(), $user->getLastname());
+                    }
+                },
+                'placeholder' => '-- Click to Select Instructor --',
                 'attr' => ['class' => 'form-select']
             ]);
     }
