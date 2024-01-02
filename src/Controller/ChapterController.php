@@ -16,32 +16,18 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class ChapterController extends AbstractController
 {
     #[Route('/', name: 'app_chapter_index', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function index(ChapterRepository $chapterRepository): Response
     {
-        return $this->render('chapter/index.html.twig', [
-            'chapters' => $chapterRepository->findAll(),
-        ]);
-    }
-
-    /** 
-     * 
-     * Implement author verification
-     * 
-     */
-    #[Route('/', name: 'app_chapter_instructor', methods: ['GET'])]
-    #[IsGranted('ROLE_INSTRUCTOR')]
-    public function instructor(ChapterRepository $chapterRepository): Response
-    {
-        $user = $this->getUser();
-
-        $chapters = $chapterRepository->findAll();
+        $chapters = $chapterRepository->findBy(['user' => $this->getUser()]);
 
         return $this->render('chapter/index.html.twig', [
-            'chapters' => $chapters,
+            'chapters' => $chapters
         ]);
     }
 
     #[Route('/new', name: 'app_chapter_new', methods: ['GET', 'POST'])]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $chapter = new Chapter();
@@ -62,6 +48,7 @@ class ChapterController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chapter_show', methods: ['GET'])]
+    #[IsGranted('IS_AUTHENTICATED')]
     public function show(Chapter $chapter): Response
     {
         return $this->render('chapter/show.html.twig', [
@@ -69,11 +56,6 @@ class ChapterController extends AbstractController
         ]);
     }
 
-    /** 
-     * 
-     * Implement author verification
-     * 
-     */
     #[Route('/{id}/edit', name: 'app_chapter_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function edit(Request $request, Chapter $chapter, EntityManagerInterface $entityManager): Response
