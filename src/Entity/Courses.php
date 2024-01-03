@@ -17,6 +17,11 @@ class Courses
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     #[Assert\NotBlank(message: 'Title field cannot be blank')]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -42,14 +47,6 @@ class Courses
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]
     private Collection $enrollments;
 
-    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
-    #[ORM\ManyToOne(inversedBy: 'courses')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
-    // #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Lesson::class, orphanRemoval: true)]
-    // private Collection $lessons;
-
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Chapter::class, orphanRemoval: true)]
     private Collection $chapters;
 
@@ -57,7 +54,6 @@ class Courses
     {
         $this->createdAt = new \DateTimeImmutable();
         $this->enrollments = new ArrayCollection();
-        // $this->lessons = new ArrayCollection();
         $this->chapters = new ArrayCollection();
     }
 
@@ -166,36 +162,6 @@ class Courses
 
         return $this;
     }
-
-    // /**
-    //  * @return Collection<int, Lesson>
-    //  */
-    // public function getLessons(): Collection
-    // {
-    //     return $this->lessons;
-    // }
-
-    // public function addLesson(Lesson $lesson): static
-    // {
-    //     if (!$this->lessons->contains($lesson)) {
-    //         $this->lessons->add($lesson);
-    //         $lesson->setCourses($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeLesson(Lesson $lesson): static
-    // {
-    //     if ($this->lessons->removeElement($lesson)) {
-    //         // set the owning side to null (unless already changed)
-    //         if ($lesson->getCourses() === $this) {
-    //             $lesson->setCourses(null);
-    //         }
-    //     }
-
-    //     return $this;
-    // }
 
     public function getDuration(): ?int
     {
