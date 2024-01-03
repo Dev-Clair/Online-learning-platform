@@ -13,17 +13,17 @@ class Enrollment
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $enrolledDate = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $completionDate = null;
+
     #[ORM\ManyToOne(inversedBy: 'courses')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'enrollments')]
     private ?Courses $courses = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $enrolledDate = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $completionDate = null;
 
     public function getId(): ?int
     {

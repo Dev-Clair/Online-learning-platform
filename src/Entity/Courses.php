@@ -17,11 +17,6 @@ class Courses
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\Type(User::class, message: "'{{ value }}' is not an instance of type" . User::class)]
-    #[ORM\ManyToOne(inversedBy: 'courses')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
     #[Assert\NotBlank(message: 'Title field cannot be blank')]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -43,6 +38,11 @@ class Courses
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[Assert\Type(User::class, message: "'{{ value }}' is not an instance of type" . User::class)]
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]
     private Collection $enrollments;

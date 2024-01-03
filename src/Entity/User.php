@@ -20,10 +20,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\Type(Profile::class)]
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Profile $userProfile = null;
-
     #[Assert\NotBlank(message: "First name field cannot be blank")]
     #[Assert\Regex(
         pattern: "/^[a-zA-Z\-]+$/",
@@ -59,6 +55,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[Assert\Type(Profile::class)]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Profile $userProfile = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Enrollment::class)]
     private Collection $enrollments;

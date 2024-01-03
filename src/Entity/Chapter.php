@@ -16,6 +16,10 @@ class Chapter
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank(message: 'Title field cannot be blank')]
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     #[Assert\Type(Courses::class, message: "'{{ value }}' is not an instance of type" . Courses::class)]
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
@@ -25,10 +29,6 @@ class Chapter
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
-    #[Assert\NotBlank(message: 'Title field cannot be blank')]
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
 
     #[ORM\OneToMany(mappedBy: 'chapter', targetEntity: Lesson::class)]
     private Collection $lessons;
