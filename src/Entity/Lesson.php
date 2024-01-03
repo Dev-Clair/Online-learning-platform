@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\LessonRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,6 +22,12 @@ class Lesson
     #[ORM\Column(length: 255)]
     private ?string $contents = null;
 
+    #[ORM\Column(type: 'string', nullable: false, columnDefinition: 'ENUM("not_started", "in_progress", "completed")')]
+    private ?string $status = null;
+
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $completed = false;
+
     #[Assert\NotBlank(message: 'Duration field cannot be blank')]
     #[ORM\Column(type: 'time')]
     private ?\DateTimeInterface $duration = null;
@@ -42,13 +46,10 @@ class Lesson
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Progress::class)]
-    private Collection $progress;
-
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->progress = new ArrayCollection();
+        $this->status = "not_started";
     }
 
     public function getId(): ?int
@@ -76,6 +77,18 @@ class Lesson
     public function setContents(string $contents): static
     {
         $this->contents = $contents;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
@@ -115,48 +128,6 @@ class Lesson
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Progress>
-     */
-    public function getProgress(): Collection
-    {
-        return $this->progress;
-    }
-
-    public function addProgress(Progress $progress): static
-    {
-        if (!$this->progress->contains($progress)) {
-            $this->progress->add($progress);
-            $progress->setLesson($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProgress(Progress $progress): static
-    {
-        if ($this->progress->removeElement($progress)) {
-            // set the owning side to null (unless already changed)
-            if ($progress->getLesson() === $this) {
-                $progress->setLesson(null);
-            }
-        }
-
-        return $this;
-    }
-
-    // public function getCourses(): ?Courses
-    // {
-    //     return $this->courses;
-    // }
-
-    // public function setCourses(?Courses $courses): static
-    // {
-    //     $this->courses = $courses;
-
-    //     return $this;
-    // }
 
     public function getChapter(): ?Chapter
     {
