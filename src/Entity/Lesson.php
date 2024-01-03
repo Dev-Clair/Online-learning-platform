@@ -24,22 +24,9 @@ class Lesson
     #[ORM\Column(length: 255)]
     private ?string $contents = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-    // #[Assert\Time('message: Time must be a valid 12-HR or 24-HR format')]
+    #[Assert\NotBlank(message: 'Duration field cannot be blank')]
     #[ORM\Column(type: 'time')]
     private ?\DateTimeInterface $duration = null;
-
-    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Progress::class)]
-    private Collection $progress;
-
-    // #[ORM\ManyToOne(inversedBy: 'lessons')]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?Courses $courses = null;
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
@@ -48,6 +35,15 @@ class Lesson
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: Progress::class)]
+    private Collection $progress;
 
     public function __construct()
     {
