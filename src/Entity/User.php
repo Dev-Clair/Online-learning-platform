@@ -20,6 +20,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Type(Profile::class)]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Profile $userProfile = null;
+
     #[Assert\NotBlank(message: "First name field cannot be blank")]
     #[Assert\Regex(
         pattern: "/^[a-zA-Z\-]+$/",
@@ -50,21 +54,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?string $password = null;
 
-    #[Assert\Type(Profile::class)]
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Profile $userProfile = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Enrollment::class)]
     private Collection $enrollments;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Courses::class)]
     private Collection $courses;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Chapter::class)]
     private Collection $chapters;
@@ -75,14 +75,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+
         $this->enrollments = new ArrayCollection();
         $this->courses = new ArrayCollection();
+        $this->chapters = new ArrayCollection();
+        $this->lessons = new ArrayCollection();
 
         // Create and assign new profile to user
         $this->userProfile = new Profile;
         $this->userProfile->setUser($this);
-        $this->chapters = new ArrayCollection();
-        $this->lessons = new ArrayCollection();
     }
 
     public function getId(): ?int
