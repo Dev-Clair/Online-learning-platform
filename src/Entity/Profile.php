@@ -14,6 +14,11 @@ class Profile
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
+    #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     #[ORM\Column(nullable: true)]
     private ?\DateTime $dateOfBirth = null;
 
@@ -22,11 +27,6 @@ class Profile
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $country = null;
-
-    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
-    #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     public function getId(): ?int
     {
