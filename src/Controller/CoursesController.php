@@ -36,6 +36,17 @@ class CoursesController extends AbstractController
         ]);
     }
 
+    #[Route('/student', name: 'app_courses_student', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
+    public function student(CoursesRepository $coursesRepository): Response
+    {
+        $courses = $coursesRepository->findBy(['user' => $this->getUser()]);
+
+        return $this->render('courses/student.html.twig', [
+            'courses' => $courses,
+        ]);
+    }
+
     #[Route('/new', name: 'app_courses_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -145,5 +156,24 @@ class CoursesController extends AbstractController
         }
 
         return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    protected function completed(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $enrollment = $enrollmentRepository->findOneBy(['user' => $user, 'courses' => $course]);
+
+        $enrollment->setCompletionDate(new \DateTimeImmutable());
+
+        $entityManager->persist($enrollment);
+        $entityManager->flush();
+
+        /**
+         * Triggered on course completion
+         * 
+         * Triggers course completion mail event
+         */
+
+        return $this->redirectToRoute('app_courses_student');
     }
 }
