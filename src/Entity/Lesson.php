@@ -22,11 +22,8 @@ class Lesson
     #[ORM\Column(length: 255)]
     private ?string $contents = null;
 
-    #[ORM\Column(type: 'string', nullable: false, columnDefinition: 'ENUM("not_started", "in_progress", "completed")')]
+    #[ORM\Column(nullable: false)]
     private ?string $status = null;
-
-    #[ORM\Column(type: 'boolean')]
-    private ?bool $completed = false;
 
     #[Assert\NotBlank(message: 'Duration field cannot be blank')]
     #[ORM\Column(type: 'time')]
