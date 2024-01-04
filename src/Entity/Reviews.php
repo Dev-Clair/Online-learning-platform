@@ -22,6 +22,9 @@ class Reviews
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     private ?Courses $course = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reviews')]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +62,18 @@ class Reviews
     public function setCourse(?Courses $course): static
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

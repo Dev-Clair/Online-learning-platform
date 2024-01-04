@@ -14,8 +14,7 @@ class ReviewsType extends AbstractType
         $builder
             ->add('email')
             ->add('review')
-            ->add('course')
-        ;
+            ->add('course');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
