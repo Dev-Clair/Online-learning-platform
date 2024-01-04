@@ -19,7 +19,7 @@ class Enrollment
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $completionDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'courses')]
+    #[ORM\ManyToOne(inversedBy: 'enrollments')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'enrollments')]
