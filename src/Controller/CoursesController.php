@@ -9,6 +9,8 @@ use App\Repository\CoursesRepository;
 use App\Repository\EnrollmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +19,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/courses')]
 class CoursesController extends AbstractController
 {
+    public function __construct(private CacheInterface $redisCache)
+    {
+    }
+
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
     public function index(CoursesRepository $coursesRepository): Response
     {
