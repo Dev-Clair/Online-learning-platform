@@ -1,8 +1,36 @@
 version: "3.1"
 services:
+  redis:
+    image: "redis:7.2-alpine"
+    container_name: online_learning_cache_redis
+    ports:
+      - "8800:6379"
+
+  mariadb:
+    image: "mariadb:11.0"
+    container_name: online_learning_mariadb
+    working_dir: /application
+    volumes:
+      - ".:/application"
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_USER}"
+      - "MYSQL_DATABASE=${MARIADB_DB_NAME}"
+      - "MYSQL_USER=${MARIADB_DB_USER}"
+      - "MYSQL_PASSWORD=${MARIADB_DB_USER_PASSWORD}"
+    ports:
+      - "8803:3306"
+
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin:latest"
+    container_name: online_learning_phpmyadmin
+    ports:
+      - "8801:80"
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=online_learning_mariadb
+
   webserver:
     image: "nginx:alpine"
-    restart: always
     container_name: online_learning_webserver
     working_dir: /application
     volumes:
@@ -18,42 +46,9 @@ services:
       - "host.docker.internal:host-gateway"
     working_dir: /application
     expose:
-      - 9000
+      - 9900
     environment:
       - PHP_IDE_CONFIG=serverName=localhost
     volumes:
       - ".:/application"
       - "./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini"
-      - "./phpdocker/php-fpm/error_reporting.ini:/etc/php/8.2/fpm/conf.d/error_reporting.ini"
-
-  phpmyadmin:
-    image: "phpmyadmin/phpmyadmin:latest"
-    restart: always
-    container_name: online_learning_phpmyadmin
-    ports:
-      - "8801:80"
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=online_learning_mariadb
-
-  nodejs:
-    image: "node:20.9"
-    restart: always
-    container_name: online_learning_nodejs
-    working_dir: /application
-    volumes:
-      - ".:/application"
-    ports:
-      - "8802:3000"
-
-  mariadb:
-    image: "mariadb:11.0"
-    restart: always
-    container_name: online_learning_mariadb
-    working_dir: /application
-    volumes:
-      - ".:/application"
-    environment:
-      - MARIADB_ROOT_PASSWORD=root
-    ports:
-      - "8803:3306"
