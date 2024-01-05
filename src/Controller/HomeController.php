@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Repository\CoursesRepository;
 use App\Repository\TestimonialRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -13,18 +13,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(CoursesRepository $coursesRepository, TestimonialRepository $testimonialRepository, CacheInterface $cache): Response
+    public function index(UserRepository $userRepository, TestimonialRepository $testimonialRepository, CacheInterface $redisCache): Response
     {
-        $homeController = $cache->get('app_home', function (ItemInterface $item) use ($coursesRepository, $testimonialRepository): array {
-            $item->expiresAfter(1800);
+        // $app_home_cache = $redisCache->get('app_home', function (ItemInterface $item) use ($userRepository, $testimonialRepository): array {
+        //     $item->expiresAfter(1800);
 
-            return [
-                'courses' => $coursesRepository->findBy([], [], limit: 2, offset: 0) ?? [],
+        //     return [
 
-                'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
-            ];
-        });
+        //         'instructors' => $userRepository->findAll() ?? [],
 
-        return $this->render('home/index.html.twig', $homeController);
+        //         'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
+        //     ];
+        // });
+
+
+        $app_home_cache = [
+            'instructors' => $userRepository->getInstructors() ?? [],
+
+            'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
+        ];
+
+        return $this->render('home/index.html.twig', $app_home_cache);
     }
 }

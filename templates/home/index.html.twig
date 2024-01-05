@@ -221,67 +221,13 @@
           <h1 class="mb-5">Popular Courses</h1>
         </div>
         <div class="row g-4 justify-content-center align-items-center">
-            {% for course in courses %}
-              <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="course-item bg-light">
-                  <div class="position-relative overflow-hidden">
-                    <img class="img-fluid" src="{{ asset('build/images/course-1.d8bd3ee1.jpg') }}" alt="" />
-                    <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-
-                      {% if app.user is null %}
-                        <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
-
-                        <a href="{{ path('app_courses_enroll', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0">Enroll Now</a>
-                      {% endif %}
-
-                      {% if app.user and 'ROLE_STUDENT' in app.user.roles %}
-                        <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
-                        {% if course.isUserEnrolled(app.user) %}
-                          <a href="{{ path('app_courses_unenroll', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-danger px-3" style="border-radius: 0 30px 30px 0">Unenroll</a>
-                        {% else %}
-                          <a href="{{ path('app_courses_enroll', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0">Enroll Now</a>
-                        {% endif %}
-                      {% endif %}
-
-                      {% if app.user and 'ROLE_INSTRUCTOR' in app.user.roles %}
-                        <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
-
-                        <a href="{{ path('app_courses_edit', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 0 30px 30px 0">Edit Course</a>
-                      {% endif %}
-
-                    </div>
-                  </div>
-                  <div class="text-center p-4 pb-0">
-                    <h3 class="mb-4">${{ course.value }}</h3>
-                    <h5 class="mb-4">{{ course.title }}</h5>
-                  </div>
-                  <div class="d-flex border-top">
-                    <small class="flex-fill text-center border-end py-2"
-                      ><i class="fa fa-user-tie text-primary me-2"></i>
-                      {# {{ course.user.firstName }} {{ course.user.lastName }} #}
-                    </small>
-                    <small class="flex-fill text-center border-end py-2">
-                      <i class="fa fa-clock text-primary me-2"></i>
-                      {{ course.duration }} Hrs
-                    </small>
-                    <small class="flex-fill text-center py-2">
-                      <i class="fa fa-user text-primary me-2"></i>
-                      {# {{ course.enrollments.count }} #}
-                      Students
-                    </small>
-                  </div>
-                </div>
-              </div>
-              {% if loop.index == 2 %}
-              <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
-                  <a class="" href="{{ path('app_courses_index') }}">
-                    <h5 class="section-title bg-light text-center text-primary px-3">Click to See More</h5>
-                  </a>
-                </div>
-              </div>
-              {% endif %}
-            {% endfor %}
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
+              <a class="" href="{{ path('app_courses_index') }}">
+                <h5 class="section-title bg-light text-center text-primary px-3">See Popular Courses by Reviews...</h5>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -296,115 +242,36 @@
           </h6>
           <h1 class="mb-5">Expert Instructors</h1>
         </div>
-        <div class="row g-4">
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-1.df075697.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
+        <div class="row g-4 justify-content-center align-items-center">
+          {% for instructor in instructors %}
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="team-item bg-light">
+                <div class="position-relative overflow-hidden">
+                  <img class="img-fluid" src="{{ asset('build/images/team-1.df075697.jpg') }}" alt="" />
+                </div>
+                <div
+                  class="position-relative d-flex justify-content-center"
+                  style="margin-top: -23px"
+                >
+                  <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                    <a class="btn btn-sm-square btn-primary mx-1" href=""
+                      ><i class="fab fa-facebook-f"></i
+                    ></a>
+                    <a class="btn btn-sm-square btn-primary mx-1" href=""
+                      ><i class="fab fa-twitter"></i
+                    ></a>
+                    <a class="btn btn-sm-square btn-primary mx-1" href=""
+                      ><i class="fab fa-instagram"></i
+                    ></a>
+                  </div>
+                </div>
+                <div class="text-center p-4">
+                  <h5 class="mb-0">{{ instructor.firstName}} {{ instructor.lastName}}</h5>
+                  <small>Instructor</small>
                 </div>
               </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Hennadii Shvedko</h5>
-                <small>Backend Coach</small>
-              </div>
             </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-2.10ecf4f5.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Elina Chifeac</h5>
-                <small>Frontend Coach</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-3.ea511638.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Raul Adrian</h5>
-                <small>Devops Engineering Coach</small>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-            <div class="team-item bg-light">
-              <div class="overflow-hidden">
-                <img class="img-fluid" src="{{ asset('build/images/team-4.2c2eb82d.jpg') }}" alt="" />
-              </div>
-              <div
-                class="position-relative d-flex justify-content-center"
-                style="margin-top: -23px"
-              >
-                <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-facebook-f"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-twitter"></i
-                  ></a>
-                  <a class="btn btn-sm-square btn-primary mx-1" href=""
-                    ><i class="fab fa-instagram"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="text-center p-4">
-                <h5 class="mb-0">Valentina Muller</h5>
-                <small>Graphics Design Coach</small>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </div>
     </div>
