@@ -129,7 +129,7 @@
                   </div>
               {% elseif 'ROLE_STUDENT' in app.user.roles %}
                   <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
-                  <a href="{{ path('app_courses_progress') }}" class="nav-item nav-link">Progess</a>
+                  <a href="{{ path('app_courses_learning') }}" class="nav-item nav-link">My Learning</a>
               {% else %}
                   {# Default nav for other roles #}
                    <a href="{{ path('app_people') }}" class="nav-iem nav-link active">People</a>
