@@ -33,14 +33,40 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/instructor', name: 'app_courses_instructor', methods: ['GET'])]
+    #[Route('/manage', name: 'app_courses_manage', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function instructor(CoursesRepository $coursesRepository): Response
+    public function manage(CoursesRepository $coursesRepository): Response
     {
         $courses = $coursesRepository->findBy(['user' => $this->getUser()]);
 
-        return $this->render('courses/instructor.html.twig', [
+        return $this->render('courses/manage.html.twig', [
             'courses' => $courses,
+        ]);
+    }
+
+    #[Route('/new', name: 'app_courses_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $course = new Courses();
+        $form = $this->createForm(CoursesType::class, $course);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $course->setTitle(ucwords($form->get('title')->getData()));
+
+            $course->setDescription(ucwords($form->get('description')->getData()));
+
+            $entityManager->persist($course);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('courses/new.html.twig', [
+            'course' => $course,
+            'form' => $form,
         ]);
     }
 
@@ -73,29 +99,14 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_courses_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/enrolled', name: 'app_courses_enrolled', methods: ['GET'])]
+    public function enrolled(Courses $course, EnrollmentRepository $enrollmentRepository): Response
     {
-        $course = new Courses();
-        $form = $this->createForm(CoursesType::class, $course);
-        $form->handleRequest($request);
+        $enrollments = $enrollmentRepository->findBy(['courses' => $course]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $course->setTitle(ucwords($form->get('title')->getData()));
-
-            $course->setDescription(ucwords($form->get('description')->getData()));
-
-            $entityManager->persist($course);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('courses/new.html.twig', [
-            'course' => $course,
-            'form' => $form,
+        return $this->render('courses/enrolled.html.twig', [
+            'enrollments' => $enrollments,
         ]);
     }
 
@@ -103,17 +114,16 @@ class CoursesController extends AbstractController
     #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
     public function unenroll(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
     {
-        // $user = $this->getUser();
-        // $enrollment = $enrollmentRepository->findOneBy(['user' => $user, 'courses' => $course]);
+        $enrollment = $enrollmentRepository->findOneBy(['courses' => $course]);
 
-        // if ($enrollment) {
-        //     $entityManager->remove($enrollment);
-        //     $entityManager->flush();
+        if ($enrollment) {
+            $entityManager->remove($enrollment);
+            $entityManager->flush();
 
-        //     $this->addFlash('success', 'Successfully unenrolled ' . $enrollment->getUser()->getFirstname() . ' from '  . $course->getTitle());
-        // }
+            $this->addFlash('success', 'Successfully unenrolled ' . $enrollment->getUser()->getFirstname() . ' from '  . $course->getTitle());
+        }
 
-        return $this->redirectToRoute('app_courses_index');
+        return $this->redirectToRoute('app_courses_enrolled');
     }
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
