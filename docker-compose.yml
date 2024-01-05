@@ -13,10 +13,10 @@ services:
     volumes:
       - ".:/application"
     environment:
-      - "MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_USER}"
-      - "MYSQL_DATABASE=${MARIADB_DB_NAME}"
-      - "MYSQL_USER=${MARIADB_DB_USER}"
-      - "MYSQL_PASSWORD=${MARIADB_DB_USER_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_USER}"
+      - "MYSQL_DATABASE=${MYSQL_DB_NAME}"
+      - "MYSQL_DB_USER=${MYSQL_DB_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_DB_USER_PASSWORD}"
     ports:
       - "8803:3306"
 
