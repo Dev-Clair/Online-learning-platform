@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\CoursesRepository;
 use App\Repository\UserRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -124,7 +123,7 @@ class UserController extends AbstractController
 
             $user->setRoles($form->get('roles')->getData());
 
-            $user->setUpdatedAt(new DateTimeImmutable());
+            $user->setUpdatedAt(new \DateTimeImmutable());
 
             $entityManager->flush();
 
