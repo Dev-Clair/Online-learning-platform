@@ -26,7 +26,6 @@ Jagaad Academy is a comprehensive online learning platform designed to provide a
 - Set up database and environment as preferred.
 - Create database.
 - Create and execute migrations.
-- load fixtures to create admin and super-admin users including loading of sample data in database
 
 ### Installation
 
