@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/reviews')]
 class ReviewsController extends AbstractController
@@ -23,6 +24,7 @@ class ReviewsController extends AbstractController
     }
 
     #[Route('/new', name: 'app_reviews_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $review = new Reviews();
@@ -30,6 +32,13 @@ class ReviewsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $review->setName(ucwords($form->get('name')->getData()));
+
+            // $review->setCourse(); 
+
+            $review->setUser($this->getUser());
+
             $entityManager->persist($review);
             $entityManager->flush();
 
