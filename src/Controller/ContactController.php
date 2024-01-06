@@ -49,7 +49,7 @@ class ContactController extends AbstractController
     }
 
     #[Route('/care/{id}/edit', name: 'app_contact_care', methods: ['GET'])]
-    public function customercare(Contact $contact, EntityManagerInterface $entityManager): Response
+    public function care(Contact $contact, EntityManagerInterface $entityManager): Response
     {
         if ($this->isGranted('ROLE_CUSTOMER_CARE')) {
             // Update status
