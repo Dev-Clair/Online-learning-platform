@@ -31,25 +31,6 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_courses_show', methods: ['GET'])]
-    public function show(Courses $course): Response
-    {
-        return $this->render('courses/show.html.twig', [
-            'course' => $course,
-        ]);
-    }
-
-    #[Route('/manage', name: 'app_courses_manage', methods: ['GET'])]
-    #[IsGranted('ROLE_INSTRUCTOR')]
-    public function manage(CoursesRepository $coursesRepository): Response
-    {
-        $courses = $coursesRepository->findBy(['user' => $this->getUser()]);
-
-        return $this->render('courses/manage.html.twig', [
-            'courses' => $courses,
-        ]);
-    }
-
     #[Route('/new', name: 'app_courses_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -67,12 +48,34 @@ class CoursesController extends AbstractController
             $entityManager->persist($course);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courses_index');
         }
 
         return $this->render('courses/new.html.twig', [
             'course' => $course,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/manage', name: 'app_courses_manage', methods: ['GET'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function manage(CoursesRepository $coursesRepository): Response
+    {
+        $courses = $coursesRepository->findBy(['user' => $this->getUser()]);
+
+        return $this->render('courses/manage.html.twig', [
+            'courses' => $courses,
+        ]);
+    }
+
+    #[Route('/learning', name: 'app_courses_learning', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
+    public function learning(EnrollmentRepository $enrollmentRepository): Response
+    {
+        $enrollments = $enrollmentRepository->findBy(['user' => $this->getUser()], ['enrolledDate' => 'ASC']);
+
+        return $this->render('courses/learning.html.twig', [
+            'enrollments' => $enrollments
         ]);
     }
 
@@ -96,52 +99,13 @@ class CoursesController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courses_index');
         }
 
         return $this->render('courses/edit.html.twig', [
             'course' => $course,
             'form' => $form,
         ]);
-    }
-
-    #[IsGranted('ROLE_INSTRUCTOR')]
-    #[Route('/{id}/enrolled', name: 'app_courses_enrolled', methods: ['GET'])]
-    public function enrolled(Courses $course, EnrollmentRepository $enrollmentRepository): Response
-    {
-        $enrollments = $enrollmentRepository->findBy(['courses' => $course]);
-
-        return $this->render('courses/enrolled.html.twig', [
-            'enrollments' => $enrollments,
-        ]);
-    }
-
-    #[IsGranted('ROLE_INSTRUCTOR')]
-    #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
-    public function unenroll(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
-    {
-        $enrollment = $enrollmentRepository->findOneBy(['courses' => $course]);
-
-        if ($enrollment) {
-            $entityManager->remove($enrollment);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Successfully unenrolled ' . $enrollment->getUser()->getFirstname() . ' from '  . $course->getTitle());
-        }
-
-        return $this->redirectToRoute('app_courses_enrolled');
-    }
-
-    #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
-    #[IsGranted('ROLE_INSTRUCTOR')]
-    public function delete(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $course->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($course);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_courses_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[IsGranted('ROLE_STUDENT')]
@@ -161,27 +125,63 @@ class CoursesController extends AbstractController
         return $this->redirectToRoute('app_courses_index');
     }
 
-    #[Route('/learning', name: 'app_courses_learning', methods: ['GET'])]
-    #[IsGranted('ROLE_STUDENT')]
-    public function learning(EnrollmentRepository $enrollmentRepository): Response
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
+    public function unenroll(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
     {
-        $enrollments = $enrollmentRepository->findBy(['user' => $this->getUser()]);
+        $enrollment = $enrollmentRepository->findOneBy(['courses' => $course]);
 
-        return $this->render('courses/learning.html.twig', [
-            'enrollments' => $enrollments
+        if ($enrollment) {
+            $entityManager->remove($enrollment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Successfully unenrolled ' . $enrollment->getUser()->getFirstname() . ' from '  . $course->getTitle());
+        }
+
+        return $this->redirectToRoute('app_courses_index');
+    }
+
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    #[Route('/{id}/enrolled', name: 'app_courses_enrolled', methods: ['GET'])]
+    public function enrolled(Courses $course, EnrollmentRepository $enrollmentRepository): Response
+    {
+        $enrollments = $enrollmentRepository->findBy(['courses' => $course]);
+
+        return $this->render('courses/enrolled.html.twig', [
+            'enrollments' => $enrollments,
         ]);
     }
 
     #[Route('/{id}/learning/lesson', name: 'app_courses_learning_lesson', methods: ['GET'])]
     #[IsGranted('ROLE_STUDENT')]
-    public function learning_lesson(Courses $course, EntityManagerInterface $entityManager): Response
+    public function learning_lesson(Courses $course): Response
     {
         return $this->render('courses/lesson.html.twig');
     }
 
+    #[Route('/{id}', name: 'app_courses_show', methods: ['GET'])]
+    public function show(Courses $course): Response
+    {
+        return $this->render('courses/show.html.twig', [
+            'course' => $course,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function delete(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $course->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($course);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_courses_index');
+    }
+
     protected function completed(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
+        $user = $course->getUser();
         $enrollment = $enrollmentRepository->findOneBy(['user' => $user, 'courses' => $course]);
 
         $enrollment->setCompletionDate(new \DateTimeImmutable());
