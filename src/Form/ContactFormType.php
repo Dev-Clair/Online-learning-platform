@@ -23,7 +23,8 @@ class ContactFormType extends AbstractType
                     'Inquiries' => 'Inquiry',
                     'Questions' => 'Question'
                 ],
-                'placeholder' => '--Select a Subject--'
+                'placeholder' => '--Select a Subject--',
+                'attr' => ['class' => 'form-select']
             ])
             ->add('message', TextareaType::class);
     }

@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{ title }} {% endblock %}
-
 {% block body %}
 
     <!-- Header Start -->
@@ -138,7 +136,7 @@
 
               <div class="mb-4 text-primary">
                   {{ form_label(contactForm.subject, 'Subject', {'label_attr': {'class': 'form-label'}}) }}
-                  {{ form_widget(contactForm.subject, {'attr': {'class': 'form-control'}}) }}
+                  {{ form_widget(contactForm.subject) }}
                   {{ form_errors(contactForm.subject) }}
               </div>
 
