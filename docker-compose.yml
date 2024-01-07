@@ -2,7 +2,7 @@ version: "3.1"
 services:
   redis:
     image: "redis:7.2-alpine"
-    container_name: online_learning_cache_redis
+    container_name: online_learning_cache
     ports:
       - "8800:6379"
 
@@ -14,9 +14,9 @@ services:
       - ".:/application"
     environment:
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_USER}"
-      - "MYSQL_DATABASE=${MYSQL_DB_NAME}"
       - "MYSQL_DB_USER=${MYSQL_DB_USER}"
       - "MYSQL_PASSWORD=${MYSQL_DB_USER_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DB_NAME}"
     ports:
       - "8803:3306"
 
