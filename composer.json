@@ -10,7 +10,6 @@
     "doctrine/doctrine-bundle": "^2.11",
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^2.16",
-    "easycorp/easyadmin-bundle": "^4.8",
     "predis/predis": "^2.2",
     "sensio/framework-extra-bundle": "^6.2",
     "symfony/asset": "6.3.*",
