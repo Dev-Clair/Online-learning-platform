@@ -45,6 +45,8 @@ class CoursesController extends AbstractController
 
             $course->setDescription(ucwords($form->get('description')->getData()));
 
+            $course->setUser($this->getUser());
+
             $entityManager->persist($course);
             $entityManager->flush();
 
@@ -155,7 +157,7 @@ class CoursesController extends AbstractController
     {
         if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
 
-            $this->addFlash('warning', 'You can only see students enrolled for your courses.');
+            $this->addFlash('warning', 'You can only see students enrolled in your courses.');
 
             return $this->redirectToRoute('app_courses_index');
         }
@@ -178,12 +180,35 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function delete(Request $request, Courses $course, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
+
+            $this->addFlash('warning', 'You are not authorized to delete this course.');
+
+            return $this->redirectToRoute('app_courses_index');
+        }
+
         if ($this->isCsrfTokenValid('delete' . $course->getId(), $request->request->get('_token'))) {
             $entityManager->remove($course);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_courses_index');
+    }
+
+    protected function last_accessed(Courses $course, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager): Response
+    {
+        $course = $coursesRepository->findOneBy(['user' => $this->getUser(), 'courses' => $course]);
+
+        $course->setLastAccessed(new \DateTimeImmutable());
+
+        $entityManager->persist($course);
+        $entityManager->flush();
+
+        /**
+         * Triggered pre log out
+         */
+
+        return $this->redirectToRoute('app_courses_learning');
     }
 
     protected function completed(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
@@ -202,6 +227,6 @@ class CoursesController extends AbstractController
          * Triggers course completion mail event
          */
 
-        return $this->redirectToRoute('app_courses_student');
+        return $this->redirectToRoute('app_courses_learning');
     }
 }
