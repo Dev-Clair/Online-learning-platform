@@ -9,7 +9,7 @@ framework:
 
     # Filesystem
     # pools:
-    #   cache:
+    #   file_cache:
     #     adapter: cache.adapter.filesystem
     #     default_lifetime: 3600
     #     public: false
