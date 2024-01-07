@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+  <div class="container-xxl py-5 category">
 
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
@@ -20,10 +21,12 @@
         </div>
     {% endfor %}
 
+    </div>
+
     <div class="container scrollable-container py-2"> 
         <h4>Chapters</h4>
 
-        <a class="btn btn-sm btn-success rounded my-3 mb-3 float-end" href="{{ path('app_chapter_new') }}">Create new</a>
+        <a class="btn btn-sm btn-success rounded my-3 mb-3 float-end" href="{{ path('app_courses_chapter_new', {'id': course_id}) }}">Create new</a>
         <table class="table table-striped table-bordered mt-4 overflow-y: auto">
             <thead class="thead-dark text-center">
                 <tr>

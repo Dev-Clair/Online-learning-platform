@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Chapter;
 use App\Entity\Courses;
 use App\Entity\Enrollment;
+use App\Form\ChapterType;
 use App\Form\CoursesType;
+use App\Repository\ChapterRepository;
 use App\Repository\CoursesRepository;
 use App\Repository\EnrollmentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -114,6 +117,46 @@ class CoursesController extends AbstractController
 
         return $this->render('courses/edit.html.twig', [
             'course' => $course,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/chapters', name: 'app_courses_chapters', methods: ['GET'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function chapters(Courses $course, ChapterRepository $chapterRepository): Response
+    {
+        $chapters = $chapterRepository->findBy(['courses' => $course]);
+
+        if (!$chapters) {
+            $this->addFlash('error', 'No chapters have been created for '  . $course->getTitle() . ' Kindly Create New');
+        }
+
+        return $this->render('courses/chapter/index.html.twig', [
+            'chapters' => $chapters,
+            'course_id' => $course->getId()
+        ]);
+    }
+
+    #[Route('/{id}/chapters/new', name: 'app_courses_chapter_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function chapters_new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $chapter = new Chapter();
+        $form = $this->createForm(ChapterType::class, $chapter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $chapter->setUser($this->getUser());
+
+            $entityManager->persist($chapter);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_chapter_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('courses/chapter/new.html.twig', [
+            'chapter' => $chapter,
             'form' => $form,
         ]);
     }
