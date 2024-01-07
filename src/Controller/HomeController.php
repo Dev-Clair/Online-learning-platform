@@ -28,7 +28,7 @@ class HomeController extends AbstractController
 
 
         $app_home_cache = [
-            'instructors' => $userRepository->getInstructors() ?? [],
+            'instructors' => array_slice($userRepository->getInstructors(), 0, 3) ?? [],
 
             'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
         ];

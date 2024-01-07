@@ -128,7 +128,7 @@
                 </p>
               </div>
             </div>
-            <a class="btn btn-primary py-3 px-5 mt-2" href="{{ path('app_courses_index') }}">See Courses</a>
+            <a class="btn btn-primary py-3 px-5 mt-2" href="{{ path('app_courses_index') }}" style="border-radius: 30px 30px 30px 30px">See Courses</a>
           </div>
         </div>
       </div>
@@ -223,8 +223,8 @@
         <div class="row g-4 justify-content-center align-items-center">
           <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
-              <a class="" href="{{ path('app_courses_index') }}">
-                <h5 class="section-title bg-light text-center text-primary px-3">See Popular Courses by Reviews...</h5>
+              <a class="flex-shrink-0 btn btn-lg btn-primary border-end" href="{{ path('app_courses_index') }}" style="border-radius: 30px 30px 30px 30px">
+                See Popular Courses by Reviews...
               </a>
             </div>
           </div>
@@ -319,8 +319,8 @@
               <p class="mb-4">
                 We will love to hear about your experience. Kindly click the link to share your thoughts about the program, and we will share them with everyone.
               </p>
-              <a class="mb-4" href="{{ path('app_testimonial') }}">
-                <h6 class="bg-white text-center text-success px-3">Click to Share</h6>
+              <a href="{{ path('app_testimonial') }}">
+                <h6 class="bg-light text-center text-primary px-3">Click to Share...</h6>
               </a>
             </div>
             <div>
@@ -329,7 +329,7 @@
                 Do you have any questions or enquiries about any of our programs and events. Click the button and our correspondent will be in touch.
               </p>
               <a href="{{ path('app_contact') }}">
-                <h6 class="bg-white text-center text-success px-3">Questions or Enquiries</h6>
+                <h6 class="bg-light text-center text-primary px-3">Questions or Enquiries...</h6>
               </a>
             </div>
           </div>
@@ -356,8 +356,8 @@
                 {% endfor %}
               </div>
               <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
-                  <a class="mb-4 py-2" href="{{ path('app_testimonial') }}">
-                    <h6 class="section-title bg-light text-center text-primary px-3">See More</h6>
+                  <a class="flex-shrink-0 btn btn-sm btn-primary border-end" href="{{ path('app_testimonial') }}" style="border-radius: 30px 30px 30px 30px">
+                    See More Tetimonials...
                   </a>
               </div>
             </div>
