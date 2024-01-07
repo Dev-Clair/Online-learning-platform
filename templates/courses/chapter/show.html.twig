@@ -26,12 +26,12 @@
         </table>
 
         <div class="mb-2 btn-group float-end">
-            <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_chapter_index') }}"> <<< </a>
+            <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_chapter_index') }}"> <<< </a>
 
-            <a class="btn btn-info rounded btn-sm" href="{{ path('app_chapter_edit', {'id': chapter.id}) }}"><i class="fas fa-edit"></i>
+            <a class="btn btn-info rounded btn-sm" href="{{ path('app_courses_chapter_edit', {'id': chapter.id}) }}"><i class="fas fa-edit"></i>
             </a>
 
-            {{ include('chapter/_delete_form.html.twig') }}
+            {{ include('courses/chapter/_delete_form.html.twig') }}
          </div>
     </div>
 {% endblock %}

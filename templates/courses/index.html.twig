@@ -135,11 +135,16 @@
 
                   {% if app.user and 'ROLE_INSTRUCTOR' in app.user.roles %}
                     <a href="{{ path('app_courses_show', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px">Read More</a>
+                    <div class="dropdown">
+                      <a href="#" class="btn btn-sm btn-primary border-end dropdown-toggle" data-bs-toggle="dropdown">
+                        See <i class="fa-light fa-colon"></i>
+                      </a>
+                      <div class="dropdown-menu fade-down">
+                        <a href="{{ path('app_courses_chapter', {'id': course.id}) }}" class="btn btn- outline dropdown-item">Chapters</a>
 
-                    <a href="{{ path('app_courses_chapters', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-secondary px-3 border-end" style="border-radius: 0 0px 0px 0">See Chapters</a>
-
-                    <a href="{{ path('app_courses_enrolled', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-secondary px-3 border-end" style="border-radius: 0 0px 0px 0">See Enrolled</a>
-
+                        <a href="{{ path('app_courses_enrolled', {'id': course.id}) }}" class="btn btn- outline dropdown-item">Enrolled</a>
+                      </div>
+                    </div>
                     <a href="{{ path('app_courses_edit', {'id': course.id}) }}" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 0 30px 30px 0">Edit Course</a>
                   {% endif %}
 

@@ -121,14 +121,21 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/chapters', name: 'app_courses_chapters', methods: ['GET'])]
+    #[Route('/{id}/chapter', name: 'app_courses_chapter', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function chapters(Courses $course, ChapterRepository $chapterRepository): Response
+    public function chapter_index(Courses $course, ChapterRepository $chapterRepository): Response
     {
         $chapters = $chapterRepository->findBy(['courses' => $course]);
 
         if (!$chapters) {
-            $this->addFlash('error', 'No chapters have been created for '  . $course->getTitle() . ' Kindly Create New');
+            if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
+
+                $this->addFlash('warning', 'You cannot access or modify this course.');
+
+                return $this->redirectToRoute('app_courses_index');
+            }
+
+            $this->addFlash('error', 'No Chapters Have Been Created For '  . $course->getTitle() . ' Course. Kindly Create New');
         }
 
         return $this->render('courses/chapter/index.html.twig', [
@@ -137,9 +144,9 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/chapters/new', name: 'app_courses_chapter_new', methods: ['GET', 'POST'])]
+    #[Route('/{id}/chapter/new', name: 'app_courses_chapter_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function chapters_new(Request $request, EntityManagerInterface $entityManager): Response
+    public function chapter_new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $chapter = new Chapter();
         $form = $this->createForm(ChapterType::class, $chapter);
@@ -152,13 +159,53 @@ class CoursesController extends AbstractController
             $entityManager->persist($chapter);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_chapter_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courses_chapter_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courses/chapter/new.html.twig', [
             'chapter' => $chapter,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/chapter/{id}', name: 'app_courses_chapter_show', methods: ['GET'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function chapter_show(Chapter $chapter): Response
+    {
+        return $this->render('courses/chapter/show.html.twig', [
+            'chapter' => $chapter,
+        ]);
+    }
+
+    #[Route('/{id}/chapter/{id}/edit', name: 'app_courses_chapter_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function chapter_edit(Request $request, Chapter $chapter, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ChapterType::class, $chapter);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_courses_chapter_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('courses/chapter/edit.html.twig', [
+            'chapter' => $chapter,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/chapter/{id}', name: 'app_courses_chapter_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function chapter_delete(Request $request, Chapter $chapter, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $chapter->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($chapter);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_courses_chapter_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
