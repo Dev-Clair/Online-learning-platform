@@ -30,6 +30,9 @@ class LessonController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $lesson->setUser($this->getUser());
+
             $entityManager->persist($lesson);
             $entityManager->flush();
 
