@@ -35,6 +35,9 @@ class ChapterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $chapter->setUser($this->getUser());
+
             $entityManager->persist($chapter);
             $entityManager->flush();
 

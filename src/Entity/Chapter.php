@@ -25,7 +25,7 @@ class Chapter
     #[ORM\JoinColumn(nullable: false)]
     private ?Courses $courses = null;
 
-    #[Assert\Type(User::class, message: "'{{ value }}' is not an instance of type" . User::class)]
+    // #[Assert\Type(User::class, message: "'{{ value }}' is not an instance of type" . User::class)]
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
