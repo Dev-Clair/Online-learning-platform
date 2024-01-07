@@ -29,6 +29,7 @@ class Lesson
     #[ORM\Column(type: 'time')]
     private ?\DateTimeInterface $duration = null;
 
+    #[Assert\Type(Chapter::class, message: "'{{ value }}' is not an instance of type" . Chapter::class)]
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Chapter $chapter = null;
