@@ -124,6 +124,7 @@ class CoursesController extends AbstractController
         ]);
     }
 
+    // ************************************* Chapters ****************************
     #[Route('/{id}/chapter', name: 'app_courses_chapter_index', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function chapter_index(
@@ -231,6 +232,11 @@ class CoursesController extends AbstractController
         return $this->redirectToRoute('app_courses_chapter_index', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
     }
 
+    // ************************************* Lessons ****************************
+
+
+    // ************************************* Reviewss ****************************
+
     #[Route('/{id}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
     #[IsGranted('ROLE_STUDENT')]
     public function enroll(Courses $course, EntityManagerInterface $entityManager): Response
@@ -282,11 +288,11 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/learning/lesson', name: 'app_courses_learning_lesson', methods: ['GET'])]
+    #[Route('/{id}/learning/lecture', name: 'app_courses_learning_lecture', methods: ['GET'])]
     #[IsGranted('ROLE_STUDENT')]
-    public function learning_lesson(Courses $course): Response
+    public function learning_lecture(Courses $course): Response
     {
-        return $this->render('courses/lesson.html.twig');
+        return $this->render('courses/lecture.html.twig');
     }
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
