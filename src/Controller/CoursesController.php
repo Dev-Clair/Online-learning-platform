@@ -124,7 +124,8 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    // ************************************* Chapters ****************************
+    // ************************************* Chapters CRUD ****************************
+
     #[Route('/{id}/chapter', name: 'app_courses_chapter_index', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function chapter_index(
@@ -232,10 +233,10 @@ class CoursesController extends AbstractController
         return $this->redirectToRoute('app_courses_chapter_index', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
     }
 
-    // ************************************* Lessons ****************************
+    // ************************************* Lessons CRUD ****************************
 
 
-    // ************************************* Reviewss ****************************
+    // ************************************* Reviews CRUD ****************************
 
     #[Route('/{id}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
     #[IsGranted('ROLE_STUDENT')]
