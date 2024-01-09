@@ -28,7 +28,7 @@
         <div class="mb-2 btn-group float-end">
             <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_chapter_index', {'id':course_id}) }}"> <<< </a>
 
-            <a class="btn btn-info rounded btn-sm" href="{{ path('app_courses_chapter_edit', {'id': course_id, 'cid': chapter.id}) }}"><i class="fas fa-edit"></i>
+            <a class="btn btn-info rounded btn-sm" href="{{ path('app_courses_chapter_edit', {'id': chapter.courses.id, 'cid': chapter.id}) }}"><i class="fas fa-edit"></i>
             </a>
 
             {{ include('courses/chapter/_delete_form.html.twig') }}

@@ -20,12 +20,10 @@ class Chapter
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[Assert\Type(Courses::class, message: "'{{ value }}' is not an instance of type" . Courses::class)]
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Courses $courses = null;
 
-    // #[Assert\Type(User::class, message: "'{{ value }}' is not an instance of type" . User::class)]
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
