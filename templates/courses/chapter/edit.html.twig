@@ -21,16 +21,16 @@
                                 {{ form_row(form.title, {'attr': {'class':'form-control', 'placeholder': 'Enter chapter title','disabled': false}}) }}
                             </div>
 
-                            <div class="mb-4 text-primary">
+                            {# <div class="mb-4 text-primary">
                                 {{ form_row(form.courses) }}
-                            </div>
+                            </div> #}
 
                             {# <div class="mb-4 text-primary">
                                 {{ form_row(form.user) }}
                             </div> #}
 
                             <div class="mb-2">
-                                <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_courses_chapter_index') }}"> <<< </a>
+                                <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_courses_chapter_index', {'id': course_id}) }}"> <<< </a>
                                 
                                 <button class="btn btn-success btn-sm px-5" type="submit">Update</button>
                             </div>
