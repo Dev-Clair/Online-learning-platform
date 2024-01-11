@@ -1,37 +1,94 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reviews index{% endblock %}
-
 {% block body %}
-    <h1>Reviews index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Review</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+  <!-- Header Start -->
+  <div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 text-center">
+          <h1 class="display-3 text-white animated slideInDown">
+            Course Reviews
+          </h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+              <li class="breadcrumb-item">
+                <a class="text-white" href="#">Home</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a class="text-white" href="#">Pages</a>
+              </li>
+              <li
+                class="breadcrumb-item text-white active"
+                aria-current="page"
+              >
+                Reviews
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Header End -->
+  
+  <div class="container-xxl py-5 category">
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="section-title bg-white text-center text-primary px-3">
+          Reviews
+        </h6>
+        <h1 class="mb-2">Course Reviews</h1>
+      </div>
+
+      <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
+        <a class="btn btn-sm btn-success rounded float-end" href="{{ path('app_courses_reviews_new', {'id': course_id}) }}">Add Review</a>
+      </div>
+
+      <div class="row g-4 justify-content-left">
         {% for review in reviews %}
-            <tr>
-                <td>{{ review.id }}</td>
-                <td>{{ review.email }}</td>
-                <td>{{ review.review }}</td>
-                <td>
-                    <a href="{{ path('app_reviews_show', {'id': review.id}) }}">show</a>
-                    <a href="{{ path('app_reviews_edit', {'id': review.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="course-item bg-light">
+              <div class="position-relative overflow-hidden">
+                <div class="review-item text-center">
+                    <img
+                        class="border rounded-circle p-2 mx-auto mb-3"
+                        src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
+                        style="width: 80px; height: 80px"
+                    />
+                    <h5 class="mb-2">{{ review.name }}</h5>
+                    <div class="review-text bg-light text-center p-4">
+                        <p class="mb-2">
+                            {{ review.review }}
+                        </p>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_reviews_new') }}">Create new</a>
+      </div>
+    </div>
+  </div>
+  <!-- Reviews End -->
+  
 {% endblock %}

@@ -1,13 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Reviews{% endblock %}
-
 {% block body %}
-    <h1>Edit Reviews</h1>
+    
 
-    {{ include('reviews/_form.html.twig', {'button_label': 'Update'}) }}
+  <!-- Header Start -->
+  <div class="container-fluid bg-primary py-5 mb-5 page-header">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 text-center">
+          <h1 class="display-3 text-white animated slideInDown">
+            Course Reviews
+          </h1>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+              <li class="breadcrumb-item">
+                <a class="text-white" href="#">Home</a>
+              </li>
+              <li class="breadcrumb-item">
+                <a class="text-white" href="#">Pages</a>
+              </li>
+              <li
+                class="breadcrumb-item text-white active"
+                aria-current="page"
+              >
+                Reviews
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Header End -->
 
-    <a href="{{ path('app_reviews_index') }}">back to list</a>
+  <!-- Reviews Start -->
+  <div class="container-xxl py-5">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-light text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-5 text-primary d-flex justify-content-center align-items-center">Modify Review</h5>
 
-    {{ include('reviews/_delete_form.html.twig') }}
+                            {{ form_start(form, {'attr': {'id': 'form-reviews'}}) }}
+
+                              {% if form_errors(form) %}
+                                  <div class="alert alert-danger">
+                                      {{ form_errors(form) }}
+                                  </div>
+                              {% endif %}
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.review, {'attr': {'class': 'form-control', 'placeholder': 'Enter your review here', 'style': 'height:150px'}}) }}
+                              </div>
+
+                              <div class="mb-2">
+                                  <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_courses_reviews_index', {'id': course_id}) }}"> <<< </a>
+
+                                  <button class="btn btn-primary btn-sm px-5" type="submit">Submit</button>
+                              </div>
+
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <!-- Reviews End -->
+
 {% endblock %}
+
+{# {{ include('courses/reviews/_delete_form.html.twig') }} #}

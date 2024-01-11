@@ -31,7 +31,6 @@ class Reviews
     #[ORM\Column(length: 255)]
     private ?string $review = null;
 
-    #[Assert\Type(Courses::class, message: "'{{ value }}' is not an instance of type" . Courses::class)]
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     private ?Courses $course = null;
 
