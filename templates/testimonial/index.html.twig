@@ -104,19 +104,16 @@
               <div class="mb-4 text-primary">
                   {{ form_label(testimonialForm.name, 'Your Name', {'label_attr': {'class': 'form-label'}}) }}
                   {{ form_widget(testimonialForm.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter your name'}}) }}
-                  {{ form_errors(testimonialForm.name) }}
               </div>
 
               <div class="mb-4 text-primary">
                   {{ form_label(testimonialForm.email, 'Your Email', {'label_attr': {'class': 'form-label'}}) }}
                   {{ form_widget(testimonialForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your email'}}) }}
-                  {{ form_errors(testimonialForm.email) }}
               </div>
 
               <div class="mb-4 text-primary">
-                  {{ form_label(testimonialForm.testimonial, 'Your Review', {'label_attr': {'class': 'form-label'}}) }}
+                  {{ form_label(testimonialForm.testimonial, 'Your Thoughts...', {'label_attr': {'class': 'form-label'}}) }}
                   {{ form_widget(testimonialForm.testimonial, {'attr': {'class': 'form-control', 'placeholder': 'Enter your review here', 'style': 'height:150px'}}) }}
-                  {{ form_errors(testimonialForm.testimonial) }}
               </div>
 
               <div class="mb-2">
