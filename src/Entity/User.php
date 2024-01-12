@@ -83,11 +83,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->courses = new ArrayCollection();
         $this->chapters = new ArrayCollection();
         $this->lessons = new ArrayCollection();
+        $this->reviews = new ArrayCollection();
 
         // Create and assign new profile to user
         $this->userProfile = new Profile;
         $this->userProfile->setUser($this);
-        $this->reviews = new ArrayCollection();
     }
 
     public function getId(): ?int
