@@ -264,4 +264,15 @@ class Courses
 
         return $this;
     }
+
+    public function reviewExistsForUser(User $user): bool
+    {
+        foreach ($this->reviews as $review) {
+            if ($review->getUser() === $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

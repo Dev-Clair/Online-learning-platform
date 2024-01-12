@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    
+{% block body %}    
 
   <!-- Header Start -->
   <div class="container-fluid bg-primary py-5 mb-5 page-header">
@@ -52,6 +51,14 @@
                               {% endif %}
 
                               <div class="mb-4 text-primary">
+                                  {{ form_row(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter your name'}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your email'}}) }}
+                              </div>
+
+                              <div class="mb-4 text-primary">
                                   {{ form_row(form.review, {'attr': {'class': 'form-control', 'placeholder': 'Enter your review here', 'style': 'height:150px'}}) }}
                               </div>
 
@@ -72,5 +79,3 @@
   <!-- Reviews End -->
 
 {% endblock %}
-
-{# {{ include('courses/reviews/_delete_form.html.twig') }} #}

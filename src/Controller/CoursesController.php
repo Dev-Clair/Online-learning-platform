@@ -5,13 +5,16 @@ namespace App\Controller;
 use App\Entity\Chapter;
 use App\Entity\Courses;
 use App\Entity\Enrollment;
+use App\Entity\Lesson;
 use App\Entity\Reviews;
 use App\Form\ChapterType;
 use App\Form\CoursesType;
+use App\Form\LessonType;
 use App\Form\ReviewsType;
 use App\Repository\ChapterRepository;
 use App\Repository\CoursesRepository;
 use App\Repository\EnrollmentRepository;
+use App\Repository\LessonRepository;
 use App\Repository\ReviewsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -226,18 +229,151 @@ class CoursesController extends AbstractController
             'course_id' => $course->getId()
         ]);
     }
-    /*
-    *
-    * ************************************* End:: Chapter CRUD ****************************
-    *
-    */
 
     /*
     *
     * ************************************* Start:: Lessons CRUD ****************************
     *
     */
+    #[Route('/{id}/chapter/{cid}/lesson', name: 'app_courses_lesson_index', methods: ['GET'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function courses_lesson_index(
+        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(id: 'cid')] Chapter $chapter,
+        LessonRepository $lessonRepository
+    ): Response {
 
+        $lessons = $lessonRepository->findBy(['chapter' => $chapter, 'user' => $this->getUser()]);
+
+        if (!$lessons) {
+            // if ($this->getUser()->getUserIdentifier() !== $chapter->getUser()->getEmail()) {
+
+            //     $this->addFlash('warning', 'You cannot access or modify this chapter.');
+
+            //     $this->redirectToRoute('app_courses_chapter_index', ['id' => $chapter->getId()]);
+            // }
+
+            $this->addFlash('error', 'No Lessons Have Been Created For '  . $chapter->getTitle() . ' Chapter. Kindly Create New');
+        }
+
+        return $this->render('courses/lesson/index.html.twig', [
+            'lessons' => $lessons,
+            'course_id' => $course->getId(),
+            'chapter_id' => $chapter->getId()
+        ]);
+    }
+
+    #[Route('/{id}/chapter/{cid}/lesson/new', name: 'app_courses_lesson_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function courses_lesson_new(
+        Request $request,
+        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(id: 'cid')] Chapter $chapter,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $lesson = new Lesson();
+        $form = $this->createForm(LessonType::class, $lesson);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $lesson->setUser($this->getUser());
+
+            $entityManager->persist($lesson);
+            $entityManager->flush();
+
+            return $this->redirectToRoute(
+                'app_courses_lesson_index',
+                [
+                    'id' => $course->getId(),
+                    'cid' => $chapter->getId()
+                ],
+                Response::HTTP_SEE_OTHER
+            );
+        }
+
+        return $this->render('lesson/new.html.twig', [
+            'lesson' => $lesson,
+            'form' => $form,
+            'course_id' => $course->getId(),
+            'chapter_id' => $chapter->getId()
+        ]);
+    }
+
+    #[Route('/{id}/chapter/{cid}/lesson/{lid}', name: 'app_courses_lesson_show', methods: ['GET'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function courses_lesson_show(
+        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(id: 'lid')] Lesson $lesson
+    ): Response {
+        return $this->render('lesson/show.html.twig', [
+            'lesson' => $lesson,
+            'course_id' => $course->getId(),
+            'chapter_id' => $chapter->getId()
+        ]);
+    }
+
+    #[Route('/{id}/chapter/{cid}/lesson/{lid}/edit', name: 'app_courses_lesson_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function courses_lesson_edit(
+        Request $request,
+        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(id: 'lid')] Lesson $lesson,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $form = $this->createForm(LessonType::class, $lesson);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $lesson->setUpdatedAt(new \DateTimeImmutable());
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute(
+                'app_courses_lesson_index',
+                [
+                    'id' => $course->getId(),
+                    'cid' => $chapter->getId()
+                ],
+                Response::HTTP_SEE_OTHER
+            );
+        }
+
+        return $this->render('lesson/edit.html.twig', [
+            'lesson' => $lesson,
+            'form' => $form,
+            'course_id' => $course->getId(),
+            'chapter_id' => $chapter->getId()
+        ]);
+    }
+
+    #[Route('/{id}/chapter/{cid}/lesson/{lid}', name: 'app_courses_lesson_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_INSTRUCTOR')]
+    public function courses_lesson_delete(
+        Request $request,
+
+        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(id: 'lid')] Lesson $lesson,
+        EntityManagerInterface $entityManager
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $lesson->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($lesson);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute(
+            'app_courses_lesson_index',
+            [
+                'id' => $course->getId(),
+                'cid' => $chapter->getId()
+            ],
+            Response::HTTP_SEE_OTHER
+        );
+    }
     /*
     *
     * ************************************* End:: Lessons CRUD ****************************
@@ -259,6 +395,11 @@ class CoursesController extends AbstractController
 
         return $this->redirectToRoute('app_courses_chapter_index', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
     }
+    /*
+    *
+    * ************************************* End:: Chapter CRUD ****************************
+    *
+    */
 
     /*
     *
@@ -266,14 +407,12 @@ class CoursesController extends AbstractController
     *
     */
     #[Route('/{id}/review', name: 'app_courses_reviews_index', methods: ['GET'])]
-    #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_index(
         #[MapEntity(id: 'id')] Courses $course,
         ReviewsRepository $reviewsRepository
     ): Response {
         $reviews = $reviewsRepository->findBy([
-            'course' => $course,
-            'user' => $this->getUser()
+            'course' => $course
         ]);
 
         if (!$reviews) {
@@ -293,6 +432,20 @@ class CoursesController extends AbstractController
         #[MapEntity(id: 'id')] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
+        if ($course->reviewExistsForUser($this->getUser())) {
+            $this->addFlash('error', 'Sorry! You Can Only Add One Review Per Enrolled Course. Kindly Modify your previous review if your impression about the course has changed. Thanks');
+
+            return $this->redirectToRoute('app_courses_reviews_index', ['id' => $course->getId()]);
+        }
+
+        $verifyUserIsEnrolled = $course->isUserEnrolled($this->getUser());
+
+        if (!$verifyUserIsEnrolled) {
+            $this->addFlash('warning', 'Sorry! You Can Only Add Reviews To Courses You Are Enrolled For. Thanks');
+
+            return $this->redirectToRoute('app_courses_reviews_index', ['id' => $course->getId()]);
+        }
+
         $review = new Reviews();
         $form = $this->createForm(ReviewsType::class, $review);
         $form->handleRequest($request);
@@ -338,9 +491,9 @@ class CoursesController extends AbstractController
         #[MapEntity(id: 'rid')] Reviews $review,
         EntityManagerInterface $entityManager
     ): Response {
-        // if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
+        // if ($this->getUser()->getUserIdentifier() !== $review->getUser()->getEmail()) {
 
-        //     // $this->addFlash('warning', 'You can only see students enrolled in your courses.');
+        //     $this->addFlash('warning', 'You can only modify a review you created.');
 
         //     return $this->redirectToRoute('app_courses_reviews_index');
         // }
@@ -453,7 +606,7 @@ class CoursesController extends AbstractController
 
     #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function delete(
+    public function courses_delete(
         Request $request,
         #[MapEntity(id: 'id')] Courses $course,
         EntityManagerInterface $entityManager

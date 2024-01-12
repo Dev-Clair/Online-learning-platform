@@ -24,7 +24,7 @@ class Reviews
 
     #[Assert\NotBlank(message: "Email field cannot be blank")]
     #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
-    #[ORM\Column(length: 255, unique: true, nullable: false)]
+    #[ORM\Column(length: 255, unique: false, nullable: false)]
     private ?string $email = null;
 
     #[Assert\NotBlank(message: "Message field cannot be blank")]

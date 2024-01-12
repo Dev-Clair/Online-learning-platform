@@ -32,25 +32,25 @@
   </div>
   <!-- Header End -->
   
-  <div class="container-xxl py-5 category">
+  <div class="container-xxl py-5">
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
+      {% for message in app.flashes('success') %}
+          <div class="alert alert-success">
+              {{ message }}
+          </div>
+      {% endfor %}
 
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
-    
-    {% for message in app.flashes('warning') %}
-        <div class="alert alert-warning">
-            {{ message }}
-        </div>
-    {% endfor %}
+      {% for message in app.flashes('error') %}
+          <div class="alert alert-danger">
+              {{ message }}
+          </div>
+      {% endfor %}
+      
+      {% for message in app.flashes('warning') %}
+          <div class="alert alert-warning">
+              {{ message }}
+          </div>
+      {% endfor %}
 
     <div class="container">
       <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -60,9 +60,11 @@
         <h1 class="mb-2">Course Reviews</h1>
       </div>
 
-      <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
-        <a class="btn btn-sm btn-success rounded float-end" href="{{ path('app_courses_reviews_new', {'id': course_id}) }}">Add Review</a>
-      </div>
+      {% if app.user is not null %}
+        <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
+          <a class="btn btn-sm btn-success rounded float-end" href="{{ path('app_courses_reviews_new', {'id': course_id}) }}">Add Review</a>
+        </div>
+      {% endif %}
 
       <div class="row g-4 justify-content-left">
         {% for review in reviews %}
@@ -75,6 +77,23 @@
                         src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
                         style="width: 80px; height: 80px"
                     />
+
+                    {% if app.user is not null and app.user.id == review.user.id %}
+                      <div class="dropdown">
+                        <a href="#" class="btn btn-sm btn-outline border-end dropdown-toggle" data-bs-toggle="dropdown" style="border-radius: 30px 30px 30px 30px">
+                          ****
+                        </a>
+                        <div class="dropdown-menu fade-down">
+                          <a href="{{ path('app_courses_reviews_edit', {'id': review.course.id, 'rid': review.id}) }}" class="dropdown-item"> Modify
+                          </a>
+                          
+                          
+                          <a href="{{ path('app_courses_reviews_delete', {'id': review.course.id, 'rid': review.id}) }}" class="dropdown-item"> Delete
+                          </a>
+                        </div>
+                      </div>
+                    {% endif %}
+
                     <h5 class="mb-2">{{ review.name }}</h5>
                     <div class="review-text bg-light text-center p-4">
                         <p class="mb-2">
@@ -85,6 +104,8 @@
               </div>
             </div>
           </div>
+        {% else %}
+          <p><strong>Click The Button To Add a New Review.</strong></p>
         {% endfor %}
       </div>
     </div>
