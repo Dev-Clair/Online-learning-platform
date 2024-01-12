@@ -18,11 +18,7 @@ class Lesson
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[Assert\NotBlank(message: 'Contents field cannot be blank')]
-    #[ORM\Column(length: 255)]
-    private ?string $contents = null;
-
-    #[ORM\Column(nullable: false)]
+    #[ORM\Column(nullable: true)]
     private ?string $status = null;
 
     #[Assert\NotBlank(message: 'Duration field cannot be blank')]
@@ -47,7 +43,6 @@ class Lesson
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
-        $this->status = "not_started";
     }
 
     public function getId(): ?int
@@ -67,18 +62,6 @@ class Lesson
         return $this;
     }
 
-    public function getContents(): ?string
-    {
-        return $this->contents;
-    }
-
-    public function setContents(string $contents): static
-    {
-        $this->contents = $contents;
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -87,6 +70,18 @@ class Lesson
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDuration(): ?\DateTimeInterface
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(\DateTimeInterface $duration): static
+    {
+        $this->duration = $duration;
 
         return $this;
     }
@@ -111,18 +106,6 @@ class Lesson
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getDuration(): ?\DateTimeInterface
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(\DateTimeInterface $duration): static
-    {
-        $this->duration = $duration;
 
         return $this;
     }
