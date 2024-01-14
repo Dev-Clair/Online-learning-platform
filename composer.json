@@ -11,6 +11,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^2.16",
     "predis/predis": "^2.2",
+    "stof/doctrine-extensions-bundle": "^1.10",
     "symfony/asset": "6.3.*",
     "symfony/cache": "6.3.*",
     "symfony/console": "6.3.*",
@@ -70,7 +71,7 @@
   },
   "extra": {
     "symfony": {
-      "allow-contrib": false,
+      "allow-contrib": true,
       "require": "6.3.*"
     }
   },
