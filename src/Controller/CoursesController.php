@@ -432,8 +432,10 @@ class CoursesController extends AbstractController
         #[MapEntity(id: 'id')] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($course->reviewExistsForUser($this->getUser())) {
-            $this->addFlash('error', 'Sorry! You Can Only Add One Review Per Enrolled Course. Kindly Modify your previous review if your impression about the course has changed. Thanks');
+        $verifyReviewExistsForUser = $course->reviewExistsForUser($this->getUser());
+
+        if ($verifyReviewExistsForUser) {
+            $this->addFlash('error', 'Sorry! You Can Only Add One Review Per Enrolled Course. Kindly Modify Your Previous Review If Your Impression About The Course Has Changed. Thanks');
 
             return $this->redirectToRoute('app_courses_reviews_index', ['id' => $course->getId()]);
         }
