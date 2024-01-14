@@ -62,7 +62,7 @@
 
       {% if app.user is not null %}
         <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
-          <a class="btn btn-sm btn-success rounded float-end" href="{{ path('app_courses_reviews_new', {'id': course_id}) }}">Add Review</a>
+          <a class="btn btn-sm btn-success rounded float-end" href="{{ path('app_courses_reviews_new', {'islug': course_slug}) }}">Add Review</a>
         </div>
       {% endif %}
 
@@ -84,11 +84,11 @@
                           ****
                         </a>
                         <div class="dropdown-menu fade-down">
-                          <a href="{{ path('app_courses_reviews_edit', {'id': review.course.id, 'rid': review.id}) }}" class="dropdown-item"> Modify
+                          <a href="{{ path('app_courses_reviews_edit', {'slug': review.course.slug, 'rid': review.id}) }}" class="dropdown-item"> Modify
                           </a>
                           
                           
-                          <a href="{{ path('app_courses_reviews_delete', {'id': review.course.id, 'rid': review.id}) }}" class="dropdown-item"> Delete
+                          <a href="{{ path('app_courses_reviews_delete', {'slug': review.course.slug, 'rid': review.id}) }}" class="dropdown-item"> Delete
                           </a>
                         </div>
                       </div>

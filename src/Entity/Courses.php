@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug as Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CoursesRepository::class)]
@@ -42,6 +43,10 @@ class Courses
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[Slug(fields: ['title'])]
+    #[ORM\Column(length: 100)]
+    private ?string $slug = null;
+
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -57,10 +62,11 @@ class Courses
 
     public function __construct()
     {
-        $this->createdAt = new \DateTimeImmutable();
         $this->enrollments = new ArrayCollection();
         $this->chapters = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -148,6 +154,18 @@ class Courses
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
