@@ -22,7 +22,7 @@ class Chapter
     private ?string $title = null;
 
     #[Slug(fields: ['title'])]
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $chapterslug = null;
 
     #[ORM\ManyToOne(inversedBy: 'chapters')]

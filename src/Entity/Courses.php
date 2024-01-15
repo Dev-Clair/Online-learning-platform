@@ -44,7 +44,7 @@ class Courses
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[Slug(fields: ['title'])]
-    #[ORM\Column(length: 255, nullable: false)]
+    #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
