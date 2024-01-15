@@ -94,18 +94,18 @@ class CoursesController extends AbstractController
 
     #[Route('/{slug}', name: 'app_courses_show', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
     public function courses_show(
-        #[MapEntity(slug: 'slug')] Courses $course
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course
     ): Response {
         return $this->render('courses/show.html.twig', [
             'course' => $course,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_courses_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'app_courses_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_edit(
         Request $request,
-        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
         if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
@@ -138,11 +138,10 @@ class CoursesController extends AbstractController
     * ************************************* Start:: Chapters CRUD ****************************
     *
     */
-
-    #[Route('/{id}/chapter', name: 'app_courses_chapter_index', methods: ['GET'])]
+    #[Route('/{slug}/chapter', name: 'app_courses_chapter_index', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_chapter_index(
-        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         ChapterRepository $chapterRepository
     ): Response {
         $chapters = $chapterRepository->findBy(['courses' => $course, 'user' => $this->getUser()]);
@@ -160,15 +159,15 @@ class CoursesController extends AbstractController
 
         return $this->render('courses/chapter/index.html.twig', [
             'chapters' => $chapters,
-            'course_id' => $course->getId()
+            'course_slug' => $course->getSlug()
         ]);
     }
 
-    #[Route('/{id}/chapter/new', name: 'app_courses_chapter_new', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/chapter/new', name: 'app_courses_chapter_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_chapter_new(
         Request $request,
-        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
         $chapter = new Chapter();
@@ -177,6 +176,8 @@ class CoursesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $chapter->setTitle(ucwords($form->get('title')->getData()));
+
             $chapter->setCourses($course);
 
             $chapter->setUser($this->getUser());
@@ -184,34 +185,34 @@ class CoursesController extends AbstractController
             $entityManager->persist($chapter);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courses_chapter_index', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courses_chapter_index', ['slug' => $course->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courses/chapter/new.html.twig', [
             'chapter' => $chapter,
             'form' => $form,
-            'course_id' => $course->getId()
+            'course_slug' => $course->getSlug()
         ]);
     }
 
-    #[Route('/{id}/chapter/{cid}', name: 'app_courses_chapter_show', methods: ['GET'])]
+    #[Route('/{slug}/chapter/{chapterslug}', name: 'app_courses_chapter_show', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_chapter_show(
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter
     ): Response {
         return $this->render('courses/chapter/show.html.twig', [
             'chapter' => $chapter,
-            'course_id' => $course->getId()
+            'course_slug' => $course->getSlug()
         ]);
     }
 
-    #[Route('/{id}/chapter/{cid}/edit', name: 'app_courses_chapter_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/chapter/{chapterslug}/edit', name: 'app_courses_chapter_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_chapter_edit(
         Request $request,
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         EntityManagerInterface $entityManager
     ): Response {
         $form = $this->createForm(ChapterType::class, $chapter);
@@ -220,13 +221,13 @@ class CoursesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_courses_chapter_index', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_courses_chapter_index', ['slug' => $course->getSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('courses/chapter/edit.html.twig', [
             'chapter' => $chapter,
             'form' => $form,
-            'course_id' => $course->getId()
+            'course_slug' => $course->getSlug()
         ]);
     }
 
@@ -235,11 +236,11 @@ class CoursesController extends AbstractController
     * ************************************* Start:: Lessons CRUD ****************************
     *
     */
-    #[Route('/{id}/chapter/{cid}/lesson', name: 'app_courses_lesson_index', methods: ['GET'])]
+    #[Route('/{slug}/chapter/{chapterslug}/lesson', name: 'app_courses_lesson_index', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_lesson_index(
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         LessonRepository $lessonRepository
     ): Response {
 
@@ -258,17 +259,17 @@ class CoursesController extends AbstractController
 
         return $this->render('courses/lesson/index.html.twig', [
             'lessons' => $lessons,
-            'course_id' => $course->getId(),
-            'chapter_id' => $chapter->getId()
+            'course_slug' => $course->getSlug(),
+            'chapter_slug' => $chapter->getChapterslug()
         ]);
     }
 
-    #[Route('/{id}/chapter/{cid}/lesson/new', name: 'app_courses_lesson_new', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/chapter/{chapterslug}/lesson/new', name: 'app_courses_lesson_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_lesson_new(
         Request $request,
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         EntityManagerInterface $entityManager
     ): Response {
         $lesson = new Lesson();
@@ -285,8 +286,8 @@ class CoursesController extends AbstractController
             return $this->redirectToRoute(
                 'app_courses_lesson_index',
                 [
-                    'id' => $course->getId(),
-                    'cid' => $chapter->getId()
+                    'slug' => $course->getslug(),
+                    'chapter_slug' => $chapter->getChapterslug()
                 ],
                 Response::HTTP_SEE_OTHER
             );
@@ -295,31 +296,31 @@ class CoursesController extends AbstractController
         return $this->render('lesson/new.html.twig', [
             'lesson' => $lesson,
             'form' => $form,
-            'course_id' => $course->getId(),
-            'chapter_id' => $chapter->getId()
+            'course_slug' => $course->getSlug(),
+            'chapter_slug' => $chapter->getChapterslug()
         ]);
     }
 
-    #[Route('/{id}/chapter/{cid}/lesson/{lid}', name: 'app_courses_lesson_show', methods: ['GET'])]
+    #[Route('/{slug}/chapter/{chapterslug}/lesson/{lid}', name: 'app_courses_lesson_show', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_lesson_show(
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         #[MapEntity(id: 'lid')] Lesson $lesson
     ): Response {
         return $this->render('lesson/show.html.twig', [
             'lesson' => $lesson,
-            'course_id' => $course->getId(),
-            'chapter_id' => $chapter->getId()
+            'course_slug' => $course->getSlug(),
+            'chapter_slug' => $chapter->getChapterslug()
         ]);
     }
 
-    #[Route('/{id}/chapter/{cid}/lesson/{lid}/edit', name: 'app_courses_lesson_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/chapter/{chapterslug}/lesson/{lid}/edit', name: 'app_courses_lesson_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_lesson_edit(
         Request $request,
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         #[MapEntity(id: 'lid')] Lesson $lesson,
         EntityManagerInterface $entityManager
     ): Response {
@@ -335,8 +336,8 @@ class CoursesController extends AbstractController
             return $this->redirectToRoute(
                 'app_courses_lesson_index',
                 [
-                    'id' => $course->getId(),
-                    'cid' => $chapter->getId()
+                    'slug' => $course->getSlug(),
+                    'chapter_slug' => $chapter->getChapterslug()
                 ],
                 Response::HTTP_SEE_OTHER
             );
@@ -345,18 +346,18 @@ class CoursesController extends AbstractController
         return $this->render('lesson/edit.html.twig', [
             'lesson' => $lesson,
             'form' => $form,
-            'course_id' => $course->getId(),
-            'chapter_id' => $chapter->getId()
+            'course_slug' => $course->getSlug(),
+            'chapter_slug' => $chapter->getChapterslug()
         ]);
     }
 
-    #[Route('/{id}/chapter/{cid}/lesson/{lid}', name: 'app_courses_lesson_delete', methods: ['POST'])]
+    #[Route('/{slug}/chapter/{chapterslug}/lesson/{lid}', name: 'app_courses_lesson_delete', methods: ['POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_lesson_delete(
         Request $request,
 
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         #[MapEntity(id: 'lid')] Lesson $lesson,
         EntityManagerInterface $entityManager
     ): Response {
@@ -368,8 +369,8 @@ class CoursesController extends AbstractController
         return $this->redirectToRoute(
             'app_courses_lesson_index',
             [
-                'id' => $course->getId(),
-                'cid' => $chapter->getId()
+                'slug' => $course->getSlug(),
+                'chapter_slug' => $chapter->getChapterslug()
             ],
             Response::HTTP_SEE_OTHER
         );
@@ -380,12 +381,12 @@ class CoursesController extends AbstractController
     *
     */
 
-    #[Route('/{id}/chapter/{cid}', name: 'app_courses_chapter_delete', methods: ['POST'])]
+    #[Route('/{slug}/chapter/{chapterslug}', name: 'app_courses_chapter_delete', methods: ['POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_chapter_delete(
         Request $request,
-        #[MapEntity(id: 'id')] Courses $course,
-        #[MapEntity(id: 'cid')] Chapter $chapter,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         EntityManagerInterface $entityManager
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $chapter->getId(), $request->request->get('_token'))) {
@@ -393,7 +394,7 @@ class CoursesController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_courses_chapter_index', ['id' => $course->getId()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_courses_chapter_index', ['slug' => $course->getSlug()], Response::HTTP_SEE_OTHER);
     }
     /*
     *
@@ -408,7 +409,7 @@ class CoursesController extends AbstractController
     */
     #[Route('/{slug}/review', name: 'app_courses_reviews_index', methods: ['GET'])]
     public function courses_reviews_index(
-        #[MapEntity(slug: 'slug')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         ReviewsRepository $reviewsRepository
     ): Response {
         $reviews = $reviewsRepository->findBy([
@@ -425,11 +426,11 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/review/new', name: 'app_courses_reviews_new', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/review/new', name: 'app_courses_reviews_new', methods: ['GET', 'POST'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_new(
         Request $request,
-        #[MapEntity(slug: 'slug')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
         $verifyReviewExistsForUser = $course->reviewExistsForUser($this->getUser());
@@ -473,10 +474,10 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/review/{rid}', name: 'app_courses_reviews_show', methods: ['GET'])]
+    #[Route('/{slug}/review/{rid}', name: 'app_courses_reviews_show', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_show(
-        #[MapEntity(slug: 'slug')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         #[MapEntity(id: 'rid')] Reviews $review
     ): Response {
         return $this->render('courses/reviews/show.html.twig', [
@@ -489,7 +490,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_edit(
         Request $request,
-        #[MapEntity(slug: 'slug')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         #[MapEntity(id: 'rid')] Reviews $review,
         EntityManagerInterface $entityManager
     ): Response {
@@ -516,11 +517,11 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/review/{rid}', name: 'app_courses_reviews_delete', methods: ['POST'])]
+    #[Route('/{slug}/review/{rid}', name: 'app_courses_reviews_delete', methods: ['POST'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_delete(
         Request $request,
-        #[MapEntity(slug: 'slug')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         #[MapEntity(id: 'rid')] Reviews $review,
         EntityManagerInterface $entityManager
     ): Response {
@@ -537,10 +538,10 @@ class CoursesController extends AbstractController
     *
     */
 
-    #[Route('/{slug}/enroll', name: 'app_courses_enroll', methods: ['GET'])]
+    #[Route('/{slug}/enroll', name: 'app_courses_enroll', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_enroll(
-        #[MapEntity(slug: 'slug')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
         $enrollment = new Enrollment;
@@ -556,10 +557,10 @@ class CoursesController extends AbstractController
         return $this->redirectToRoute('app_courses_index');
     }
 
-    #[Route('/{id}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
+    #[Route('/{slug}/unenroll', name: 'app_courses_unenroll', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_unenroll(
-        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         EnrollmentRepository $enrollmentRepository,
         EntityManagerInterface $entityManager
     ): Response {
@@ -575,10 +576,10 @@ class CoursesController extends AbstractController
         return $this->redirectToRoute('app_courses_index');
     }
 
-    #[Route('/{id}/enrolled', name: 'app_courses_enrolled', methods: ['GET'])]
+    #[Route('/{slug}/enrolled', name: 'app_courses_enrolled', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_enrolled(
-        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         EnrollmentRepository $enrollmentRepository
     ): Response {
         if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
@@ -590,15 +591,19 @@ class CoursesController extends AbstractController
 
         $enrollments = $enrollmentRepository->findBy(['courses' => $course]);
 
+        if (!$enrollments) {
+            $this->addFlash('error', 'No Enrollments Were Found For '  . $course->getTitle());
+        }
+
         return $this->render('courses/enrolled.html.twig', [
             'enrollments' => $enrollments ?? [],
         ]);
     }
 
-    #[Route('/{slug}/learning/lecture', name: 'app_courses_learning_lecture', methods: ['GET'])]
+    #[Route('/{slug}/learning/lecture', name: 'app_courses_learning_lecture', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_learning_lecture(
-        #[MapEntity(slug: 'slug')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
     ): Response {
         return $this->render(
             'courses/lecture.html.twig',
@@ -606,11 +611,11 @@ class CoursesController extends AbstractController
         );
     }
 
-    #[Route('/{id}', name: 'app_courses_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'app_courses_delete', methods: ['POST'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_delete(
         Request $request,
-        #[MapEntity(id: 'id')] Courses $course,
+        #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
         if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
