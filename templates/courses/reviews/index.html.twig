@@ -62,11 +62,11 @@
 
       {% if app.user is not null %}
         <div class="text-center wow fadeInUp mb-3" data-wow-delay="0.1s">
-          <a class="btn btn-sm btn-success rounded float-end" href="{{ path('app_courses_reviews_new', {'islug': course_slug}) }}">Add Review</a>
+          <a class="btn btn-sm btn-success rounded float-end" href="{{ path('app_courses_reviews_new', {'slug': course_slug}) }}">Add Review</a>
         </div>
       {% endif %}
 
-      <div class="row g-4 justify-content-left">
+      <div class="row g-4 justify-content-left py-5">
         {% for review in reviews %}
           <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="course-item bg-light">
