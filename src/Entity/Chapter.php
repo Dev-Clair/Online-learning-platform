@@ -6,6 +6,7 @@ use App\Repository\ChapterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChapterRepository::class)]
@@ -19,6 +20,10 @@ class Chapter
     #[Assert\NotBlank(message: 'Title field cannot be blank')]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
+
+    #[Slug(fields: ['title'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $chapterslug = null;
 
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
@@ -49,6 +54,18 @@ class Chapter
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getChapterslug(): ?string
+    {
+        return $this->chapterslug;
+    }
+
+    public function setChapterslug(?string $chapterslug): static
+    {
+        $this->chapterslug = $chapterslug;
 
         return $this;
     }
