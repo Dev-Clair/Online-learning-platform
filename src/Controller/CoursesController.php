@@ -474,11 +474,11 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/review/{rid}', name: 'app_courses_reviews_show', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
+    #[Route('/{slug}/review/{reviewslug}', name: 'app_courses_reviews_show', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_show(
         #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
-        #[MapEntity(id: 'rid')] Reviews $review
+        #[MapEntity(mapping: ['reviewslug' => 'reviewslug'])] Reviews $review
     ): Response {
         return $this->render('courses/reviews/show.html.twig', [
             'review' => $review,
@@ -486,21 +486,14 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/review/{rid}/edit', name: 'app_courses_reviews_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/review/{reviewslug}/edit', name: 'app_courses_reviews_edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_edit(
         Request $request,
         #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
-        #[MapEntity(id: 'rid')] Reviews $review,
+        #[MapEntity(mapping: ['reviewslug' => 'reviewslug'])] Reviews $review,
         EntityManagerInterface $entityManager
     ): Response {
-        // if ($this->getUser()->getUserIdentifier() !== $review->getUser()->getEmail()) {
-
-        //     $this->addFlash('warning', 'You can only modify a review you created.');
-
-        //     return $this->redirectToRoute('app_courses_reviews_index');
-        // }
-
         $form = $this->createForm(ReviewsType::class, $review);
         $form->handleRequest($request);
 
@@ -517,12 +510,12 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/review/{rid}', name: 'app_courses_reviews_delete', methods: ['POST'], requirements: ['slug' => '[^/]+'])]
+    #[Route('/{slug}/review/{reviewslug}', name: 'app_courses_reviews_delete', methods: ['POST'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_delete(
         Request $request,
         #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
-        #[MapEntity(id: 'rid')] Reviews $review,
+        #[MapEntity(mapping: ['reviewslug' => 'reviewslug'])] Reviews $review,
         EntityManagerInterface $entityManager
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $review->getId(), $request->request->get('_token'))) {

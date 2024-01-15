@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ReviewsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReviewsRepository::class)]
@@ -30,6 +31,10 @@ class Reviews
     #[Assert\NotBlank(message: "Message field cannot be blank")]
     #[ORM\Column(length: 255)]
     private ?string $review = null;
+
+    #[Slug(fields: ['name'])]
+    #[ORM\Column(length: 255)]
+    private ?string $reviewslug = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     private ?Courses $course = null;
@@ -74,6 +79,18 @@ class Reviews
     public function setReview(string $review): static
     {
         $this->review = $review;
+
+        return $this;
+    }
+
+    public function getReviewslug(): ?string
+    {
+        return $this->reviewslug;
+    }
+
+    public function setReviewslug(?string $reviewslug): static
+    {
+        $this->reviewslug = $reviewslug;
 
         return $this;
     }
