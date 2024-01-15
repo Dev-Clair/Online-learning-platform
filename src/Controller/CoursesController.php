@@ -593,7 +593,7 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}/learning/lecture', name: 'app_courses_learning_lecture', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
+    #[Route('/{slug}/lecture', name: 'app_courses_lecture', methods: ['GET'], requirements: ['slug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_learning_lecture(
         #[MapEntity(mapping: ['slug' => 'slug'])] Courses $course,
