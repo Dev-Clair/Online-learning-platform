@@ -58,12 +58,12 @@ class Chapter
         return $this;
     }
 
-    public function getChapterslug(): ?string
+    public function getChapterSlug(): ?string
     {
         return $this->chapterslug;
     }
 
-    public function setChapterslug(?string $chapterslug): static
+    public function setChapterSlug(?string $chapterslug): static
     {
         $this->chapterslug = $chapterslug;
 
