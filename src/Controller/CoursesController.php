@@ -203,7 +203,6 @@ class CoursesController extends AbstractController
         return $this->render('courses/chapter/show.html.twig', [
             'chapter' => $chapter,
             'course_slug' => $course->getCourseSlug(),
-            'chapter_slug' => $chapter->getChapterSlug()
         ]);
     }
 
@@ -228,7 +227,6 @@ class CoursesController extends AbstractController
             'chapter' => $chapter,
             'form' => $form,
             'course_slug' => $course->getCourseSlug(),
-            'chapter_slug' => $chapter->getChapterSlug()
         ]);
     }
 
@@ -289,7 +287,7 @@ class CoursesController extends AbstractController
             );
         }
 
-        return $this->render('lesson/new.html.twig', [
+        return $this->render('courses/lesson/new.html.twig', [
             'lesson' => $lesson,
             'form' => $form,
             'course_slug' => $course->getCourseSlug(),
@@ -304,7 +302,7 @@ class CoursesController extends AbstractController
         #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
         #[MapEntity(id: 'id')] Lesson $lesson
     ): Response {
-        return $this->render('lesson/show.html.twig', [
+        return $this->render('courses/lesson/show.html.twig', [
             'lesson' => $lesson,
             'course_slug' => $course->getCourseSlug(),
             'chapter_slug' => $chapter->getChapterSlug()
@@ -339,7 +337,7 @@ class CoursesController extends AbstractController
             );
         }
 
-        return $this->render('lesson/edit.html.twig', [
+        return $this->render('courses/lesson/edit.html.twig', [
             'lesson' => $lesson,
             'form' => $form,
             'course_slug' => $course->getCourseSlug(),
@@ -519,7 +517,7 @@ class CoursesController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCOurseSlug()], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()], Response::HTTP_SEE_OTHER);
     }
     /*
     *

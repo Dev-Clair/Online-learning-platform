@@ -1,25 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <div class="container-xxl py-5 category">
+    <div class="container-xxl py-5 category">
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
 
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
-    
-    {% for message in app.flashes('warning') %}
-        <div class="alert alert-warning">
-            {{ message }}
-        </div>
-    {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
 
     <div class="container scrollable-container py-2"> 
@@ -44,9 +44,10 @@
                     <td>{{ chapter.courses.title }}</td>
                     <td>{{ chapter.courses.user.firstName }} {{ chapter.courses.user.lastName }}</td>
                     <td class="btn btn-group">
-                        <a class="btn btn-primary rounded btn-sm" href="{{ path('app_courses_chapter_show', {'courseslug': course_slug, 'chapterslug': chapter_slug}) }}">
-                            <i class="fas fa-eye"></i> </a>
-                        <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_chapter_edit', {'courseslug': course_slug, 'chapterslug': chapter_slug}) }}">
+                        <a class="btn btn-primary rounded btn-sm" href="{{ path('app_courses_chapter_show', {'courseslug': course_slug, 'chapterslug': chapter.chapterslug}) }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_chapter_edit', {'courseslug': course_slug, 'chapterslug': chapter.chapterslug}) }}">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
