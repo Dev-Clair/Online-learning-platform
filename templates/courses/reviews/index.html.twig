@@ -84,11 +84,11 @@
                           ****
                         </a>
                         <div class="dropdown-menu fade-down">
-                          <a href="{{ path('app_courses_reviews_edit', {'courseslug': review.course.courseslug, 'reviewslug': review.reviewslug}) }}" class="dropdown-item"> Modify
+                          <a href="{{ path('app_courses_reviews_edit', {'courseslug': course_slug, 'reviewslug': review.reviewslug}) }}" class="dropdown-item"> Modify
                           </a>
                           
                           
-                          <a href="{{ path('app_courses_reviews_delete', {'courseslug': review.course.courseslug, 'reviewslug': review.reviewslug}) }}" class="dropdown-item"> Delete
+                          <a href="{{ path('app_courses_reviews_delete', {'courseslug': course_slug, 'reviewslug': review.reviewslug}) }}" class="dropdown-item"> Delete
                           </a>
                         </div>
                       </div>
