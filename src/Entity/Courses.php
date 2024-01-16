@@ -45,7 +45,7 @@ class Courses
 
     #[Slug(fields: ['title'])]
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    private ?string $courseslug = null;
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
@@ -158,14 +158,14 @@ class Courses
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getCourseSlug(): ?string
     {
-        return $this->slug;
+        return $this->courseslug;
     }
 
-    public function setSlug(string $slug): static
+    public function setCourseSlug(string $courseslug): static
     {
-        $this->slug = $slug;
+        $this->courseslug = $courseslug;
 
         return $this;
     }
