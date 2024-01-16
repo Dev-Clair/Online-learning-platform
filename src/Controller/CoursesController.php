@@ -620,7 +620,12 @@ class CoursesController extends AbstractController
         return $this->redirectToRoute('app_courses_index');
     }
 
-    protected function courses_last_accessed(Courses $course, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager): Response
+    /**
+     * 
+     * Triggered on pre-logout event or session-expiry event
+     * 
+     */
+    protected function last_accessed(Courses $course, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager): Response
     {
         $course = $coursesRepository->findOneBy(['user' => $this->getUser(), 'courses' => $course]);
 
@@ -629,14 +634,15 @@ class CoursesController extends AbstractController
         $entityManager->persist($course);
         $entityManager->flush();
 
-        /**
-         * Triggered pre logout action
-         */
-
         return $this->redirectToRoute('app_courses_learning');
     }
 
-    protected function courses_completed(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
+    /**
+     * 
+     * Triggered on course completion event >>> Triggers course completion mail event
+     * 
+     */
+    protected function course_completed(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $course->getUser();
         $enrollment = $enrollmentRepository->findOneBy(['user' => $user, 'courses' => $course]);
@@ -646,12 +652,22 @@ class CoursesController extends AbstractController
         $entityManager->persist($enrollment);
         $entityManager->flush();
 
-        /**
-         * Triggered on course completion
-         * 
-         * Triggers course completion mail event
-         */
-
         return $this->redirectToRoute('app_courses_learning');
+    }
+
+    /**
+     * Triggered on lesson completion
+     * 
+     */
+    protected function lesson_status(Chapter $chapter, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): void
+    {
+        $lesson = $lessonRepository->findOneBy(['chapter' => $chapter]);
+
+        $lesson->setStatus('completed');
+
+        $entityManager->persist($lesson);
+        $entityManager->flush();
+
+        return;
     }
 }
