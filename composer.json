@@ -11,6 +11,7 @@
     "doctrine/doctrine-migrations-bundle": "^3.3",
     "doctrine/orm": "^2.16",
     "predis/predis": "^2.2",
+    "ramsey/uuid-doctrine": "^2.0",
     "stof/doctrine-extensions-bundle": "^1.10",
     "symfony/asset": "6.3.*",
     "symfony/cache": "6.3.*",

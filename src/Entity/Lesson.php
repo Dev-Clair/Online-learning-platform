@@ -4,15 +4,16 @@ namespace App\Entity;
 
 use App\Repository\LessonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LessonRepository::class)]
 class Lesson
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[ORM\Column(type: 'uuid_binary_ordered_time')]
+    private ?string $id = null;
 
     #[Assert\NotBlank(message: 'Title field cannot be blank')]
     #[ORM\Column(length: 255)]
@@ -44,7 +45,7 @@ class Lesson
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
