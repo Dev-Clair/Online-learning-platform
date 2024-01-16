@@ -584,7 +584,6 @@ class CoursesController extends AbstractController
 
         return $this->render('courses/enrolled.html.twig', [
             'enrollments' => $enrollments,
-            'course_slug' => $course->getCourseSlug()
         ]);
     }
 
