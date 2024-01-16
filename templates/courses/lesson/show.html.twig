@@ -15,10 +15,6 @@
                     <td>{{ lesson.title }}</td>
                 </tr>
                 <tr>
-                    <th>Contents</th>
-                    <td>{{ lesson.contents }}</td>
-                </tr>
-                <tr>
                     <th>Duration</th>
                     <td>{{ lesson.duration|date('H:i:s') }}</td>
                 </tr>
@@ -41,7 +37,7 @@
 
                 <a class="btn btn-info rounded btn-sm" href="{{ path('app_courses_lesson_edit', {'courseslug': course_slug, 'chapterslug': chapter_slug, 'id': lesson.id}) }}"><i class="fas fa-edit"></i>
                 </a>
-                
+
                 {{ include('lesson/_delete_form.html.twig') }}
             </div>
         {% endif %}

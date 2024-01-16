@@ -29,7 +29,6 @@
             <tr>
                 <th>Id</th>
                 <th>Title</th>
-                <th>Contents</th>
                 <th>Duration</th>
                 <th>Created</th>
                 <th>Updated</th>
@@ -41,7 +40,6 @@
                 <tr>
                     <td>{{ lesson.id }}</td>
                     <td>{{ lesson.title }}</td>
-                    <td>{{ lesson.contents }}</td>
                     <td>{{ lesson.duration|date('H:i:s') }}</td>
                     <td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ lesson.updatedAt ? lesson.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
@@ -52,7 +50,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="7">no records found</td>
+                    <td colspan="6">no records found</td>
                 </tr>
             {% endfor %}
             </tbody>
