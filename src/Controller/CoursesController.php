@@ -202,7 +202,8 @@ class CoursesController extends AbstractController
     ): Response {
         return $this->render('courses/chapter/show.html.twig', [
             'chapter' => $chapter,
-            'course_slug' => $course->getCourseSlug()
+            'course_slug' => $course->getCourseSlug(),
+            'chapter_slug' => $chapter->getChapterSlug()
         ]);
     }
 
@@ -226,7 +227,8 @@ class CoursesController extends AbstractController
         return $this->render('courses/chapter/edit.html.twig', [
             'chapter' => $chapter,
             'form' => $form,
-            'course_slug' => $course->getCourseSlug()
+            'course_slug' => $course->getCourseSlug(),
+            'chapter_slug' => $chapter->getChapterSlug()
         ]);
     }
 

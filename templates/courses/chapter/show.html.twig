@@ -26,9 +26,9 @@
         </table>
 
         <div class="mb-2 btn-group float-end">
-            <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_chapter_index', {'courseslug':course_slug}) }}"> <<< </a>
+            <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_chapter_index', {'courseslug': course_slug}) }}"> <<< </a>
 
-            <a class="btn btn-info rounded btn-sm" href="{{ path('app_courses_lesson_index', {'courseslug': chapter.courses.courseslug, 'chapterslug': chapter.chapterslug}) }}"><i class="fas fa-edit"></i>
+            <a class="btn btn-info rounded btn-sm" href="{{ path('app_courses_lesson_index', {'courseslug': course_slug, 'chapterslug': chapter_slug}) }}"><i class="fas fa-edit"></i>
             </a>
 
             {{ include('courses/chapter/_delete_form.html.twig') }}
