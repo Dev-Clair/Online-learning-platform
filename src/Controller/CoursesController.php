@@ -539,7 +539,7 @@ class CoursesController extends AbstractController
         $entityManager->persist($enrollment);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Congratulations! You Have Erolled For '  . $course->getTitle());
+        $this->addFlash('success', 'Congratulations! You Have Enrolled For '  . $course->getTitle());
 
         return $this->redirectToRoute('app_courses_index');
     }
@@ -584,6 +584,7 @@ class CoursesController extends AbstractController
 
         return $this->render('courses/enrolled.html.twig', [
             'enrollments' => $enrollments,
+            'course_slug' => $course->getCourseSlug()
         ]);
     }
 
