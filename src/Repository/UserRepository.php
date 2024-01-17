@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
+use App\Entity\Users\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -37,44 +37,5 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
-    }
-
-    public function getGlobal()
-    {
-        try {
-            return $this->createQueryBuilder('u')
-                ->where('u.roles NOT LIKE :role')
-                ->setParameter('role', '%ROLE_SUPER_ADMIN%')
-                ->getQuery()
-                ->getResult();
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    public function getInstructors()
-    {
-        try {
-            return $this->createQueryBuilder('u')
-                ->where('u.roles like :role')
-                ->setParameter('role', '%ROLE_INSTRUCTOR%')
-                ->getQuery()
-                ->getResult();
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    public function getStudents()
-    {
-        try {
-            return $this->createQueryBuilder('u')
-                ->where('u.roles like :role')
-                ->setParameter('role', '%ROLE_STUDENT%')
-                ->getQuery()
-                ->getResult();
-        } catch (\Exception $e) {
-            return null;
-        }
     }
 }
