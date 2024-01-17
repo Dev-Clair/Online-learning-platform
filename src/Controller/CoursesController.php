@@ -55,7 +55,7 @@ class CoursesController extends AbstractController
 
             $course->setDescription(ucwords($form->get('description')->getData()));
 
-            $course->setUser($this->getUser());
+            $course->setInstructor($this->getUser());
 
             $entityManager->persist($course);
             $entityManager->flush();
@@ -107,7 +107,7 @@ class CoursesController extends AbstractController
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
+        if ($this->getUser()->getUserIdentifier() !== $course->getInstructor()->getEmail()) {
 
             $this->addFlash('warning', 'You Are Not Authorized To Edit This Course.');
 
@@ -118,8 +118,6 @@ class CoursesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $course->setUpdatedAt(new \DateTimeImmutable());
 
             $entityManager->flush();
 
@@ -146,7 +144,7 @@ class CoursesController extends AbstractController
         $chapters = $chapterRepository->findBy(['courses' => $course, 'user' => $this->getUser()]);
 
         if (!$chapters) {
-            if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
+            if ($this->getUser()->getUserIdentifier() !== $course->getInstructor()->getEmail()) {
 
                 $this->addFlash('warning', 'You Cannot Access Or Modify This Course.');
 
@@ -179,7 +177,7 @@ class CoursesController extends AbstractController
 
             $chapter->setCourses($course);
 
-            $chapter->setUser($this->getUser());
+            $chapter->setInstructor($this->getUser());
 
             $entityManager->persist($chapter);
             $entityManager->flush();
@@ -272,7 +270,7 @@ class CoursesController extends AbstractController
 
             $lesson->setChapter($chapter);
 
-            $lesson->setUser($this->getUser());
+            $lesson->setInstructor($this->getUser());
 
             $entityManager->persist($lesson);
             $entityManager->flush();
@@ -322,8 +320,6 @@ class CoursesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $lesson->setUpdatedAt(new \DateTimeImmutable());
 
             $entityManager->flush();
 
@@ -427,7 +423,7 @@ class CoursesController extends AbstractController
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
-        $verifyReviewExistsForUser = $course->reviewExistsForUser($this->getUser());
+        $verifyReviewExistsForUser = $course->reviewExistsForStudent($this->getUser());
 
         if ($verifyReviewExistsForUser) {
             $this->addFlash('error', 'Sorry! You Can Only Add One Review Per Enrolled Course. Kindly Modify Your Previous Review If Your Impression About The Course Has Changed. Thanks');
@@ -435,7 +431,7 @@ class CoursesController extends AbstractController
             return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()]);
         }
 
-        $verifyUserIsEnrolled = $course->isUserEnrolled($this->getUser());
+        $verifyUserIsEnrolled = $course->isStudentEnrolled($this->getUser());
 
         if (!$verifyUserIsEnrolled) {
             $this->addFlash('warning', 'Sorry! You Can Only Add Reviews To Courses You Are Enrolled In. Thanks');
@@ -453,7 +449,7 @@ class CoursesController extends AbstractController
 
             $review->setCourse($course);
 
-            $review->setUser($this->getUser());
+            $review->setStudent($this->getUser());
 
             $entityManager->persist($review);
             $entityManager->flush();
@@ -533,7 +529,7 @@ class CoursesController extends AbstractController
     ): Response {
         $enrollment = new Enrollment;
         $enrollment->setEnrolledDate(new \DateTimeImmutable());
-        $enrollment->setUser($this->getUser());
+        $enrollment->setStudent($this->getUser());
         $enrollment->setCourses($course);
 
         $entityManager->persist($enrollment);
@@ -557,7 +553,7 @@ class CoursesController extends AbstractController
             $entityManager->remove($enrollment);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Successfully Unenrolled ' . $enrollment->getUser()->getFirstname() . ' From '  . $course->getTitle());
+            $this->addFlash('success', 'Successfully Unenrolled ' . $enrollment->getStudent()->getFirstname() . ' From '  . $course->getTitle());
         }
 
         return $this->redirectToRoute('app_courses_index');
@@ -569,7 +565,7 @@ class CoursesController extends AbstractController
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
         EnrollmentRepository $enrollmentRepository
     ): Response {
-        if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
+        if ($this->getUser()->getUserIdentifier() !== $course->getInstructor()->getEmail()) {
 
             $this->addFlash('warning', 'You Can Only See Students Enrolled In Your Course.');
 
@@ -605,7 +601,7 @@ class CoursesController extends AbstractController
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
         EntityManagerInterface $entityManager
     ): Response {
-        if ($this->getUser()->getUserIdentifier() !== $course->getUser()->getEmail()) {
+        if ($this->getUser()->getUserIdentifier() !== $course->getInstructor()->getEmail()) {
 
             $this->addFlash('warning', 'You Are Not Authorized To Delete This Course.');
 
@@ -642,11 +638,8 @@ class CoursesController extends AbstractController
      * Triggered on course completion event >>> Triggers course completion mail event
      * 
      */
-    protected function course_completed(Courses $course, EnrollmentRepository $enrollmentRepository, EntityManagerInterface $entityManager): Response
+    protected function course_completed(Enrollment $enrollment, EntityManagerInterface $entityManager): Response
     {
-        $user = $course->getUser();
-        $enrollment = $enrollmentRepository->findOneBy(['user' => $user, 'courses' => $course]);
-
         $enrollment->setCompletionDate(new \DateTimeImmutable());
 
         $entityManager->persist($enrollment);

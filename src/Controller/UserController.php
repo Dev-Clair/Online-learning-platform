@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use app\Entity\Users\Admin;
+use App\Entity\Users\Instructor;
+use App\Entity\Users\Student;
+use App\Entity\Users\User;
 use App\Form\UserType;
 use App\Repository\CoursesRepository;
-use App\Repository\UserRepository;
+use App\Repository\AdminRepository;
+use App\Repository\InstructorRepository;
+use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,44 +18,34 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('admin/user')]
+#[Route('admin/')]
 #[IsGranted('ROLE_ADMIN')]
-class UserController extends AbstractController
+class AdminController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    #[Route('/', name: 'app_admin_index', methods: ['GET'])]
+    public function index(AdminRepository $adminRepository): Response
     {
-        $users = $userRepository->getGlobal();
+        $users = $adminRepository->getGlobal();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
         ]);
     }
 
-    // #[Route('/team', name: 'app_admin_user_team', methods: ['GET'])]
-    // public function index_team(UserRepository $userRepository): Response
-    // {
-    //     $users = $userRepository->getTeam();
-
-    //     return $this->render('user/index.html.twig', [
-    //         'users' => $users,
-    //     ]);
-    // }
-
-    #[Route('/instructors', name: 'app_admin_user_instructors', methods: ['GET'])]
-    public function index_instructors(UserRepository $userRepository): Response
+    #[Route('/instructors', name: 'app_admin_instructors', methods: ['GET'])]
+    public function index_instructors(InstructorRepository $adminRepository): Response
     {
-        $users = $userRepository->getInstructors();
+        $users = $adminRepository->getInstructors();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
         ]);
     }
 
-    #[Route('/students', name: 'app_admin_user_students', methods: ['GET'])]
-    public function index_students(UserRepository $userRepository): Response
+    #[Route('/students', name: 'app_admin_students', methods: ['GET'])]
+    public function index_students(StudentRepository $studentRepository): Response
     {
-        $users = $userRepository->getStudents();
+        $users = $studentRepository->getStudents();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
@@ -65,10 +60,10 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_user_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_admin_instructor_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = new User;
+        $user = new Instructor;
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -85,12 +80,12 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Send email to user with link/token to create password
+            // Send email to instructor with link/token to create password
             /**
              *  Require Mailer
              */
 
-            return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/new.html.twig', [
@@ -99,7 +94,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_user_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_admin_show', methods: ['GET'])]
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
@@ -107,7 +102,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_user_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_admin_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -123,8 +118,6 @@ class UserController extends AbstractController
 
             $user->setRoles($form->get('roles')->getData());
 
-            $user->setUpdatedAt(new \DateTimeImmutable());
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
@@ -136,7 +129,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_user_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'app_admin_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
