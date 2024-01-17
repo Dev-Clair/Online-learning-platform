@@ -2,18 +2,25 @@
 
 namespace App\Entity;
 
+use App\Entity\Users\Student;
 use App\Repository\ReviewsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReviewsRepository::class)]
 class Reviews
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[Assert\NotBlank(message: "Name field cannot be blank")]
     #[Assert\Regex(
@@ -40,9 +47,9 @@ class Reviews
     private ?Courses $course = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
-    private ?User $user = null;
+    private ?Student $student = null;
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -107,14 +114,14 @@ class Reviews
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getStudent(): ?Student
     {
-        return $this->user;
+        return $this->student;
     }
 
-    public function setUser(?User $user): static
+    public function setStudent(?Student $student): static
     {
-        $this->user = $user;
+        $this->student = $student;
 
         return $this;
     }

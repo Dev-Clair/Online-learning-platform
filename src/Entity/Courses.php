@@ -2,21 +2,29 @@
 
 namespace App\Entity;
 
+use App\Entity\Users\Instructor;
+use App\Entity\Users\Student;
 use App\Repository\CoursesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CoursesRepository::class)]
 class Courses
 {
+    use TimestampableEntity;
+
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[Assert\NotBlank(message: 'Title field cannot be blank')]
     #[ORM\Column(length: 255)]
@@ -37,19 +45,13 @@ class Courses
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $lastAccessed = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
     #[Slug(fields: ['title'])]
     #[ORM\Column(length: 255)]
     private ?string $courseslug = null;
 
     #[ORM\ManyToOne(inversedBy: 'courses')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?Instructor $instructor = null;
 
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]
     private Collection $enrollments;
@@ -64,12 +66,9 @@ class Courses
     {
         $this->enrollments = new ArrayCollection();
         $this->chapters = new ArrayCollection();
-        $this->reviews = new ArrayCollection();
-
-        $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -134,30 +133,6 @@ class Courses
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
     public function getCourseSlug(): ?string
     {
         return $this->courseslug;
@@ -170,14 +145,14 @@ class Courses
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getInstructor(): ?Instructor
     {
-        return $this->user;
+        return $this->instructor;
     }
 
-    public function setUser(?User $user): static
+    public function setInstructor(?Instructor $instructor): static
     {
-        $this->user = $user;
+        $this->instructor = $instructor;
 
         return $this;
     }
@@ -212,10 +187,10 @@ class Courses
         return $this;
     }
 
-    public function isUserEnrolled(User $user): bool
+    public function isStudentEnrolled(Student $student): bool
     {
         foreach ($this->enrollments as $enrollment) {
-            if ($enrollment->getUser() === $user) {
+            if ($enrollment->getStudent() === $student) {
                 return true;
             }
         }
@@ -283,10 +258,10 @@ class Courses
         return $this;
     }
 
-    public function reviewExistsForUser(User $user): bool
+    public function reviewExistsForStudent(Student $student): bool
     {
         foreach ($this->reviews as $review) {
-            if ($review->getUser() === $user) {
+            if ($review->getStudent() === $student) {
                 return true;
             }
         }

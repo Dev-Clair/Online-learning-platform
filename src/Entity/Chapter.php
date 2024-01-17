@@ -2,20 +2,24 @@
 
 namespace App\Entity;
 
+use App\Entity\Users\Instructor;
 use App\Repository\ChapterRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Slug;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChapterRepository::class)]
 class Chapter
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[Assert\NotBlank(message: 'Title field cannot be blank')]
     #[ORM\Column(length: 255)]
@@ -31,7 +35,7 @@ class Chapter
 
     #[ORM\ManyToOne(inversedBy: 'chapters')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?Instructor $instructor = null;
 
     #[ORM\OneToMany(mappedBy: 'chapter', targetEntity: Lesson::class)]
     private Collection $lessons;
@@ -41,7 +45,7 @@ class Chapter
         $this->lessons = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -82,6 +86,18 @@ class Chapter
         return $this;
     }
 
+    public function getInstructor(): ?Instructor
+    {
+        return $this->instructor;
+    }
+
+    public function setInstructor(?Instructor $instructor): static
+    {
+        $this->instructor = $instructor;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Lesson>
      */
@@ -108,18 +124,6 @@ class Chapter
                 $lesson->setChapter(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }

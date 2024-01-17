@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Users\Instructor;
 use App\Repository\LessonRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
@@ -34,18 +35,7 @@ class Lesson
 
     #[ORM\ManyToOne(inversedBy: 'lessons')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updatedAt = null;
-
-    public function __construct()
-    {
-        $this->createdAt = new \DateTimeImmutable();
-    }
+    private ?Instructor $instructor = null;
 
     public function getId(): string
     {
@@ -88,30 +78,6 @@ class Lesson
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
     public function getChapter(): ?Chapter
     {
         return $this->chapter;
@@ -124,14 +90,14 @@ class Lesson
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getInstructor(): ?Instructor
     {
-        return $this->user;
+        return $this->instructor;
     }
 
-    public function setUser(?User $user): static
+    public function setInstructor(?Instructor $instructor): static
     {
-        $this->user = $user;
+        $this->instructor = $instructor;
 
         return $this;
     }

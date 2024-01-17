@@ -2,16 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Users\Student;
 use App\Repository\EnrollmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Entity(repositoryClass: EnrollmentRepository::class)]
 class Enrollment
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $enrolledDate = null;
@@ -20,12 +24,12 @@ class Enrollment
     private ?\DateTimeImmutable $completionDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'enrollments')]
-    private ?User $user = null;
+    private ?Student $student = null;
 
     #[ORM\ManyToOne(inversedBy: 'enrollments')]
     private ?Courses $courses = null;
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
@@ -54,14 +58,14 @@ class Enrollment
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getStudent(): ?Student
     {
-        return $this->user;
+        return $this->student;
     }
 
-    public function setUser(?User $user): static
+    public function setStudent(?Student $student): static
     {
-        $this->user = $user;
+        $this->student = $student;
 
         return $this;
     }
