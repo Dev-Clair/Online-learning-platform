@@ -2,22 +2,21 @@
 
 namespace App\Entity;
 
+use App\Entity\Users\User;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 class Profile
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
-    #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTime $dateOfBirth = null;
@@ -28,7 +27,12 @@ class Profile
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $country = null;
 
-    public function getId(): ?int
+    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
+    #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    public function getId(): string
     {
         return $this->id;
     }

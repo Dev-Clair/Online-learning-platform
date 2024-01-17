@@ -4,15 +4,18 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[Assert\NotBlank(message: "Name field cannot be blank")]
     #[Assert\Regex(
@@ -49,7 +52,7 @@ class Contact
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }

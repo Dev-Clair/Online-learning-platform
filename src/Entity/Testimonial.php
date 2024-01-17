@@ -4,15 +4,18 @@ namespace App\Entity;
 
 use App\Repository\TestimonialRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TestimonialRepository::class)]
 class Testimonial
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[Assert\NotBlank(message: "Name field cannot be blank")]
     #[Assert\Regex(
@@ -30,7 +33,7 @@ class Testimonial
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $testimonial = null;
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
