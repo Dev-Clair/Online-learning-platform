@@ -29,9 +29,9 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $user->setFirstname($form->get('firstName')->getData());
+            $user->setFirstname(ucwords($form->get('firstName')->getData()));
 
-            $user->setLastname($form->get('lastName')->getData());
+            $user->setLastname(ucwords($form->get('lastName')->getData()));
 
             $user->setRoles(["ROLE_STUDENT"]);
 
