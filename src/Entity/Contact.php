@@ -39,13 +39,13 @@ class Contact
     private ?string $message = null;
 
     #[ORM\Column]
+    private ?int $status = null;
+
+    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $resolvedAt = null;
-
-    #[ORM\Column]
-    private ?int $status = null;
 
     public function __construct()
     {
@@ -105,6 +105,18 @@ class Contact
         return $this;
     }
 
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -125,18 +137,6 @@ class Contact
     public function setResolvedAt(\DateTimeImmutable $resolvedAt): static
     {
         $this->resolvedAt = $resolvedAt;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }
