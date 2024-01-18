@@ -9,18 +9,10 @@ use App\Repository\InstructorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Ramsey\Uuid\Doctrine\UuidGenerator;
-use Ramsey\Uuid\UuidInterface;
 
 #[ORM\Entity(repositoryClass: InstructorRepository::class)]
 class Instructor extends User
 {
-    #[ORM\Id]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
-    private UuidInterface|string $id;
-
     #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: Courses::class)]
     private Collection $courses;
 
@@ -38,13 +30,6 @@ class Instructor extends User
         $this->chapters = new ArrayCollection();
         $this->lessons = new ArrayCollection();
     }
-
-
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
     /**
      * @return Collection<int, Courses>
      */
