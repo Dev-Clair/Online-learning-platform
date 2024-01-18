@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Profile;
 use App\Form\ProfileType;
-use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,13 +33,12 @@ class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_profile_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_profile_show', ['id' => $profile->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('profile/edit.html.twig', [
             'profile' => $profile,
             'form' => $form,
-            'profile_id' => $profile->getId()
         ]);
     }
 }
