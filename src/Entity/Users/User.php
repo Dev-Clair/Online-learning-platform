@@ -61,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $userslug = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Profile $profile = null;
+    private Profile $profile;
 
     public function __construct()
     {

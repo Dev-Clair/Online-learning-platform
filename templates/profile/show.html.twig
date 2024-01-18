@@ -22,10 +22,7 @@
         </table>
         
         <div class="mb-2 btn-group float-end">
-            {% if 'ROLE_ADMIN' in app.user.roles %}
-            <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_profile_index') }}"> <<< </a>
-            {% endif %}
-            <a class="btn btn-info rounded btn-sm" href="{{ path('app_profile_edit', {'id': profile.id}) }}"><i class="fas fa-edit"> Update</i>
+            <a class="btn btn-info rounded btn-sm" href="{{ path('app_profile_edit', {'id': profile.id}) }}"><i class="fas fa-edit">Update Profile</i>
             </a>
 
             {{ include('profile/_delete_form.html.twig') }}
