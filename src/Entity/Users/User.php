@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\MappedSuperclass;
 use Gedmo\Mapping\Annotation\Slug;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Ramsey\Uuid\Doctrine\UuidGenerator;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -14,9 +16,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[MappedSuperclass()]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableEntity;
+
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    private UuidInterface|string $id;
 
     #[Assert\NotBlank(message: "First name field cannot be blank")]
     #[Assert\Regex(
@@ -52,15 +60,18 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $userslug = null;
 
-    #[Assert\Type(Profile::class)]
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Profile $userProfile = null;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Profile $profile = null;
 
     public function __construct()
     {
-        // Create and assign new profile to user
-        $this->userProfile = new Profile;
-        $this->userProfile->setUser($this);
+        // Create and assign new profile to user on instantiation
+        $this->profile = new Profile;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     public function getFirstname(): ?string
@@ -166,19 +177,14 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getUserProfile(): ?Profile
+    public function getProfile(): ?Profile
     {
-        return $this->userProfile;
+        return $this->profile;
     }
 
-    public function setUserProfile(Profile $userProfile): static
+    public function setProfile(?Profile $profile): static
     {
-        // set the owning side of the relation if necessary
-        if ($userProfile->getUser() !== $this) {
-            $userProfile->setUser($this);
-        }
-
-        $this->userProfile = $userProfile;
+        $this->profile = $profile;
 
         return $this;
     }

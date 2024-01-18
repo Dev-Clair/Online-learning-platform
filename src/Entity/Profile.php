@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Users\User;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 class Profile
@@ -23,11 +21,6 @@ class Profile
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $country = null;
-
-    #[Assert\Type(User::class, message: 'Value is not an instance of type' . User::class)]
-    #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     public function getId(): string
     {
@@ -54,18 +47,6 @@ class Profile
     public function setCountry(string $country): static
     {
         $this->country = $country;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): static
-    {
-        $this->user = $user;
 
         return $this;
     }
