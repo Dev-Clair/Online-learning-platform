@@ -5,51 +5,50 @@ namespace App\Controller;
 use App\Entity\Users\Admin;
 use App\Entity\Users\Instructor;
 use App\Entity\Users\Student;
-use App\Entity\Users\User;
 use App\Form\AdminType;
-use App\Form\UserType;
 use App\Repository\CoursesRepository;
 use App\Repository\AdminRepository;
 use App\Repository\InstructorRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[Route('admin/')]
-#[IsGranted('ROLE_ADMIN')]
+#[Route('/admin')]
+// #[IsGranted('ROLE_ADMIN')]
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'app_admin_index', methods: ['GET'])]
     public function index(AdminRepository $adminRepository): Response
     {
-        $users = $adminRepository->getGlobal();
+        $admins = $adminRepository->findAll();
 
         return $this->render('user/index.html.twig', [
-            'users' => $users,
+            'users' => $admins,
         ]);
     }
 
     #[Route('/instructors', name: 'app_admin_instructors', methods: ['GET'])]
     public function index_instructors(InstructorRepository $instructorRepository): Response
     {
-        $users = $instructorRepository->getInstructors();
+        $admins = $instructorRepository->getInstructors();
 
         return $this->render('user/index.html.twig', [
-            'users' => $users,
+            'users' => $admins,
         ]);
     }
 
     #[Route('/students', name: 'app_admin_students', methods: ['GET'])]
     public function index_students(StudentRepository $studentRepository): Response
     {
-        $users = $studentRepository->getStudents();
+        $admins = $studentRepository->getStudents();
 
         return $this->render('user/index.html.twig', [
-            'users' => $users,
+            'users' => $admins,
         ]);
     }
 
@@ -61,24 +60,22 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_instructor_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_admin_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = new Instructor;
-        $form = $this->createForm(AdminType::class, $user);
+        $admin = new Admin;
+        $form = $this->createForm(AdminType::class, $admin);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user->setFirstname(ucwords($form->get('firstName')->getData()));
+            $admin->setFirstname(ucwords($form->get('firstName')->getData()));
 
-            $user->setLastname(ucwords($form->get('lastName')->getData()));
+            $admin->setLastname(ucwords($form->get('lastName')->getData()));
 
-            $user->setEmail($form->get('email')->getData());
+            $admin->setRoles(['ROLE_ADMIN']);
 
-            $user->setRoles(['ROLE_INSTRUCTOR']);
-
-            $entityManager->persist($user);
+            $entityManager->persist($admin);
             $entityManager->flush();
 
             // Send email to instructor with link/token to create password
@@ -90,27 +87,37 @@ class AdminController extends AbstractController
         }
 
         return $this->render('user/new.html.twig', [
-            'user' => $user,
+            'user' => $admin,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_show', methods: ['GET'])]
-    public function show(User $user): Response
-    {
+    #[Route('/{userslug}', name: 'app_admin_show', methods: ['GET'])]
+    public function show(
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Admin $admin,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Instructor $instructor,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Student $student
+    ): Response {
         return $this->render('user/show.html.twig', [
-            'user' => $user,
+            'user' => $admin ?? $instructor ?? $student,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
+    #[Route('/{userslug}/edit', name: 'app_admin_edit', methods: ['GET', 'POST'])]
+    public function edit(
+        Request $request,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Admin $admin,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Instructor $instructor,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Student $student,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $user = $admin ?? $instructor ?? $student;
+
         $form = $this->createForm(AdminType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Retrieve the values from the form and Assign them to the user entity
+
             $user->setFirstname(ucwords($form->get('firstName')->getData()));
 
             $user->setLastname(ucwords($form->get('lastName')->getData()));
@@ -128,11 +135,11 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_delete', methods: ['POST'])]
-    public function delete(Request $request, Instructor $instructor, EntityManagerInterface $entityManager): Response
+    #[Route('/{userslug}', name: 'app_admin_delete', methods: ['POST'])]
+    public function delete(Request $request, Admin $admin, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $instructor->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($instructor);
+        if ($this->isCsrfTokenValid('delete' . $admin->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($admin);
             $entityManager->flush();
         }
 

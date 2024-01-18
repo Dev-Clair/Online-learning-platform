@@ -7,9 +7,9 @@
                     <div class="card bg-light text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
                             <div class="mb-4">
-                              <h4 class="fw-bold mb-5 text-primary d-flex justify-content-center align-items-center"> Update User Account ID &#128100;: {{ user.id }}</h4>
+                              <h4 class="fw-bold mb-5 text-primary d-flex justify-content-center align-items-center"> Update User </h4>
 
-                              {{ form_start(form, {'attr': {'id': 'form-edit-user'}}) }}
+                              {{ form_start(form, {'attr': {'id': 'form-edit-admin'}}) }}
 
                               {% if form_errors(form) %}
                                   <div class="alert alert-danger">
@@ -26,19 +26,15 @@
                               </div>
 
                               <div class="mb-4 text-primary">
-                                  {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter user email', 'disabled': false}}) }}
+                                  {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email', 'disabled': false}}) }}
                               </div>
 
-                              {# <div class="mb-4 text-primary">
-                                  {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter your password', 'disabled': true}}) }}
-                              </div> #}
-
-                              <div class="mb-4 form-check form-check-inline text-primary">
-                                  {{ form_row(form.roles, {'attr': {'class': 'form-check'}}) }}
+                              <div class="mb-4 text-primary">
+                                  {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter password', 'disabled': true}}) }}
                               </div>
 
                               <div class="mb-2">
-                                  <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_admin_user_index') }}"> <<< </a>
+                                  <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_admin_index') }}"> <<< </a>
                                   
                                   <button class="btn btn-primary rounded btn-sm" type="submit">Update</button>
                               </div>
