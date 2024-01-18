@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Profile;
-use App\Entity\User;
+use App\Entity\Users\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -22,7 +22,6 @@ class ProfileType extends AbstractType
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('address', TextareaType::class)
             ->add('country', CountryType::class, [
                 'mapped' => false,
                 'placeholder' => '-- Click to Select Country --',

@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="container py-5"> 
-        <h1>Profile</h1>
+        <h4>Profile</h4>
 
         <table class="table table-striped table-bordered mt-4">
             <tbody class="thead-dark text-center">
@@ -15,10 +15,6 @@
                     <td>{{ profile.dateOfBirth ? profile.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
                 <tr>
-                    <th>Address</th>
-                    <td>{{ profile.address }}</td>
-                </tr>
-                <tr>
                     <th>Country</th>
                     <td>{{ profile.country }}</td>
                 </tr>
@@ -27,7 +23,7 @@
         
         <div class="mb-2 btn-group float-end">
             {% if 'ROLE_ADMIN' in app.user.roles %}
-            <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_profile_admin_index') }}"> <<< </a>
+            <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_profile_index') }}"> <<< </a>
             {% endif %}
             <a class="btn btn-info rounded btn-sm" href="{{ path('app_profile_edit', {'id': profile.id}) }}"><i class="fas fa-edit"> Update</i>
             </a>

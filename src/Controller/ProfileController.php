@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Profile;
 use App\Form\ProfileType;
+use App\Repository\InstructorRepository;
 use App\Repository\ProfileRepository;
+use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/profile')]
 class ProfileController extends AbstractController
 {
-    #[Route('/admin', name: 'app_profile_admin_index', methods: ['GET'])]
+    #[Route('/', name: 'app_profile_index', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function index(ProfileRepository $profileRepository): Response
     {
@@ -25,9 +27,9 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/new', name: 'app_profile_admin_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'app_profile_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, InstructorRepository $instructorRepository, StudentRepository $studentRepository, EntityManagerInterface $entityManager): Response
     {
         $profile = new Profile();
         $form = $this->createForm(ProfileType::class, $profile);
@@ -37,7 +39,7 @@ class ProfileController extends AbstractController
 
             $id = $form->get('user')->getData();
 
-            $user = $userRepository?->findOneBy(['id' => $id]);
+            $user = $instructorRepository?->findOneBy(['id' => $id]) ?? $studentRepository?->findOneBy(['id' => $id]);
 
             $profile->setUser($user);
 
@@ -59,6 +61,7 @@ class ProfileController extends AbstractController
     {
         return $this->render('profile/show.html.twig', [
             'profile' => $profile,
+            'profile_id' => $profile->getId()
         ]);
     }
 
@@ -83,6 +86,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/edit.html.twig', [
             'profile' => $profile,
             'form' => $form,
+            'profile_id' => $profile->getId()
         ]);
     }
 

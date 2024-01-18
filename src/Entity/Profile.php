@@ -21,9 +21,6 @@ class Profile
     #[ORM\Column(nullable: true)]
     private ?\DateTime $dateOfBirth = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $address = null;
-
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $country = null;
 
@@ -45,18 +42,6 @@ class Profile
     public function setDateOfBirth(\DateTime $dateOfBirth): static
     {
         $this->dateOfBirth = $dateOfBirth;
-
-        return $this;
-    }
-
-    public function getAddress(): ?string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): static
-    {
-        $this->address = $address;
 
         return $this;
     }

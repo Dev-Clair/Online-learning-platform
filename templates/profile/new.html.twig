@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Profile{% endblock %}
-
 {% block body %}
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -24,10 +22,6 @@
                               </div>
 
                               <div class="mb-4 text-primary">
-                                  {{ form_row(form.address, {'attr': {'class':'form-control', 'placeholder': 'Enter your address here', 'style':'height:150px', 'disabled':true}}) }}
-                              </div>
-
-                              <div class="mb-4 text-primary">
                                   {{ form_row(form.country, {'attr': {'disabled':true}}) }}
                               </div>
 
@@ -36,7 +30,7 @@
                               </div>
 
                               <div class="mb-2">
-                                  <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_profile_admin_index') }}"> <<< </a>
+                                  <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_profile_show', {'id': profile_id}) }}"> <<< </a>
                                   
                                   <button class="btn btn-success btn-sm px-5" type="submit">Create</button>
                               </div>

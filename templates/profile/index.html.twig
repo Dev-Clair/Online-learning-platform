@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profiles{% endblock %}
-
 {% block body %}
     <div class="container scrollable-container py-5"> 
         <h4>Manage User Profiles</h4>
@@ -15,7 +13,6 @@
                 <tr>
                     <th>Id</th>
                     <th>DateOfBirth</th>
-                    <th>Address</th>
                     <th>Country</th>
                     <th>Actions</th>
                 </tr>
@@ -25,7 +22,6 @@
                 <tr>
                     <td>{{ profile.id }}</td>
                     <td>{{ profile.dateOfBirth ? profile.dateOfBirth|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ profile.address }}</td>
                     <td>{{ profile.country }}</td>
                     <td>
                         <a class="btn btn-primary rounded btn-sm" href="{{ path('app_profile_show', {'id': profile.id}) }}">
@@ -37,7 +33,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">no records found</td>
+                    <td colspan="4">no records found</td>
                 </tr>
             {% endfor %}
             </tbody>
