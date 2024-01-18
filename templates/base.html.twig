@@ -89,18 +89,9 @@
                   <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Accounts</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_admin_user_index') }}" class="dropdown-item">All Users</a>
-                        <a href="{{ path('app_admin_user_instructors') }}" class="dropdown-item">Instructors</a>
-                        <a href="{{ path('app_admin_user_students') }}" class="dropdown-item">Students</a>
-                    </div>
-                  </div>
-                  <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profiles</a>
-                    <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_profile_admin_index') }}" class="dropdown-item">All Profiles</a>
-                        {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-                          <a href="{{ path('app_profile_admin_new') }}" class="dropdown-item">New Profile</a>
-                        {% endif %}
+                        <a href="{{ path('app_admin_index') }}" class="dropdown-item">Admin</a>
+                        <a href="{{ path('app_admin_instructors') }}" class="dropdown-item">Instructors</a>
+                        <a href="{{ path('app_admin_students') }}" class="dropdown-item">Students</a>
                     </div>
                   </div>
                   <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Products</a>
@@ -146,7 +137,7 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile &#128100;</a>
                     <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_profile_show', {'id': app.user.id}) }}" class="dropdown-item">View Profile</a>
+                        <a href="{{ path('app_profile_show', {'id': app.user.profile.id}) }}" class="dropdown-item">View Profile</a>
                         <a href="{{ path('app_logout') }}" class="dropdown-item">Log out</a>
                     </div>
                 </div>
