@@ -93,7 +93,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_STUDENT')]
     public function courses_learning(EnrollmentRepository $enrollmentRepository): Response
     {
-        $enrollments = $enrollmentRepository->findBy(['student' => $this->getUser()], ['enrolledDate' => 'ASC']);
+        $enrollments = $enrollmentRepository->findBy(['student' => $this->getUser()], ['dateEnrolled' => 'ASC']);
 
         return $this->render('courses/learning.html.twig', [
             'enrollments' => $enrollments
