@@ -7,6 +7,9 @@ use App\Entity\Courses;
 use App\Entity\Enrollment;
 use App\Entity\Lesson;
 use App\Entity\Reviews;
+use App\Entity\Users\Admin;
+use App\Entity\Users\Instructor;
+use App\Entity\Users\Student;
 use App\Form\ChapterType;
 use App\Form\CoursesType;
 use App\Form\LessonType;
@@ -36,6 +39,12 @@ class CoursesController extends AbstractController
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
     public function courses_index(CoursesRepository $coursesRepository): Response
     {
+        if ($this->getUser() instanceof Instructor) {
+            return $this->render('courses/index.html.twig', [
+                'courses' => $coursesRepository->findBy(['instructor' => $this->getUser()]),
+            ]);
+        }
+
         return $this->render('courses/index.html.twig', [
             'courses' => $coursesRepository->findAll(),
         ]);
@@ -73,7 +82,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_manage(CoursesRepository $coursesRepository): Response
     {
-        $courses = $coursesRepository->findBy(['user' => $this->getUser()]);
+        $courses = $coursesRepository->findBy(['instructor' => $this->getUser()]);
 
         return $this->render('courses/manage.html.twig', [
             'courses' => $courses,
@@ -84,7 +93,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_STUDENT')]
     public function courses_learning(EnrollmentRepository $enrollmentRepository): Response
     {
-        $enrollments = $enrollmentRepository->findBy(['user' => $this->getUser()], ['enrolledDate' => 'ASC']);
+        $enrollments = $enrollmentRepository->findBy(['student' => $this->getUser()], ['enrolledDate' => 'ASC']);
 
         return $this->render('courses/learning.html.twig', [
             'enrollments' => $enrollments
@@ -141,7 +150,7 @@ class CoursesController extends AbstractController
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
         ChapterRepository $chapterRepository
     ): Response {
-        $chapters = $chapterRepository->findBy(['courses' => $course, 'user' => $this->getUser()]);
+        $chapters = $chapterRepository->findBy(['courses' => $course, 'instructor' => $this->getUser()]);
 
         if (!$chapters) {
             if ($this->getUser()->getUserIdentifier() !== $course->getInstructor()->getEmail()) {
@@ -241,7 +250,7 @@ class CoursesController extends AbstractController
         LessonRepository $lessonRepository
     ): Response {
 
-        $lessons = $lessonRepository->findBy(['chapter' => $chapter, 'user' => $this->getUser()]);
+        $lessons = $lessonRepository->findBy(['chapter' => $chapter, 'instructor' => $this->getUser()]);
 
         if (!$lessons) {
             $this->addFlash('error', 'No Lessons Have Been Created For '  . $chapter->getTitle() . ' Chapter. Kindly Create New');
@@ -528,7 +537,7 @@ class CoursesController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $enrollment = new Enrollment;
-        $enrollment->setEnrolledDate(new \DateTimeImmutable());
+        $enrollment->setDateEnrolled(new \DateTimeImmutable());
         $enrollment->setStudent($this->getUser());
         $enrollment->setCourses($course);
 
@@ -618,7 +627,7 @@ class CoursesController extends AbstractController
 
     /**
      * 
-     * Triggered on pre-logout event or session-expiry event
+     * Triggered on pre-logout event or session-expiry
      * 
      */
     protected function last_accessed(Courses $course, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager): Response
@@ -638,9 +647,9 @@ class CoursesController extends AbstractController
      * Triggered on course completion event >>> Triggers course completion mail event
      * 
      */
-    protected function course_completed(Enrollment $enrollment, EntityManagerInterface $entityManager): Response
+    protected function OnCourseCompletion(Enrollment $enrollment, EntityManagerInterface $entityManager): Response
     {
-        $enrollment->setCompletionDate(new \DateTimeImmutable());
+        $enrollment->setDateCompleted(new \DateTimeImmutable());
 
         $entityManager->persist($enrollment);
         $entityManager->flush();
@@ -652,10 +661,8 @@ class CoursesController extends AbstractController
      * Triggered on lesson completion
      * 
      */
-    protected function lesson_status(Chapter $chapter, LessonRepository $lessonRepository, EntityManagerInterface $entityManager): void
+    protected function OnlessonCompleted(Lesson $lesson, EntityManagerInterface $entityManager): void
     {
-        $lesson = $lessonRepository->findOneBy(['chapter' => $chapter]);
-
         $lesson->setStatus('completed');
 
         $entityManager->persist($lesson);

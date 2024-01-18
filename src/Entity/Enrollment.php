@@ -18,10 +18,10 @@ class Enrollment
     private UuidInterface|string $id;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $enrolledDate = null;
+    private ?\DateTimeImmutable $dateEnrolled = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $completionDate = null;
+    private ?\DateTimeImmutable $dateCompleted = null;
 
     #[ORM\ManyToOne(inversedBy: 'enrollments')]
     private ?Student $student = null;
@@ -34,26 +34,26 @@ class Enrollment
         return $this->id;
     }
 
-    public function getEnrolledDate(): ?\DateTimeImmutable
+    public function getDateEnrolled(): ?\DateTimeImmutable
     {
-        return $this->enrolledDate;
+        return $this->dateEnrolled;
     }
 
-    public function setEnrolledDate(\DateTimeImmutable $enrolledDate): static
+    public function setDateEnrolled(\DateTimeImmutable $dateEnrolled): static
     {
-        $this->enrolledDate = $enrolledDate;
+        $this->dateEnrolled = $dateEnrolled;
 
         return $this;
     }
 
-    public function getCompletionDate(): ?\DateTimeImmutable
+    public function getDateCompleted(): ?\DateTimeImmutable
     {
-        return $this->completionDate;
+        return $this->dateCompleted;
     }
 
-    public function setCompletionDate(\DateTimeImmutable $completionDate): static
+    public function setDateCompleted(\DateTimeImmutable $dateCompleted): static
     {
-        $this->completionDate = $completionDate;
+        $this->dateCompleted = $dateCompleted;
 
         return $this;
     }

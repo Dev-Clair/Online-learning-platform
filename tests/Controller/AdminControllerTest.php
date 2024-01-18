@@ -2,23 +2,23 @@
 
 namespace App\Test\Controller;
 
-use App\Entity\User;
-use App\Repository\UserRepository;
+use App\Entity\Users\Admin;
+use App\Repository\AdminRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class UserControllerTest extends WebTestCase
+class AdminControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private UserRepository $repository;
+    private AdminRepository $repository;
     private string $path = '/user/';
     private EntityManagerInterface $manager;
 
     protected function setUp(): void
     {
         $this->client = static::createClient();
-        $this->repository = static::getContainer()->get('doctrine')->getRepository(User::class);
+        $this->repository = static::getContainer()->get('doctrine')->getRepository(Admin::class);
 
         foreach ($this->repository->findAll() as $object) {
             $this->manager->remove($object);

@@ -49,7 +49,7 @@ class Student extends User
         return $this->enrollments;
     }
 
-    public function addEnrolledCourse(Enrollment $enrollments): static
+    public function addEnrollment(Enrollment $enrollments): static
     {
         if (!$this->enrollments->contains($enrollments)) {
             $this->enrollments->add($enrollments);
@@ -59,7 +59,7 @@ class Student extends User
         return $this;
     }
 
-    public function removeEnrolledCourse(Enrollment $enrollments): static
+    public function removeEnrollment(Enrollment $enrollments): static
     {
         if ($this->enrollments->removeElement($enrollments)) {
             // set the owning side to null (unless already changed)

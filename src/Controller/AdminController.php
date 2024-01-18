@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use app\Entity\Users\Admin;
+use App\Entity\Users\Admin;
 use App\Entity\Users\Instructor;
 use App\Entity\Users\Student;
 use App\Entity\Users\User;
+use App\Form\AdminType;
 use App\Form\UserType;
 use App\Repository\CoursesRepository;
 use App\Repository\AdminRepository;
@@ -33,9 +34,9 @@ class AdminController extends AbstractController
     }
 
     #[Route('/instructors', name: 'app_admin_instructors', methods: ['GET'])]
-    public function index_instructors(InstructorRepository $adminRepository): Response
+    public function index_instructors(InstructorRepository $instructorRepository): Response
     {
-        $users = $adminRepository->getInstructors();
+        $users = $instructorRepository->getInstructors();
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
@@ -52,7 +53,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    #[Route('/products', name: 'app_admin_user_product', methods: ['GET'])]
+    #[Route('/products', name: 'app_admin_product', methods: ['GET'])]
     public function index_products(CoursesRepository $coursesRepository): Response
     {
         return $this->render('courses/index.html.twig', [
@@ -64,7 +65,7 @@ class AdminController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new Instructor;
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(AdminType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -75,7 +76,7 @@ class AdminController extends AbstractController
 
             $user->setEmail($form->get('email')->getData());
 
-            $user->setRoles($form->get('roles')->getData());
+            $user->setRoles(['ROLE_INSTRUCTOR']);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -105,7 +106,7 @@ class AdminController extends AbstractController
     #[Route('/{id}/edit', name: 'app_admin_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(AdminType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -116,11 +117,9 @@ class AdminController extends AbstractController
 
             $user->setEmail($form->get('email')->getData());
 
-            $user->setRoles($form->get('roles')->getData());
-
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/edit.html.twig', [
@@ -130,13 +129,13 @@ class AdminController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_admin_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, Instructor $instructor, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
+        if ($this->isCsrfTokenValid('delete' . $instructor->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($instructor);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
     }
 }
