@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Users\Instructor;
 use App\Repository\TestimonialRepository;
-use App\Repository\UserRepository;
+use App\Repository\InstructorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
@@ -13,14 +14,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(UserRepository $userRepository, TestimonialRepository $testimonialRepository, CacheInterface $redisCache): Response
+    public function index(InstructorRepository $instructorRepository, TestimonialRepository $testimonialRepository, CacheInterface $redisCache): Response
     {
-        // $app_home_cache = $redisCache->get('app_home', function (ItemInterface $item) use ($userRepository, $testimonialRepository): array {
+        // $app_home_cache = $redisCache->get('app_home', function (ItemInterface $item) use ($instructorRepository, $testimonialRepository): array {
         //     $item->expiresAfter(1800);
 
         //     return [
 
-        //         'instructors' => $userRepository->findAll() ?? [],
+        //         'instructors' => $instructorRepository->findAll() ?? [],
 
         //         'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
         //     ];
@@ -28,7 +29,7 @@ class HomeController extends AbstractController
 
 
         $app_home_cache = [
-            'instructors' => array_slice($userRepository->getInstructors(), 0, 3) ?? [],
+            'instructors' => $instructorRepository->getInstructors() ?? [],
 
             'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
         ];
