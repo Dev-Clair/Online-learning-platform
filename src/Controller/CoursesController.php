@@ -41,6 +41,12 @@ class CoursesController extends AbstractController
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
     public function courses_index(CoursesRepository $coursesRepository): Response
     {
+        if ($this->getUser() instanceof Instructor) {
+            return $this->render('courses/index.html.twig', [
+                'courses' => $coursesRepository->findBy(['instructor' => $this->getUser()]),
+            ]);
+        }
+
         return $this->render('courses/index.html.twig', [
             'courses' => $coursesRepository->findAll(),
         ]);
@@ -435,7 +441,7 @@ class CoursesController extends AbstractController
         $verifyStudentIsEnrolled = $course->isStudentEnrolled($this->getUser());
 
         if (!$verifyStudentIsEnrolled) {
-            $this->addFlash('warning', 'Sorry! You Can Only Add Reviews To Courses You Are Enrolled In. Thanks');
+            $this->addFlash('warning', 'Sorry! You Can Only Add Reviews To Courses You Are Enrolled In. Kindly Enroll A COurse And Try Again. Thanks');
 
             return $this->redirectToRoute('app_courses_index');
         }
