@@ -5,9 +5,20 @@
         <h4>User Accounts</h4>
         
         {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-            <a class="btn btn-sm btn-success rounded my-3 mb-3 float-end" href="{{ path('app_admin_new') }}">
-                Create Account
-            </a>
+            <div class="dropdown">
+                <a href="#" class="btn btn-sm btn-primary my-3 mb-3 float-end dropdown-toggle" data-bs-toggle="dropdown">
+                    Create Account <i class="fa-light fa-colon"></i>
+                </a>
+                <div class="dropdown-menu fade-down">
+                    <a href="{{ path('app_admin_new_admin') }}" class="btn btn-outline dropdown-item">
+                        Admin
+                    </a>
+
+                    <a href="{{ path('app_admin_new_instructor') }}" class="btn btn-outline dropdown-item">
+                        Instructor
+                    </a>
+                </div>
+            </div>
         {% endif %}
 
         <table class="table table-striped table-bordered mt-4">

@@ -30,8 +30,12 @@
                               </div>
 
                               <div class="mb-4 text-primary">
+                                  {{ form_row(form.roles, {'attr': {'class': 'form-control', 'placeholder': 'Roles must be preceeded by ROLE_ '}}) }}
+                              </div>
+
+                              {# <div class="mb-4 text-primary">
                                 {{ form_row(form.password, {'attr': {'class': 'form-control', 'placeholder': 'Enter password', 'disabled': true}}) }}
-                            </div>
+                            </div> #}
 
                               <div class="mb-2">
                                   <a class="btn btn-secondary btn-sm px-5" href="{{ path('app_admin_index') }}"> <<< </a>
