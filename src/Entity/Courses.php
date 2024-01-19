@@ -42,9 +42,6 @@ class Courses
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
     private ?string $value = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $lastAccessed = null;
-
     #[Slug(fields: ['title'])]
     #[ORM\Column(length: 255)]
     private ?string $courseslug = null;
@@ -117,18 +114,6 @@ class Courses
     public function setValue(?string $value): static
     {
         $this->value = $value;
-
-        return $this;
-    }
-
-    public function getLastAccessed(): ?\DateTimeImmutable
-    {
-        return $this->lastAccessed;
-    }
-
-    public function setLastAccessed(\DateTimeImmutable $lastAccessed): static
-    {
-        $this->lastAccessed = $lastAccessed;
 
         return $this;
     }

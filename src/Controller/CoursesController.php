@@ -623,16 +623,12 @@ class CoursesController extends AbstractController
      * Triggered on pre-logout event or session-expiry
      * 
      */
-    protected function last_accessed(Courses $course, CoursesRepository $coursesRepository): Response
+    protected function last_accessed(Enrollment $enrollment): void
     {
-        $course = $coursesRepository->findOneBy(['user' => $this->getUser(), 'courses' => $course]);
+        $enrollment->setLastAccessed(new \DateTimeImmutable());
 
-        $course->setLastAccessed(new \DateTimeImmutable());
-
-        $this->entityManager->persist($course);
+        $this->entityManager->persist($enrollment);
         $this->entityManager->flush();
-
-        return $this->redirectToRoute('app_courses_learning');
     }
 
     /**
@@ -640,14 +636,12 @@ class CoursesController extends AbstractController
      * Triggered on course completion event >>> Triggers course completion mail event
      * 
      */
-    protected function OnCourseCompletion(Enrollment $enrollment): Response
+    protected function OnCourseCompletion(Enrollment $enrollment): void
     {
         $enrollment->setDateCompleted(new \DateTimeImmutable());
 
         $this->entityManager->persist($enrollment);
         $this->entityManager->flush();
-
-        return $this->redirectToRoute('app_courses_learning');
     }
 
     /**

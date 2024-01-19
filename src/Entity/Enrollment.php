@@ -29,6 +29,9 @@ class Enrollment
     #[ORM\ManyToOne(inversedBy: 'enrollments')]
     private ?Courses $courses = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $lastAccessed = null;
+
     public function getId(): string
     {
         return $this->id;
@@ -54,6 +57,18 @@ class Enrollment
     public function setDateCompleted(\DateTimeImmutable $dateCompleted): static
     {
         $this->dateCompleted = $dateCompleted;
+
+        return $this;
+    }
+
+    public function getLastAccessed(): ?\DateTimeImmutable
+    {
+        return $this->lastAccessed;
+    }
+
+    public function setLastAccessed(?\DateTimeImmutable $lastAccessed): static
+    {
+        $this->lastAccessed = $lastAccessed;
 
         return $this;
     }
