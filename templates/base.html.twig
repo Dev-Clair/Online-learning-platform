@@ -57,7 +57,7 @@
     <nav
       class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0"
     >
-      {% if app.user %} 
+      {% if app.user is not null %} 
         <a
           href="{{ path('app_profile_show', {'id': app.user.id}) }}"
           class="navbar-brand d-flex align-items-center px-4 px-lg-5"
@@ -126,7 +126,7 @@
                 </div>
                 <a href="/contact" class="nav-item nav-link">Contact</a>
             {% endif %}
-            {% if app.user %}
+            {% if app.user is not null %}
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Profile &#128100;</a>
                     <div class="dropdown-menu fade-down m-0">
