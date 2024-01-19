@@ -623,7 +623,7 @@ class CoursesController extends AbstractController
      * Triggered on pre-logout event or session-expiry
      * 
      */
-    protected function last_accessed(Enrollment $enrollment): void
+    protected function OnLogOut(Enrollment $enrollment): void
     {
         $enrollment->setLastAccessed(new \DateTimeImmutable());
 
