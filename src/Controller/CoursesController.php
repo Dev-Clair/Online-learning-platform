@@ -32,8 +32,10 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/courses')]
 class CoursesController extends AbstractController
 {
-    public function __construct(private CacheInterface $redisCache)
-    {
+    public function __construct(
+        private CacheInterface $redisCache,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
@@ -52,7 +54,7 @@ class CoursesController extends AbstractController
 
     #[Route('/new', name: 'app_courses_new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function courses_new(Request $request, EntityManagerInterface $entityManager): Response
+    public function courses_new(Request $request): Response
     {
         $course = new Courses();
         $form = $this->createForm(CoursesType::class, $course);
@@ -66,8 +68,8 @@ class CoursesController extends AbstractController
 
             $course->setInstructor($this->getUser());
 
-            $entityManager->persist($course);
-            $entityManager->flush();
+            $this->entityManager->persist($course);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_courses_index');
         }
@@ -113,8 +115,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_edit(
         Request $request,
-        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course
     ): Response {
         if ($this->getUser()->getUserIdentifier() !== $course->getInstructor()->getEmail()) {
 
@@ -128,7 +129,7 @@ class CoursesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_courses_index');
         }
@@ -173,8 +174,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_chapter_new(
         Request $request,
-        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course
     ): Response {
         $chapter = new Chapter();
         $form = $this->createForm(ChapterType::class, $chapter);
@@ -188,8 +188,8 @@ class CoursesController extends AbstractController
 
             $chapter->setInstructor($this->getUser());
 
-            $entityManager->persist($chapter);
-            $entityManager->flush();
+            $this->entityManager->persist($chapter);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_courses_chapter_index', ['courseslug' => $course->getCourseSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -218,14 +218,13 @@ class CoursesController extends AbstractController
     public function courses_chapter_edit(
         Request $request,
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter
     ): Response {
         $form = $this->createForm(ChapterType::class, $chapter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_courses_chapter_index', ['courseslug' => $course->getCourseSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -268,8 +267,7 @@ class CoursesController extends AbstractController
     public function courses_lesson_new(
         Request $request,
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter
     ): Response {
         $lesson = new Lesson();
         $form = $this->createForm(LessonType::class, $lesson);
@@ -281,8 +279,8 @@ class CoursesController extends AbstractController
 
             $lesson->setInstructor($this->getUser());
 
-            $entityManager->persist($lesson);
-            $entityManager->flush();
+            $this->entityManager->persist($lesson);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute(
                 'app_courses_lesson_index',
@@ -322,15 +320,14 @@ class CoursesController extends AbstractController
         Request $request,
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
         #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
-        #[MapEntity(id: 'id')] Lesson $lesson,
-        EntityManagerInterface $entityManager
+        #[MapEntity(id: 'id')] Lesson $lesson
     ): Response {
         $form = $this->createForm(LessonType::class, $lesson);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute(
                 'app_courses_lesson_index',
@@ -357,12 +354,11 @@ class CoursesController extends AbstractController
 
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
         #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
-        #[MapEntity(id: 'id')] Lesson $lesson,
-        EntityManagerInterface $entityManager
+        #[MapEntity(id: 'id')] Lesson $lesson
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $lesson->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($lesson);
-            $entityManager->flush();
+            $this->entityManager->remove($lesson);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute(
@@ -385,12 +381,11 @@ class CoursesController extends AbstractController
     public function courses_chapter_delete(
         Request $request,
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['chapterslug' => 'chapterslug'])] Chapter $chapter
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $chapter->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($chapter);
-            $entityManager->flush();
+            $this->entityManager->remove($chapter);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('app_courses_chapter_index', ['courseslug' => $course->getCourseSlug()], Response::HTTP_SEE_OTHER);
@@ -429,20 +424,19 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_STUDENT')]
     public function courses_reviews_new(
         Request $request,
-        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course
     ): Response {
-        $verifyReviewExistsForUser = $course->reviewExistsForStudent($this->getUser());
+        $verifyReviewExistsForStudent = $course->reviewExistsForStudent($this->getUser());
 
-        if ($verifyReviewExistsForUser) {
+        if ($verifyReviewExistsForStudent) {
             $this->addFlash('error', 'Sorry! You Can Only Add One Review Per Enrolled Course. Kindly Modify Your Previous Review If Your Impression About The Course Has Changed. Thanks');
 
             return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()]);
         }
 
-        $verifyUserIsEnrolled = $course->isStudentEnrolled($this->getUser());
+        $verifyStudentIsEnrolled = $course->isStudentEnrolled($this->getUser());
 
-        if (!$verifyUserIsEnrolled) {
+        if (!$verifyStudentIsEnrolled) {
             $this->addFlash('warning', 'Sorry! You Can Only Add Reviews To Courses You Are Enrolled In. Thanks');
 
             return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()]);
@@ -460,8 +454,8 @@ class CoursesController extends AbstractController
 
             $review->setStudent($this->getUser());
 
-            $entityManager->persist($review);
-            $entityManager->flush();
+            $this->entityManager->persist($review);
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -490,14 +484,13 @@ class CoursesController extends AbstractController
     public function courses_reviews_edit(
         Request $request,
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        #[MapEntity(mapping: ['reviewslug' => 'reviewslug'])] Reviews $review,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['reviewslug' => 'reviewslug'])] Reviews $review
     ): Response {
         $form = $this->createForm(ReviewsType::class, $review);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()], Response::HTTP_SEE_OTHER);
         }
@@ -514,12 +507,11 @@ class CoursesController extends AbstractController
     public function courses_reviews_delete(
         Request $request,
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        #[MapEntity(mapping: ['reviewslug' => 'reviewslug'])] Reviews $review,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['reviewslug' => 'reviewslug'])] Reviews $review
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $review->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($review);
-            $entityManager->flush();
+            $this->entityManager->remove($review);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()], Response::HTTP_SEE_OTHER);
@@ -533,16 +525,15 @@ class CoursesController extends AbstractController
     #[Route('/{courseslug}/enroll', name: 'app_courses_enroll', methods: ['GET'], requirements: ['courseslug' => '[^/]+'])]
     #[IsGranted('ROLE_STUDENT')]
     public function courses_enroll(
-        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course
     ): Response {
         $enrollment = new Enrollment;
         $enrollment->setDateEnrolled(new \DateTimeImmutable());
         $enrollment->setStudent($this->getUser());
         $enrollment->setCourses($course);
 
-        $entityManager->persist($enrollment);
-        $entityManager->flush();
+        $this->entityManager->persist($enrollment);
+        $this->entityManager->flush();
 
         $this->addFlash('success', 'Congratulations! You Have Enrolled For '  . $course->getTitle());
 
@@ -553,14 +544,13 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_unenroll(
         #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        EnrollmentRepository $enrollmentRepository,
-        EntityManagerInterface $entityManager
+        EnrollmentRepository $enrollmentRepository
     ): Response {
         $enrollment = $enrollmentRepository->findOneBy(['courses' => $course]);
 
         if ($enrollment) {
-            $entityManager->remove($enrollment);
-            $entityManager->flush();
+            $this->entityManager->remove($enrollment);
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Successfully Unenrolled ' . $enrollment->getStudent()->getFirstname() . ' From '  . $course->getTitle());
         }
@@ -607,8 +597,7 @@ class CoursesController extends AbstractController
     #[IsGranted('ROLE_INSTRUCTOR')]
     public function courses_delete(
         Request $request,
-        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course,
-        EntityManagerInterface $entityManager
+        #[MapEntity(mapping: ['courseslug' => 'courseslug'])] Courses $course
     ): Response {
         if ($this->getUser()->getUserIdentifier() !== $course->getInstructor()->getEmail()) {
 
@@ -618,8 +607,8 @@ class CoursesController extends AbstractController
         }
 
         if ($this->isCsrfTokenValid('delete' . $course->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($course);
-            $entityManager->flush();
+            $this->entityManager->remove($course);
+            $this->entityManager->flush();
         }
 
         return $this->redirectToRoute('app_courses_index');
@@ -630,14 +619,14 @@ class CoursesController extends AbstractController
      * Triggered on pre-logout event or session-expiry
      * 
      */
-    protected function last_accessed(Courses $course, CoursesRepository $coursesRepository, EntityManagerInterface $entityManager): Response
+    protected function last_accessed(Courses $course, CoursesRepository $coursesRepository): Response
     {
         $course = $coursesRepository->findOneBy(['user' => $this->getUser(), 'courses' => $course]);
 
         $course->setLastAccessed(new \DateTimeImmutable());
 
-        $entityManager->persist($course);
-        $entityManager->flush();
+        $this->entityManager->persist($course);
+        $this->entityManager->flush();
 
         return $this->redirectToRoute('app_courses_learning');
     }
@@ -647,12 +636,12 @@ class CoursesController extends AbstractController
      * Triggered on course completion event >>> Triggers course completion mail event
      * 
      */
-    protected function OnCourseCompletion(Enrollment $enrollment, EntityManagerInterface $entityManager): Response
+    protected function OnCourseCompletion(Enrollment $enrollment): Response
     {
         $enrollment->setDateCompleted(new \DateTimeImmutable());
 
-        $entityManager->persist($enrollment);
-        $entityManager->flush();
+        $this->entityManager->persist($enrollment);
+        $this->entityManager->flush();
 
         return $this->redirectToRoute('app_courses_learning');
     }
@@ -661,12 +650,12 @@ class CoursesController extends AbstractController
      * Triggered on lesson completion
      * 
      */
-    protected function OnlessonCompleted(Lesson $lesson, EntityManagerInterface $entityManager): void
+    protected function OnlessonCompleted(Lesson $lesson): void
     {
         $lesson->setStatus('completed');
 
-        $entityManager->persist($lesson);
-        $entityManager->flush();
+        $this->entityManager->persist($lesson);
+        $this->entityManager->flush();
 
         return;
     }
