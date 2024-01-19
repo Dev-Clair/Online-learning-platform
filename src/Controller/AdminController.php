@@ -16,7 +16,6 @@ use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -155,51 +154,6 @@ class AdminController extends AbstractController
             'user' => $instructor,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/{userslug}/password/create', name: 'app_password_create', methods: ['GET'])]
-    #[IsGranted('PUBLIC_ACCESS')]
-    public function password_create(
-        Request $request,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] Admin $admin,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] Instructor $instructor,
-        AdminRepository $adminRepository,
-        InstructorRepository $instructorRepository,
-        UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
-    ): Response {
-        $user = $admin ?? $instructor;
-        $form = $this->createForm(AdminType::class ?? InstructorType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $email = $form->get('email')->getData();
-
-            $verifyEmail = (bool) $adminRepository->findOneBy(['email' => $email]) ?? (bool) $instructorRepository->findOneBy(['email' => $email]);
-
-            if ($verifyEmail === true) {
-                $user->setPassword(
-                    $userPasswordHasher->hashPassword(
-                        $user,
-                        $form->get('password')->getData()
-                    )
-                );
-
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                $this->addFlash('success', 'Password Created Successfully. You Can Now Log in.');
-
-                return $this->redirectToRoute('app_login');
-            }
-
-            $this->addFlash('error', 'No User Account Exists For ' . $email);
-
-            return $this->redirectToRoute('app_password_create', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('', []);
     }
 
     #[Route('/{userslug}', name: 'app_admin_show', methods: ['GET'])]
