@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Courses;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +18,12 @@ class CoursesType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
             ->add('duration', TextType::class)
-            ->add('value', TextType::class);
+            ->add('value', TextType::class)
+            ->add(
+                'category',
+                EntityType::class,
+                []
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

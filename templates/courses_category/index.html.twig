@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CoursesCategory index{% endblock %}
+
+{% block body %}
+    <h1>CoursesCategory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for courses_category in courses_categories %}
+            <tr>
+                <td>{{ courses_category.id }}</td>
+                <td>{{ courses_category.title }}</td>
+                <td>
+                    <a href="{{ path('app_courses_category_show', {'id': courses_category.id}) }}">show</a>
+                    <a href="{{ path('app_courses_category_edit', {'id': courses_category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_courses_category_new') }}">Create new</a>
+{% endblock %}

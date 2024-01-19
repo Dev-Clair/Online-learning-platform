@@ -50,6 +50,10 @@ class Courses
     #[ORM\JoinColumn(nullable: false)]
     private ?Instructor $instructor = null;
 
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    // #[ORM\JoinColumn(nullable: false)]
+    private ?CoursesCategory $coursesCategory = null;
+
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]
     private Collection $enrollments;
 
@@ -138,6 +142,18 @@ class Courses
     public function setInstructor(?Instructor $instructor): static
     {
         $this->instructor = $instructor;
+
+        return $this;
+    }
+
+    public function getCoursesCategory(): ?CoursesCategory
+    {
+        return $this->coursesCategory;
+    }
+
+    public function setCoursesCategory(?CoursesCategory $coursesCategory): static
+    {
+        $this->coursesCategory = $coursesCategory;
 
         return $this;
     }
