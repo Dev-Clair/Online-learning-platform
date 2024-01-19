@@ -34,7 +34,7 @@ class Courses
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[Assert\NotBlank(message: 'Time field cannot be blank')]
+    #[Assert\NotBlank(message: 'Duration field cannot be blank')]
     #[ORM\Column]
     private ?int $duration = null;
 

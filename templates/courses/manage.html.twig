@@ -30,7 +30,7 @@
                     <td>{{ course.duration }}</td>
                     <td>{{ course.enrollments.count }}</td>
                     <td>{{ course.value }}</td>
-                    <td>{{ course.user.firstName }} {{ course.user.lastName }}</td>
+                    <td>{{ course.instructor.firstName }} {{ course.instructor.lastName }}</td>
                     <td>{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ course.updatedAt ? course.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td class="btn btn-group">
