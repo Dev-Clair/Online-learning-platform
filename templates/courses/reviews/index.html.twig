@@ -105,7 +105,9 @@
             </div>
           </div>
         {% else %}
-          <p><strong>Click The Button To Add a New Review.</strong></p>
+          {% if app.user is not null %}
+            <p><strong>Click The Button To Add a New Review.</strong></p>
+          {% endif %}
         {% endfor %}
       </div>
     </div>

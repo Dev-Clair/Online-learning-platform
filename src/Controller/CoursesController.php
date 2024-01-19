@@ -41,12 +41,6 @@ class CoursesController extends AbstractController
     #[Route('/', name: 'app_courses_index', methods: ['GET'])]
     public function courses_index(CoursesRepository $coursesRepository): Response
     {
-        if ($this->getUser() instanceof Instructor) {
-            return $this->render('courses/index.html.twig', [
-                'courses' => $coursesRepository->findBy(['instructor' => $this->getUser()]),
-            ]);
-        }
-
         return $this->render('courses/index.html.twig', [
             'courses' => $coursesRepository->findAll(),
         ]);
@@ -80,13 +74,17 @@ class CoursesController extends AbstractController
         ]);
     }
 
-    #[Route('/manage', name: 'app_courses_manage', methods: ['GET'])]
+    #[Route('/content', name: 'app_courses_content', methods: ['GET'])]
     #[IsGranted('ROLE_INSTRUCTOR')]
-    public function courses_manage(CoursesRepository $coursesRepository): Response
+    public function courses_content(CoursesRepository $coursesRepository): Response
     {
         $courses = $coursesRepository->findBy(['instructor' => $this->getUser()]);
 
-        return $this->render('courses/manage.html.twig', [
+        if (!$courses) {
+            $this->addFlash('error', 'No Courses Have Been Created For this Course. Kindly Create New');
+        }
+
+        return $this->render('courses/content.html.twig', [
             'courses' => $courses,
         ]);
     }
@@ -439,7 +437,7 @@ class CoursesController extends AbstractController
         if (!$verifyStudentIsEnrolled) {
             $this->addFlash('warning', 'Sorry! You Can Only Add Reviews To Courses You Are Enrolled In. Thanks');
 
-            return $this->redirectToRoute('app_courses_reviews_index', ['courseslug' => $course->getCourseSlug()]);
+            return $this->redirectToRoute('app_courses_index');
         }
 
         $review = new Reviews();

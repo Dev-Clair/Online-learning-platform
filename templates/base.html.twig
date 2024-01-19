@@ -103,14 +103,7 @@
                     </div>
                   </div>
               {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
-                  <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
-                  <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Course Management</a>
-                    <div class="dropdown-menu fade-down m-0">
-                        <a href="{{ path('app_courses_new') }}" class="dropdown-item">Create</a> 
-                        <a href="{{ path('app_courses_manage') }}" class="dropdown-item">Manage</a>
-                    </div>
-                  </div>
+                  <a href="{{ path('app_courses_content') }}" class="nav-item nav-link">My Courses</a>
               {% elseif 'ROLE_STUDENT' in app.user.roles %}
                   <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
                   <a href="{{ path('app_courses_learning') }}" class="nav-item nav-link">My Learning</a>
