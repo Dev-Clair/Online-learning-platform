@@ -87,7 +87,7 @@ class CoursesController extends AbstractController
         $courses = $coursesRepository->findBy(['instructor' => $this->getUser()]);
 
         if (!$courses) {
-            $this->addFlash('error', 'No Courses Have Been Created For this Course. Kindly Create New');
+            $this->addFlash('error', 'No Content Have Been Created For this Course. Kindly Create New');
         }
 
         return $this->render('courses/content.html.twig', [
@@ -648,7 +648,7 @@ class CoursesController extends AbstractController
      * Triggered on lesson completion
      * 
      */
-    protected function OnlessonCompleted(Lesson $lesson): void
+    protected function OnLessonCompleted(Lesson $lesson): void
     {
         $lesson->setStatus('completed');
 
