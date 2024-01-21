@@ -10,8 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/courses/category')]
+#[IsGranted('ROLE_SUPER_INSTRUCTOR')]
 class CoursesCategoryController extends AbstractController
 {
     #[Route('/', name: 'app_courses_category_index', methods: ['GET'])]

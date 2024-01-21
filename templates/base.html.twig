@@ -103,6 +103,9 @@
                     </div>
                   </div>
               {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
+                  {% if 'ROLE_SUPER_INSTRUCTOR' in app.user.roles %}
+                    <a href="{{ path('app_courses_category_index') }}" class="nav-item nav-link">View Categories</a>
+                  {% endif %}
                   <a href="{{ path('app_courses_content') }}" class="nav-item nav-link">My Courses</a>
               {% elseif 'ROLE_STUDENT' in app.user.roles %}
                   <a href="{{ path('app_courses_index') }}" class="nav-item nav-link">Courses</a>
@@ -110,7 +113,7 @@
               {% else %}
                   {# Default nav for other roles #}
                    {# <a href="{{ path('app_people') }}" class="nav-iem nav-link active">People</a> #}
-                   <a href="{{ path('app_newsletter_sub_index') }}" class="nav-iem nav-link active">Newsletter Subscriptions</a>
+                   <a href="{{ path('app_newsletter_sub_index') }}" class="nav-iem nav-link active">Subscriptions</a>
                    <a href="{{ path('app_contact_support') }}" class="nav-iem nav-link active">Customer Support</a>
                 {% endif %}
             {% else %}
