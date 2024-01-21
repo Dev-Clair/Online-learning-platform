@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Courses;
+use App\Entity\CoursesCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -22,7 +23,15 @@ class CoursesType extends AbstractType
             ->add(
                 'category',
                 EntityType::class,
-                []
+                [
+                    'mapped' => false,
+                    'class' => CoursesCategory::class,
+                    'choice_label' => function (CoursesCategory $coursesCategory) {
+                        return $coursesCategory->getTitle();
+                    },
+                    'placeholder' => '-- Click to Select Category --',
+                    'attr' => ['class' => 'form-select'],
+                ]
             );
     }
 
