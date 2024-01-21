@@ -22,16 +22,6 @@
                     <th>Duration</th>
                     <td>{{ lesson.duration|date('H:i:s') }}</td>
                 </tr>
-                {% if app.user is not null and 'ROLE_INSTRUCTOR' in app.user.roles %}
-                    <tr>
-                        <th>Created</th>
-                        <td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Updated</th>
-                        <td>{{ lesson.updatedAt ? lesson.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                    </tr>
-                {% endif %}
             </tbody>
         </table>
         

@@ -35,8 +35,6 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Duration</th>
-                <th>Created</th>
-                <th>Updated</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -46,8 +44,6 @@
                     <td>{{ lesson.id }}</td>
                     <td>{{ lesson.title }}</td>
                     <td>{{ lesson.duration|date('H:i:s') }}</td>
-                    <td>{{ lesson.createdAt ? lesson.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ lesson.updatedAt ? lesson.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td class="btn btn-group">
                         <a class="btn btn-primary rounded btn-sm" href="{{ path('app_courses_lesson_show', {'courseslug': course_slug, 'chapterslug': chapter_slug, 'id': lesson.id}) }}"><i class="fas fa-eye"></i> </a>
                         <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_courses_lesson_edit', {'courseslug': course_slug, 'chapterslug': chapter_slug, 'id': lesson.id}) }}"><i class="fas fa-edit"></i> </a>
@@ -55,7 +51,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">no records found</td>
+                    <td colspan="4">no records found</td>
                 </tr>
             {% endfor %}
             </tbody>
