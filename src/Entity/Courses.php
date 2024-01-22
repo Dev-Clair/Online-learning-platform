@@ -50,7 +50,7 @@ class Courses
     #[ORM\JoinColumn(nullable: false)]
     private ?Instructor $instructor = null;
 
-    #[Assert\Type(type: Courses::class, message: 'Course must be  of type ' . Courses::class)]
+    #[Assert\Type(type: Courses::class, message: 'Invalid Course Type')]
     #[ORM\ManyToOne(inversedBy: 'courses')]
     // #[ORM\JoinColumn(nullable: false)]
     private ?CoursesCategory $coursesCategory = null;

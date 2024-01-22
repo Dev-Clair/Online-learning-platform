@@ -633,7 +633,7 @@ class CoursesController extends AbstractController
 
     /**
      * 
-     * Triggered on course completion event >>> Triggers course completion mail event
+     * Triggered on course completion >>> Triggers course completion mail event
      * 
      */
     protected function OnCourseCompletion(Enrollment $enrollment): void
