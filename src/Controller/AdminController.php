@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Users\Admin;
 use App\Entity\Users\Instructor;
 use App\Entity\Users\Student;
+use App\Event\UserAccountCreatedEvent;
 use App\Form\AdminType;
 use App\Form\InstructorType;
 use App\Repository\CoursesRepository;
@@ -20,14 +21,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
+    private $eventDispatcher;
+
     public function __construct(
         private CacheInterface $redisCache,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        EventDispatcherInterface $eventDispatcher
     ) {
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     #[Route('/', name: 'app_admin_index', methods: ['GET'])]
@@ -100,10 +106,9 @@ class AdminController extends AbstractController
             $this->entityManager->persist($admin);
             $this->entityManager->flush();
 
-            // Send email to admin with link/token to create password
-            /**
-             *  Require Mailer
-             */
+            // Dispatch Account Creation Notification Email To New Admin User
+            $event = new UserAccountCreatedEvent($admin);
+            $this->eventDispatcher->dispatch($event, UserAccountCreatedEvent::NAME);
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -142,10 +147,9 @@ class AdminController extends AbstractController
             $this->entityManager->persist($instructor);
             $this->entityManager->flush();
 
-            // Send email to instructor with link/token to create password
-            /**
-             *  Require Mailer
-             */
+            // Dispatch Account Creation Notification Email To New Instructor User
+            $event = new UserAccountCreatedEvent($instructor);
+            $this->eventDispatcher->dispatch($event, UserAccountCreatedEvent::NAME);
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
