@@ -6,7 +6,7 @@ use App\Event\UserAccountCreatedEvent;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-class UserCreatedListener
+class UserAccountCreatedListener
 {
     private $mailer;
 
@@ -22,7 +22,7 @@ class UserCreatedListener
         $email = (new Email())
             ->to($user->getEmail())
             ->subject('Welcome to Jagaad Online')
-            ->text('A user account profile has been created for you. Kindly click on the link to create and set-up a secure user password. Thanks and welcome!');
+            ->text('A user account profile has been created for you. Kindly click on the link to create and set-up a secure password for your account. Thanks and welcome!');
 
         $this->mailer->send($email);
     }
