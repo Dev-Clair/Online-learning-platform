@@ -55,3 +55,12 @@ services:
     volumes:
       - ".:/application"
       - "./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini"
+
+  mailer:
+    image: mailhog/mailhog
+    ports:
+      - "8800:1025"
+      - "8800:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
