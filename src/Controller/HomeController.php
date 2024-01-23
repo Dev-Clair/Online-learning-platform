@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(InstructorRepository $instructorRepository, TestimonialRepository $testimonialRepository, CacheInterface $redisCache): Response
+    public function index(InstructorRepository $instructorRepository, TestimonialRepository $testimonialRepository, CacheInterface $cache): Response
     {
-        // $app_home_cache = $redisCache->get('app_home', function (ItemInterface $item) use ($instructorRepository, $testimonialRepository): array {
+        // $app_home_cache = $cache->get('app_home', function (ItemInterface $item) use ($instructorRepository, $testimonialRepository): array {
         //     $item->expiresAfter(1800);
 
         //     return [

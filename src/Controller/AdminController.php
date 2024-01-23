@@ -77,8 +77,8 @@ class AdminController extends AbstractController
     }
 
     #[Route('/new-admin', name: 'app_admin_new_admin', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request): Response
+    #[IsGranted('ROLE_SUPER_ADMIN')]
+    public function new_admin(Request $request): Response
     {
         $admin = new Admin;
         $form = $this->createForm(AdminType::class, $admin);
@@ -104,9 +104,9 @@ class AdminController extends AbstractController
             $this->entityManager->persist($admin);
             $this->entityManager->flush();
 
-            // Dispatch Account Creation Notification Email To New Admin User
+            // Dispatch Account Creation Notification Email To New Admin
             $event = new UserAccountCreatedEvent($admin);
-            $this->eventDispatcher->dispatch($event, UserAccountCreatedEvent::NAME);
+            $this->eventDispatcher->dispatch($event, UserAccountCreatedEvent::ADMIN);
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -118,7 +118,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('/new-instructor', name: 'app_admin_new_instructor', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_SUPER_ADMIN')]
     public function new_instructor(Request $request): Response
     {
         $instructor = new Instructor;
@@ -145,9 +145,9 @@ class AdminController extends AbstractController
             $this->entityManager->persist($instructor);
             $this->entityManager->flush();
 
-            // Dispatch Account Creation Notification Email To New Instructor User
+            // Dispatch Account Creation Notification Email To New Instructor
             $event = new UserAccountCreatedEvent($instructor);
-            $this->eventDispatcher->dispatch($event, UserAccountCreatedEvent::NAME);
+            $this->eventDispatcher->dispatch($event, UserAccountCreatedEvent::INSTRUCTOR);
 
             return $this->redirectToRoute('app_admin_index', [], Response::HTTP_SEE_OTHER);
         }
