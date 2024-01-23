@@ -33,7 +33,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class CoursesController extends AbstractController
 {
     public function __construct(
-        private CacheInterface $redisCache,
+        private CacheInterface $cache,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -650,10 +650,10 @@ class CoursesController extends AbstractController
      */
     protected function OnLessonCompleted(Lesson $lesson): void
     {
-        $lesson->setStatus('completed');
+        // $lesson->setStatus('completed');
 
-        $this->entityManager->persist($lesson);
-        $this->entityManager->flush();
+        // $this->entityManager->persist($lesson);
+        // $this->entityManager->flush();
 
         return;
     }

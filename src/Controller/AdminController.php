@@ -26,12 +26,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-    private $eventDispatcher;
-
     public function __construct(
-        private CacheInterface $redisCache,
+        private CacheInterface $cache,
         private EntityManagerInterface $entityManager,
-        EventDispatcherInterface $eventDispatcher
+        private EventDispatcherInterface $eventDispatcher
     ) {
         $this->eventDispatcher = $eventDispatcher;
     }
