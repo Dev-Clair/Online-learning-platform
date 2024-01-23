@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events\EventListener;
+namespace App\Events\Listener;
 
 use App\Event\UserAccountCreatedEvent;
 use Symfony\Component\Mailer\MailerInterface;
