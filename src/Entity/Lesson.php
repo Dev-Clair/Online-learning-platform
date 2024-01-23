@@ -22,8 +22,8 @@ class Lesson
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?string $status = null;
+    // #[ORM\Column(nullable: true)]
+    // private ?string $status = null;
 
     #[Assert\NotBlank(message: 'Duration field cannot be blank')]
     #[ORM\Column(type: 'time')]
@@ -54,17 +54,17 @@ class Lesson
         return $this;
     }
 
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
+    // public function getStatus(): ?string
+    // {
+    //     return $this->status;
+    // }
 
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
+    // public function setStatus(string $status): static
+    // {
+    //     $this->status = $status;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getDuration(): ?\DateTimeInterface
     {
