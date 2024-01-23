@@ -5,9 +5,10 @@ namespace App\Event;
 use App\Entity\Enrollment;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class CourseEnrollmentEvent extends Event
+class EnrollmentEvent extends Event
 {
-    public const NAME = "course.enrollment";
+    public const ENROLLMENT = "course.enrollment";
+    public const UNENROLLMENT = "course.unenrollment";
 
     public function __construct(private Enrollment $enrollment)
     {
