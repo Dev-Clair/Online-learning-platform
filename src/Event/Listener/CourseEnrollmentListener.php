@@ -4,6 +4,7 @@ namespace App\Event\Listener;
 
 use App\Event\CourseEnrollmentEvent;
 use App\Service\MailerService;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class CourseEnrollmentListener
 {
@@ -11,6 +12,7 @@ class CourseEnrollmentListener
     {
     }
 
+    #[AsEventListener(event: CourseEnrollmentEvent::class)]
     public function onEnrollment(CourseEnrollmentEvent $event)
     {
         $enrollment = $event->getEnrollment();
@@ -22,6 +24,7 @@ class CourseEnrollmentListener
         $this->mailerService->sendEmail($to, $subject, $message);
     }
 
+    #[AsEventListener(event: CourseEnrollmentEvent::class)]
     public function onUnenrollment(CourseEnrollmentEvent $event)
     {
         $enrollment = $event->getEnrollment();
