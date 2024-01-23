@@ -91,15 +91,15 @@ class AdminController extends AbstractController
             $admin->setLastname(ucwords($form->get('lastName')->getData()));
 
             // Assign roles
-            $defaultRole = ['ROLE_ADMIN'];
+            $role = ['ROLE_ADMIN'];
 
             $roles = filter_var($form->get('roles')->getData(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if (!empty($roles)) {
-                $defaultRole[] =  $roles;
+                $role[] =  $roles;
             }
 
-            $admin->setRoles($defaultRole);
+            $admin->setRoles($role);
 
             $this->entityManager->persist($admin);
             $this->entityManager->flush();
@@ -132,15 +132,15 @@ class AdminController extends AbstractController
             $instructor->setLastname(ucwords($form->get('lastName')->getData()));
 
             // Assign roles
-            $defaultRole = ['ROLE_INSTRUCTOR'];
+            $role = ['ROLE_INSTRUCTOR'];
 
             $roles = filter_var($form->get('roles')->getData(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             if (!empty($roles)) {
-                $defaultRole[] =  $roles;
+                $role[] =  $roles;
             }
 
-            $instructor->setRoles($defaultRole);
+            $instructor->setRoles($role);
 
             $this->entityManager->persist($instructor);
             $this->entityManager->flush();
