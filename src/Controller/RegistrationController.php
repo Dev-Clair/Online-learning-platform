@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Users\Student;
+use App\Event\UserAccountCreatedEvent;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,11 +11,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher): Response
     {
         $user = new Student();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -39,6 +41,10 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Account Created Successfully, You can now Log in.');
+
+            // Dispatch Account Creation Notification Email To New Student User
+            $event = new UserAccountCreatedEvent($user);
+            $eventDispatcher->dispatch($event, UserAccountCreatedEvent::STUDENT);
 
             return $this->redirectToRoute('app_login');
         }

@@ -10,6 +10,8 @@ use App\Entity\Reviews;
 use App\Entity\Users\Admin;
 use App\Entity\Users\Instructor;
 use App\Entity\Users\Student;
+use App\Event\CourseEnrollmentEvent;
+use App\Event\EnrollmentEvent;
 use App\Form\ChapterType;
 use App\Form\CoursesType;
 use App\Form\LessonType;
@@ -22,6 +24,7 @@ use App\Repository\ReviewsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +37,7 @@ class CoursesController extends AbstractController
 {
     public function __construct(
         private CacheInterface $cache,
+        private EventDispatcherInterface $eventDispatcher,
         private EntityManagerInterface $entityManager
     ) {
     }
@@ -541,6 +545,10 @@ class CoursesController extends AbstractController
 
         $this->addFlash('success', 'Congratulations! You Have Enrolled For '  . $course->getTitle());
 
+        // Dispatch Enrollment Notification Email To Student
+        $event = new CourseEnrollmentEvent($enrollment);
+        $this->eventDispatcher->dispatch($event, CourseEnrollmentEvent::ENROLLMENT);
+
         return $this->redirectToRoute('app_courses_index');
     }
 
@@ -558,6 +566,10 @@ class CoursesController extends AbstractController
 
             $this->addFlash('success', 'Successfully Unenrolled ' . $enrollment->getStudent()->getFirstname() . ' From '  . $course->getTitle());
         }
+
+        // Dispatch Un-Enrollment Notification Email To Student
+        $event = new CourseEnrollmentEvent($enrollment);
+        $this->eventDispatcher->dispatch($event, CourseEnrollmentEvent::UNENROLLMENT);
 
         return $this->redirectToRoute('app_courses_index');
     }
