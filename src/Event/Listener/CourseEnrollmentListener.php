@@ -1,41 +1,35 @@
 <?php
 
-namespace App\Events\Listener;
+namespace App\Event\Listener;
 
-use App\Event\EnrollmentEvent;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use App\Event\CourseEnrollmentEvent;
+use App\Service\MailerService;
 
 class CourseEnrollmentListener
 {
-    private $mailer;
-
-    public function __construct(MailerInterface $mailer)
+    public function __construct(private MailerService $mailerService)
     {
-        $this->mailer = $mailer;
     }
 
-    public function onEnrollment(EnrollmentEvent $event)
+    public function onEnrollment(CourseEnrollmentEvent $event)
     {
         $enrollment = $event->getEnrollment();
 
-        $email = (new Email())
-            ->to($enrollment->getStudent()->getEmail())
-            ->subject('Enrollment Complete! Start learning now.')
-            ->text("You’re all set to start learning. Ready to jump in?");
+        $to = $enrollment->getStudent()->getEmail();
+        $subject = 'Enrollment Complete! Start Learning Now.';
+        $message = "You’re all set to start learning. Ready to jump in?";
 
-        $this->mailer->send($email);
+        $this->mailerService->sendEmail($to, $subject, $message);
     }
 
-    public function onUnenrollment(EnrollmentEvent $event)
+    public function onUnenrollment(CourseEnrollmentEvent $event)
     {
         $enrollment = $event->getEnrollment();
 
-        $email = (new Email())
-            ->to($enrollment->getStudent()->getEmail())
-            ->subject('Unenrolled!')
-            ->text("Sorry, You’ve been enrolled from " . $enrollment->getCourses()->getTitle() . ". Kindly enroll again to continue learning");
+        $to = $enrollment->getStudent()->getEmail();
+        $subject = 'Unenrolled!';
+        $message = "Sorry, You’ve been enrolled from " . $enrollment->getCourses()->getTitle() . ". Kindly enroll again to continue learning";
 
-        $this->mailer->send($email);
+        $this->mailerService->sendEmail($to, $subject, $message);
     }
 }

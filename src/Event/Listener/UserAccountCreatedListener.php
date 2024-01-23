@@ -1,29 +1,46 @@
 <?php
 
-namespace App\Events\Listener;
+namespace App\Event\Listener;
 
 use App\Event\UserAccountCreatedEvent;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use App\Service\MailerService;
 
 class UserAccountCreatedListener
 {
-    private $mailer;
-
-    public function __construct(MailerInterface $mailer)
+    public function __construct(private MailerService $mailerService)
     {
-        $this->mailer = $mailer;
     }
 
-    public function onUserAccountCreated(UserAccountCreatedEvent $event)
+    public function onAdminUserAccountCreated(UserAccountCreatedEvent $event)
     {
         $user = $event->getUser();
 
-        $email = (new Email())
-            ->to($user->getEmail())
-            ->subject('Welcome to Jagaad Online')
-            ->text('A user account profile has been created for you. Kindly click on the link to create and set-up a secure password for your account. Thanks and welcome!');
+        $to = $user->getEmail();
+        $subject = 'Welcome to Jagaad Online';
+        $message = 'An admin account profile has been created for you. Kindly click on the link to create and set-up a secure password for your account. Thanks and welcome!';
 
-        $this->mailer->send($email);
+        $this->mailerService->sendEmail($to, $subject, $message);
+    }
+
+    public function onInstructorUserAccountCreated(UserAccountCreatedEvent $event)
+    {
+        $user = $event->getUser();
+
+        $to = $user->getEmail();
+        $subject = 'Welcome to Jagaad Online';
+        $message = 'An instructor account profile has been created for you. Kindly click on the link to create and set-up a secure password for your account. Thanks and welcome!';
+
+        $this->mailerService->sendEmail($to, $subject, $message);
+    }
+
+    public function onStudentUserAccountCreated(UserAccountCreatedEvent $event)
+    {
+        $user = $event->getUser();
+
+        $to = $user->getEmail();
+        $subject = 'Welcome to Jagaad Online';
+        $message = '';
+
+        $this->mailerService->sendEmail($to, $subject, $message);
     }
 }

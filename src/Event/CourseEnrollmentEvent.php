@@ -5,7 +5,7 @@ namespace App\Event;
 use App\Entity\Enrollment;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class EnrollmentEvent extends Event
+class CourseEnrollmentEvent extends Event
 {
     public const ENROLLMENT = "course.enrollment";
     public const UNENROLLMENT = "course.unenrollment";
