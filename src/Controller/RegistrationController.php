@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', 'Account Created Successfully, You can now Log in.');
 
-            // Dispatch Account Creation Notification Email To New Student User
+            // Dispatch Account Creation Notification Email To New Student
             $event = new UserAccountCreatedEvent($user);
             $eventDispatcher->dispatch($event, UserAccountCreatedEvent::STUDENT);
 
