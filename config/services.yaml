@@ -23,3 +23,12 @@ services:
   App\EventListener\UserAccountCreatedListener:
     arguments:
       $mailer: '@Symfony\Component\Mailer\MailerInterface'
+    tags: 
+        -{ name: 'user.account.created.event_listener', event: 'user.account.created.event', method: 'onUserAccountCreated' }
+
+  App\EventListener\CourseEnrollmentListener:
+    arguments:
+      $mailer: '@Symfony\Component\Mailer\MailerInterface'
+    tags:
+        -{ name: 'course.enrollment.event_listener', event: 'course.enrollment.event', method: 'onEnrollment' }
+        -{ name: 'course.enrollment.event_listener', event: 'course.enrollment.event', method: 'onUnenrollment' }
