@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Event\EventListener;
+namespace App\Event\Listener;
 
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class LessonCompletedListener
+final class CourseCompletedListener
 {
     #[AsEventListener(event: KernelEvents::CONTROLLER)]
     public function onKernelController(ControllerEvent $event): void
