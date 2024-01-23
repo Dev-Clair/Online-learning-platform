@@ -1,19 +1,19 @@
-when@dev:
-  framework:
-    cache:
-      pools:
-        redis_cache_pool_dev:
-          default_lifetime: 3600
-          adapter: cache.adapter.redis
-          # adapter: cache.adapter.filesystem
-          provider: "%env(REDIS_URL)%" # "redis://redisKey@ip:6379"
+# when@dev:
+#   framework:
+#     cache:
+#       pools:
+#         redis_cache_pool_dev:
+#           default_lifetime: 3600
+#           adapter: cache.adapter.redis
+#           # adapter: cache.adapter.filesystem
+#           provider: "%env(REDIS_URL)%" # "redis://redisKey@ip:6379"
 
-when@prod:
-  framework:
-    cache:
-      pools:
-        redis_cache_pool_prod:
-          default_lifetime: 10800
-          adapter: cache.adapter.redis
-          # adapter: cache.adapter.filesystem
-          provider: "%env(REDIS_URL)%" # "redis://redisKey@ip:6379"
+# when@prod:
+#   framework:
+#     cache:
+#       pools:
+#         redis_cache_pool_prod:
+#           default_lifetime: 10800
+#           adapter: cache.adapter.redis
+#           # adapter: cache.adapter.filesystem
+#           provider: "%env(REDIS_URL)%" # "redis://redisKey@ip:6379"
