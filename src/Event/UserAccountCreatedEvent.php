@@ -11,7 +11,6 @@ class UserAccountCreatedEvent extends Event
 
     public function __construct(private User $user)
     {
-        $this->user = $user;
     }
 
     public function getUser()
