@@ -102,6 +102,10 @@ class CoursesController extends AbstractController
     {
         $enrollments = $enrollmentRepository->findBy(['student' => $this->getUser()], ['dateEnrolled' => 'ASC']);
 
+        if (!$enrollments) {
+            $this->addFlash('error', 'You Have Not Enrolled For Any Courses. Click On Courses To See Available Courses.');
+        }
+
         return $this->render('courses/learning.html.twig', [
             'enrollments' => $enrollments
         ]);
