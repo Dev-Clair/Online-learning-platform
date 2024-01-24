@@ -24,7 +24,7 @@ class CoursesType extends AbstractType
                 'category',
                 EntityType::class,
                 [
-                    'mapped' => false,
+                    'mapped' => true,
                     'class' => CoursesCategory::class,
                     'choice_label' => function (CoursesCategory $coursesCategory) {
                         return $coursesCategory->getTitle();
