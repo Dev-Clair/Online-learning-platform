@@ -50,9 +50,9 @@ class Courses
     #[ORM\JoinColumn(nullable: false)]
     private ?Instructor $instructor = null;
 
-    #[Assert\Type(type: Courses::class, message: 'Invalid Course Type')]
+    #[Assert\Type(type: CoursesCategory::class, message: 'Invalid Category Type')]
     #[ORM\ManyToOne(inversedBy: 'courses')]
-    // #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false)]
     private ?CoursesCategory $coursesCategory = null;
 
     #[ORM\OneToMany(mappedBy: 'courses', targetEntity: Enrollment::class)]

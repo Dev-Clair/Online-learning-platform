@@ -21,7 +21,7 @@ class CoursesType extends AbstractType
             ->add('duration', TextType::class)
             ->add('value', TextType::class)
             ->add(
-                'category',
+                'coursesCategory',
                 EntityType::class,
                 [
                     'mapped' => true,
