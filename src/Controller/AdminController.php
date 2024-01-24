@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Users\Admin;
 use App\Entity\Users\Instructor;
 use App\Entity\Users\Student;
+use App\Entity\Users\User;
 use App\Event\UserAccountCreatedEvent;
 use App\Form\AdminType;
 use App\Form\InstructorType;
@@ -31,7 +32,6 @@ class AdminController extends AbstractController
         private EntityManagerInterface $entityManager,
         private EventDispatcherInterface $eventDispatcher
     ) {
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     #[Route('/', name: 'app_admin_index', methods: ['GET'])]
@@ -161,12 +161,10 @@ class AdminController extends AbstractController
     #[Route('/{userslug}', name: 'app_admin_show', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function show(
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Admin $admin,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Instructor $instructor,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Student $student
+        #[MapEntity(class: User::class, mapping: ['userslug' => 'userslug'])] Admin|Instructor|Student $user
     ): Response {
         return $this->render('user/show.html.twig', [
-            'user' => $admin ?? $instructor ?? $student,
+            'user' => $user,
         ]);
     }
 
@@ -174,18 +172,18 @@ class AdminController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] Admin $admin
+        #[MapEntity(class: User::class, mapping: ['userslug' => 'userslug'])] Admin|Instructor $user
     ): Response {
-        $form = $this->createForm(AdminType::class, $admin);
+        $form = $this->createForm(AdminType::class, $user) ?? $this->createForm(InstructorType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $admin->setFirstname(ucwords($form->get('firstName')->getData()));
+            $user->setFirstname(ucwords($form->get('firstName')->getData()));
 
-            $admin->setLastname(ucwords($form->get('lastName')->getData()));
+            $user->setLastname(ucwords($form->get('lastName')->getData()));
 
-            $admin->setEmail($form->get('email')->getData());
+            $user->setEmail($form->get('email')->getData());
 
             $this->entityManager->flush();
 
@@ -193,17 +191,19 @@ class AdminController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', [
-            'user' => $admin,
+            'user' => $user,
             'form' => $form,
         ]);
     }
 
     #[Route('/{userslug}', name: 'app_admin_delete', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
-    public function delete(Request $request, Admin $admin): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $admin->getId(), $request->request->get('_token'))) {
-            $this->entityManager->remove($admin);
+    public function delete(
+        Request $request,
+        #[MapEntity(class: User::class, mapping: ['userslug' => 'userslug'])] Admin|Instructor|Student $user
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $this->entityManager->remove($user);
             $this->entityManager->flush();
         }
 
