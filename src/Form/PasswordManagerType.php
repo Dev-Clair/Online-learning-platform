@@ -25,7 +25,7 @@ class PasswordManagerType extends AbstractType
                 'placeholder' => 'Enter new password',
                 'class' => ['form-control']
             ])
-            ->add('confirm password', PasswordType::class, [
+            ->add('confirm_password', PasswordType::class, [
                 'mapped' => false,
                 'required' => true,
                 'placeholder' => 'Re-enter password to confirm',

@@ -33,9 +33,9 @@ class PasswordManagerController extends AbstractController
     #[Route('/create/{userslug}', name: 'app_password_create', methods: ['GET'])]
     // #[IsGranted('PUBLIC_ACCESS')]
     public function password_create(
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Admin $admin,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Instructor $instructor,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Student $student,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Admin $admin = null,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Instructor $instructor = null,
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Student $student = null,
         Request $request
     ): Response {
         $user = $admin ?? $instructor ?? $student;
@@ -46,7 +46,15 @@ class PasswordManagerController extends AbstractController
 
             $email = $form->get('email')->getData();
 
-            $password = $form->get('password')->getData() ?: $form->get('confirm_password')->getData();
+            $password = $form->get('password')->getData();
+
+            $confirm_password = $form->get('confirm_password')->getData();
+
+            if ($password !== $confirm_password) {
+                $this->addFlash('error', 'Password Does Nor Match. Please Try Again.');
+
+                return $this->redirectToRoute('app_password_create', ['userslug' => $user->getUserSlug()]);
+            }
 
             $verifyEmail = (bool) $this->adminRepository->findOneBy(['email' => $email])
                 ??
@@ -72,7 +80,7 @@ class PasswordManagerController extends AbstractController
 
             $this->addFlash('error', 'No User Account Exists For This email' . $email);
 
-            return $this->redirectToRoute('app_password_create', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_password_create', ['userslug' => $user->getUserSlug()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('password_manager/index.html.twig', []);
