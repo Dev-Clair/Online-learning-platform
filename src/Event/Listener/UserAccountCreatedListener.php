@@ -4,7 +4,6 @@ namespace App\Event\Listener;
 
 use App\Event\UserAccountCreatedEvent;
 use App\Service\MailerService;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 class UserAccountCreatedListener
 {
@@ -12,7 +11,6 @@ class UserAccountCreatedListener
     {
     }
 
-    #[AsEventListener(event: UserAccountCreatedEvent::class)]
     public function onAdminUserAccountCreated(UserAccountCreatedEvent $event)
     {
         $user = $event->getUser();
@@ -24,7 +22,6 @@ class UserAccountCreatedListener
         $this->mailerService->sendEmail($to, $subject, $message);
     }
 
-    #[AsEventListener(event: UserAccountCreatedEvent::class)]
     public function onInstructorUserAccountCreated(UserAccountCreatedEvent $event)
     {
         $user = $event->getUser();
@@ -36,7 +33,6 @@ class UserAccountCreatedListener
         $this->mailerService->sendEmail($to, $subject, $message);
     }
 
-    #[AsEventListener(event: UserAccountCreatedEvent::class)]
     public function onStudentUserAccountCreated(UserAccountCreatedEvent $event)
     {
         $user = $event->getUser();

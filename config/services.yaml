@@ -20,37 +20,37 @@ services:
       - "../src/Entity/"
       - "../src/Kernel.php"
 
-  # App\Event\Listener\UserAccountCreatedListener:
-  #   arguments:
-  #     $mailerService: '@App\Service\MailerService'
-  #   tags:
-  #     - {
-  #         name: "user.account.created.event_listener",
-  #         event: "user.account.created.event",
-  #         method: "onAdminUserAccountCreated",
-  #       }
-  #     - {
-  #         name: "user.account.created.event_listener",
-  #         event: "user.account.created.event",
-  #         method: "onInstructorUserAccountCreated",
-  #       }
-  #     - {
-  #         name: "user.account.created.event_listener",
-  #         event: "user.account.created.event",
-  #         method: "onStudentUserAccountCreated",
-  #       }
+  App\Event\Listener\UserAccountCreatedListener:
+    arguments:
+      $mailerService: '@App\Service\MailerService'
+    tags:
+      - {
+          name: "user.account.created.event_listener",
+          event: "user.account.created.event",
+          method: "onAdminUserAccountCreated",
+        }
+      - {
+          name: "user.account.created.event_listener",
+          event: "user.account.created.event",
+          method: "onInstructorUserAccountCreated",
+        }
+      - {
+          name: "user.account.created.event_listener",
+          event: "user.account.created.event",
+          method: "onStudentUserAccountCreated",
+        }
 
-  # App\Event\Listener\CourseEnrollmentListener:
-  #   arguments:
-  #     $mailerService: '@App\Service\MailerService'
-  #   tags:
-  #     - {
-  #         name: "course.enrollment.event_listener",
-  #         event: "course.enrollment.event",
-  #         method: "onEnrollment",
-  #       }
-  #     - {
-  #         name: "course.enrollment.event_listener",
-  #         event: "course.enrollment.event",
-  #         method: "onUnenrollment",
-  #       }
+  App\Event\Listener\CourseEnrollmentListener:
+    arguments:
+      $mailerService: '@App\Service\MailerService'
+    tags:
+      - {
+          name: "course.enrollment.event_listener",
+          event: "course.enrollment.event",
+          method: "onEnrollment",
+        }
+      - {
+          name: "course.enrollment.event_listener",
+          event: "course.enrollment.event",
+          method: "onUnenrollment",
+        }
