@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Users\Admin;
 use App\Entity\Users\Instructor;
-use App\Entity\Users\Student;
-use App\Entity\Users\User;
 use App\Event\UserAccountCreatedEvent;
 use App\Form\AdminType;
 use App\Form\InstructorType;
@@ -161,7 +159,7 @@ class AdminController extends AbstractController
     #[Route('/{userslug}', name: 'app_admin_show', methods: ['GET'])]
     #[IsGranted('ROLE_ADMIN')]
     public function show(
-        #[MapEntity(class: User::class, mapping: ['userslug' => 'userslug'])] Admin|Instructor|Student $user
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] Admin $user
     ): Response {
         return $this->render('user/show.html.twig', [
             'user' => $user,
@@ -172,9 +170,9 @@ class AdminController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function edit(
         Request $request,
-        #[MapEntity(class: User::class, mapping: ['userslug' => 'userslug'])] Admin|Instructor $user
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] Admin $user
     ): Response {
-        $form = $this->createForm(AdminType::class, $user) ?? $this->createForm(InstructorType::class, $user);
+        $form = $this->createForm(AdminType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -200,7 +198,7 @@ class AdminController extends AbstractController
     #[IsGranted('ROLE_ADMIN')]
     public function delete(
         Request $request,
-        #[MapEntity(class: User::class, mapping: ['userslug' => 'userslug'])] Admin|Instructor|Student $user
+        #[MapEntity(mapping: ['userslug' => 'userslug'])] Admin $user
     ): Response {
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($user);
