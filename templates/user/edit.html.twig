@@ -26,11 +26,11 @@
                               </div>
 
                               <div class="mb-4 text-primary">
-                                  {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email', 'disabled': false}}) }}
+                                  {{ form_row(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter email'}}) }}
                               </div>
 
                               <div class="mb-4 text-primary">
-                                  {{ form_row(form.roles, {'attr': {'class': 'form-control', 'placeholder': 'Roles must be preceeded by ROLE_ '}}) }}
+                                  {{ form_row(form.roles, {'attr': {'class': 'form-control', 'placeholder': 'Role must be preceeded by ROLE_ ', 'disabled': true}}) }}
                               </div>
 
                               {# <div class="mb-4 text-primary">
