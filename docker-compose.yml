@@ -27,7 +27,7 @@ services:
   #     - PMA_HOST=online_learning_mariadb
 
   db_admin_service:
-    image: "latest"
+    image: "adminer:latest"
     container_name: online_learning_db_admin
     ports:
       - "8801:80"
