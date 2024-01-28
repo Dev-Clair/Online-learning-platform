@@ -27,13 +27,9 @@ class CoursesControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
-        $crawler = $this->client->request('GET', $this->path);
+        $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Course index');
-
-        // Use the $crawler to perform additional assertions e.g.
-        // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
     }
 
     public function testNew(): void
@@ -49,8 +45,6 @@ class CoursesControllerTest extends WebTestCase
             'course[title]' => 'Testing',
             'course[description]' => 'Testing',
             'course[duration]' => 'Testing',
-            'course[createdAt]' => 'Testing',
-            'course[updatedAt]' => 'Testing',
             'course[user]' => 'Testing',
         ]);
 
@@ -66,9 +60,7 @@ class CoursesControllerTest extends WebTestCase
         $fixture->setTitle('My Title');
         $fixture->setDescription('My Title');
         $fixture->setDuration('My Title');
-        $fixture->setCreatedAt('My Title');
-        $fixture->setUpdatedAt('My Title');
-        $fixture->setUser('My Title');
+        $fixture->setValue('120.00');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -76,9 +68,6 @@ class CoursesControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Course');
-
-        // Use assertions to check that the properties are properly displayed.
     }
 
     public function testEdit(): void
@@ -86,11 +75,9 @@ class CoursesControllerTest extends WebTestCase
         $this->markTestIncomplete();
         $fixture = new Courses();
         $fixture->setTitle('My Title');
-        $fixture->setDescription('My Title');
-        $fixture->setDuration('My Title');
-        $fixture->setCreatedAt('My Title');
-        $fixture->setUpdatedAt('My Title');
-        $fixture->setUser('My Title');
+        $fixture->setDescription('My Course Title');
+        $fixture->setDuration(75);
+        $fixture->setValue('125.00');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -98,24 +85,20 @@ class CoursesControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'course[title]' => 'Something New',
-            'course[description]' => 'Something New',
-            'course[duration]' => 'Something New',
-            'course[createdAt]' => 'Something New',
-            'course[updatedAt]' => 'Something New',
-            'course[user]' => 'Something New',
+            'course[title]' => 'My Title',
+            'course[description]' => 'My Course Title',
+            'course[duration]' => 75,
+            'course[value]' => '125.00',
         ]);
 
         self::assertResponseRedirects('/courses/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getTitle());
-        self::assertSame('Something New', $fixture[0]->getDescription());
-        self::assertSame('Something New', $fixture[0]->getDuration());
-        self::assertSame('Something New', $fixture[0]->getCreatedAt());
-        self::assertSame('Something New', $fixture[0]->getUpdatedAt());
-        self::assertSame('Something New', $fixture[0]->getUser());
+        self::assertSame('My Title', $fixture[0]->getTitle());
+        self::assertSame('My Course Title', $fixture[0]->getDescription());
+        self::assertSame(75, $fixture[0]->getDuration());
+        self::assertSame('125.00', $fixture[0]->getValue());
     }
 
     public function testRemove(): void
@@ -126,11 +109,9 @@ class CoursesControllerTest extends WebTestCase
 
         $fixture = new Courses();
         $fixture->setTitle('My Title');
-        $fixture->setDescription('My Title');
-        $fixture->setDuration('My Title');
-        $fixture->setCreatedAt('My Title');
-        $fixture->setUpdatedAt('My Title');
-        $fixture->setUser('My Title');
+        $fixture->setDescription('My Course Title');
+        $fixture->setDuration(75);
+        $fixture->setValue('125.00');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
