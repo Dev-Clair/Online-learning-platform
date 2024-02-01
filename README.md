@@ -16,7 +16,7 @@ Jagaad Academy is a comprehensive online learning platform designed to provide a
 - **Enrollment:** Easily enroll in courses to start your learning journey.
 - **Progress Tracking:** Track your progress within enrolled courses.
 - **Instructor-Led:** Join courses led by experienced and knowledgeable instructors.
-- **Community:** Engage with fellow students and instructors through discussion forums.
+- **Lifetime Access:** Lifetime access To paid courses after buying.
 
 ## Getting Started
 
