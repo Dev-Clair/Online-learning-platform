@@ -15,7 +15,10 @@ class CourseEnrollmentListener
     {
         $enrollment = $event->getEnrollment();
 
-        $to = $enrollment->getStudent()->getEmail();
+        $to = [
+            $enrollment->getStudent()->getEmail(),
+            $enrollment->getStudent()->getFirstname() . $enrollment->getStudent()->getLastname()
+        ];
         $subject = 'Enrollment Complete! Start Learning Now.';
         $message = "You’re all set to start learning. Ready to jump in?";
 
@@ -26,7 +29,10 @@ class CourseEnrollmentListener
     {
         $enrollment = $event->getEnrollment();
 
-        $to = $enrollment->getStudent()->getEmail();
+        $to = [
+            $enrollment->getStudent()->getEmail(),
+            $enrollment->getStudent()->getFirstname() . $enrollment->getStudent()->getLastname()
+        ];
         $subject = 'Unenrolled!';
         $message = "Sorry, You’ve been enrolled from " . $enrollment->getCourses()->getTitle() . ". Kindly enroll again to continue learning";
 

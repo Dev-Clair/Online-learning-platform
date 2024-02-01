@@ -13,11 +13,11 @@ class MailerService
     {
     }
 
-    public function sendEmail(string $to, string $subject, string $message)
+    public function sendEmail(array $to, string $subject, string $message)
     {
         $email = (new TemplatedEmail())
             ->from(new Address('aniogbu.samuel@jagaadonline.com', 'Aniogbu Samuel'))
-            ->to($to)
+            ->to(new $to[0], $to[1])
             ->subject($subject)
             ->text($message)
             ->textTemplate('')

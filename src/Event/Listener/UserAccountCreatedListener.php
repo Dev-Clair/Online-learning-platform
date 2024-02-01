@@ -15,7 +15,7 @@ class UserAccountCreatedListener
     {
         $user = $event->getUser();
 
-        $to = $user->getEmail();
+        $to = [$user->getEmail(), $user->getFirstname() . $user->getLastname()];
         $subject = 'Welcome to Jagaad Online';
         $message = 'An admin account profile has been created for you. Kindly click on the link to create and set-up a secure password for your account. Thanks and welcome!';
 
@@ -26,7 +26,7 @@ class UserAccountCreatedListener
     {
         $user = $event->getUser();
 
-        $to = $user->getEmail();
+        $to = [$user->getEmail(), $user->getFirstname() . $user->getLastname()];
         $subject = 'Welcome to Jagaad Online';
         $message = 'An instructor account profile has been created for you. Kindly click on the link to create and set-up a secure password for your account. Thanks and welcome!';
 
@@ -37,7 +37,7 @@ class UserAccountCreatedListener
     {
         $user = $event->getUser();
 
-        $to = $user->getEmail();
+        $to = [$user->getEmail(), $user->getFirstname() . $user->getLastname()];
         $subject = 'Welcome to Jagaad Online';
         $message = '';
 
