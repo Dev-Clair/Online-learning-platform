@@ -2,15 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Users\Admin;
-use App\Entity\Users\Instructor;
-use App\Entity\Users\Student;
-use App\Form\PasswordManagerType;
 use App\Repository\AdminRepository;
 use App\Repository\InstructorRepository;
-use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,68 +15,59 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/password')]
 class PasswordManagerController extends AbstractController
 {
-    public function __construct(
-        private UserPasswordHasherInterface $userPasswordHasher,
-        private AdminRepository $adminRepository,
-        private InstructorRepository $instructorRepository,
-        private StudentRepository $studentRepository,
-        private EntityManagerInterface $entityManager
-    ) {
+    #[Route('/', name: 'app_password_index', methods: ['GET'])]
+    // #[IsGranted('PUBLIC_ACCESS')]
+    public function password_index(): Response
+    {
+        return $this->render('password_manager/index.html.twig');
     }
 
-    #[Route('/create/{userslug}', name: 'app_password_create', methods: ['GET'])]
+    #[Route('/create', name: 'app_password_create', methods: ['POST'])]
     // #[IsGranted('PUBLIC_ACCESS')]
     public function password_create(
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Admin $admin = null,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Instructor $instructor = null,
-        #[MapEntity(mapping: ['userslug' => 'userslug'])] ?Student $student = null,
-        Request $request
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        AdminRepository $adminRepository,
+        InstructorRepository $instructorRepository,
+        EntityManagerInterface $entityManager
     ): Response {
-        $user = $admin ?? $instructor ?? $student;
-        $form = $this->createForm(PasswordManagerType::class,  $user);
-        $form->handleRequest($request);
+        // Validate Email
+        $email = filter_var($request->request->get('email'), FILTER_VALIDATE_EMAIL);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (empty($email)) {
+            $this->addFlash('error', 'Invalid email. Please enter e valid email.');
 
-            $email = $form->get('email')->getData();
-
-            $password = $form->get('password')->getData();
-
-            $confirm_password = $form->get('confirm_password')->getData();
-
-            if ($password !== $confirm_password) {
-                $this->addFlash('error', 'Password Does Nor Match. Please Try Again.');
-
-                return $this->redirectToRoute('app_password_create', ['userslug' => $user->getUserSlug()]);
-            }
-
-            $verifyEmail = (bool) $this->adminRepository->findOneBy(['email' => $email])
-                ??
-                (bool) $this->instructorRepository->findOneBy(['email' => $email])
-                ??
-                (bool) $this->studentRepository->findOneBy(['email' => $email]);
-
-            if ($verifyEmail === true) {
-                $user->setPassword(
-                    $this->userPasswordHasher->hashPassword(
-                        $user,
-                        $password
-                    )
-                );
-
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
-
-                $this->addFlash('success', 'Password Created Successfully. Kindly Log in.');
-
-                return $this->redirectToRoute('app_login');
-            }
-
-            $this->addFlash('error', 'No User Account Exists For This email' . $email);
-
-            return $this->redirectToRoute('app_password_create', ['userslug' => $user->getUserSlug()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_password_index');
         }
 
-        return $this->render('password_manager/index.html.twig', []);
+        // Validate Password
+        $password = filter_var($request->request->get('password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        $confirm_password = filter_var($request->request->get('confirm_password'), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if ($password !== $confirm_password) {
+            $this->addFlash('error', 'Password does not match. Please try again.');
+
+            return $this->redirectToRoute('app_password_index');
+        }
+
+        // Retrieve User Account via Email
+        $user = $adminRepository->findOneBy(['email' => $email]) ?? $instructorRepository->findOneBy(['email' => $email]);
+
+        if ((bool) $user) {
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $password
+                )
+            );
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Password created successfully. Log in to contine.');
+        }
+
+        return $this->redirectToRoute('app_login');
     }
 }
