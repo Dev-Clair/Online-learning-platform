@@ -1,22 +1,40 @@
 version: "3.1"
 services:
-  mariadb:
+  cache_service:
+    image: "redis:7.2-alpine"
+    container_name: online_learning_cache
+    ports:
+      - "8800:6379"
+
+  mysql_service:
     image: "mariadb:11.0"
-    container_name: e-learning_mariadb
+    container_name: online_learning_mysql
     working_dir: /application
     volumes:
       - ".:/application"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_USER}
-      - MYSQL_DATABASE=${MARIADB_DB_NAME}
-      - MYSQL_USER=${MARIADB_DB_USER}
-      - MYSQL_PASSWORD=${MARIADB_DB_USER_PASSWORD}
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_USER}"
     ports:
       - "8803:3306"
 
-  webserver:
+  # phpmyadmin:
+  #   image: "phpmyadmin/phpmyadmin:latest"
+  #   container_name: online_learning_phpmyadmin
+  #   ports:
+  #     - "8801:80"
+  #   environment:
+  #     - PMA_ARBITRARY=1
+  #     - PMA_HOST=online_learning_mariadb
+
+  db_admin_service:
+    image: "adminer:latest"
+    container_name: online_learning_db_admin
+    ports:
+      - "8801:80"
+
+  webserver_service:
     image: "nginx:alpine"
-    container_name: e-learning_webserver
+    container_name: online_learning_webserver
     working_dir: /application
     volumes:
       - ".:/application"
@@ -24,33 +42,25 @@ services:
     ports:
       - "8800:80"
 
-  php-fpm:
+  php-fpm_service:
     build: phpdocker/php-fpm
-    container_name: e-learning_php-fpm
+    container_name: online_learning_php-fpm
     extra_hosts:
       - "host.docker.internal:host-gateway"
     working_dir: /application
     expose:
-      - 9000
+      - 9900
     environment:
       - PHP_IDE_CONFIG=serverName=localhost
     volumes:
       - ".:/application"
       - "./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini"
-      - "./phpdocker/php-fpm/error_reporting.ini:/etc/php/8.2/fpm/conf.d/error_reporting.ini"
 
-  phpmyadmin:
-    image: "phpmyadmin/phpmyadmin:latest"
-    container_name: e-learning_phpmyadmin
+  mailer:
+    image: mailhog/mailhog
     ports:
-      - "8801:80"
+      - "8800:1025"
+      - "8800:8025"
     environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=e-learning_mariadb
-
-  composer:
-    image: "composer:latest"
-    container_name: e-learning_composer
-    command: ["composer", "update"]
-    volumes:
-      - ".:/app"
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1

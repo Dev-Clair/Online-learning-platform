@@ -1,14 +1,31 @@
 <html>
 <head>
     <title>PHPDocker.io Readme</title>
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
 
     <style>
+        * {
+            line-height: 1.8em;
+        }
+
         code {
-            background-color : #ddd;
-            padding          : 2px 5px;
-            font-family      : monospace;
-            font-size        : 16px;
+            font-size: 1.2em;
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            color: #111;
+            font-family: monospace;
+            padding: 3px;
+        }
+
+        pre code {
+            border-left: 3px solid #f36d33;
+            page-break-inside: avoid;
+            margin-bottom: 1.6em;
+            max-width: 100%;
+            overflow: auto;
+            padding: 1em 1.5em;
+            display: block;
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -58,11 +75,11 @@ add your own hostname on your <code>/etc/hosts</code></p>
 <tbody>
 <tr>
   <td>Webserver</td>
-  <td><a href="http://localhost:26000">localhost:26000</a></td>
+  <td><a href="http://localhost:8800">localhost:8800</a></td>
 </tr>
 <tr>
   <td>MariaDB</td>
-  <td><strong>host:</strong> <code>localhost</code>; <strong>port:</strong> <code>26003</code></td>
+  <td><strong>host:</strong> <code>localhost</code>; <strong>port:</strong> <code>8803</code></td>
 </tr>
 </tbody>
 </table>
@@ -89,6 +106,11 @@ add your own hostname on your <code>/etc/hosts</code></p>
   <td>MariaDB</td>
   <td>mariadb</td>
   <td>3306 (default)</td>
+</tr>
+<tr>
+  <td>Redis</td>
+  <td>redis</td>
+  <td>6379 (default)</td>
 </tr>
 </tbody>
 </table>
@@ -198,7 +220,7 @@ docker-compose.yml</li>
 
 <h3>Create a launch.json for visual studio code</h3>
 
-<p>{
+<pre><code>  {
       "version": "0.2.0",
       "configurations": [
           {
@@ -206,13 +228,14 @@ docker-compose.yml</li>
               "type": "php",
               "request": "launch",
               "port": 9000,
-              // Server Remote Path -> Local Project Path
+              // Server Remote Path -&gt; Local Project Path
               "pathMappings": {
                   "/application/public": "${workspaceRoot}/"
               },
           }
       ]
-  }</p>
+  }
+</code></pre>
     </div>
     <div class="pure-u-1-24"></div>
 </div>

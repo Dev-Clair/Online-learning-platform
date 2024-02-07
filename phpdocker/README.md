@@ -30,8 +30,8 @@ add your own hostname on your `/etc/hosts`
 
 Service|Address outside containers
 -------|--------------------------
-Webserver|[localhost:26000](http://localhost:26000)
-MariaDB|**host:** `localhost`; **port:** `26003`
+Webserver|[localhost:8800](http://localhost:8800)
+MariaDB|**host:** `localhost`; **port:** `8803`
 
 ## Hosts within your environment ##
 
@@ -41,6 +41,7 @@ Service|Hostname|Port number
 ------|---------|-----------
 php-fpm|php-fpm|9000
 MariaDB|mariadb|3306 (default)
+Redis|redis|6379 (default)
 
 # Docker compose cheatsheet #
 
@@ -142,7 +143,7 @@ environment:
 * Finally, add “Xdebug helper” extension in your browser, set breakpoints and start debugging
 
 ### Create a launch.json for visual studio code
-
+```
   {
       "version": "0.2.0",
       "configurations": [
@@ -158,4 +159,4 @@ environment:
           }
       ]
   }
-
+```

@@ -1,0 +1,371 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary py-5 mb-5 page-header">
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center">
+            <h1 class="display-3 text-white animated slideInDown">Home</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item">
+                  <a class="text-white" href="#">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a class="text-white" href="#">Page</a>
+                </li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Service Start -->
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="service-item text-center pt-3">
+              <div class="p-4">
+                <i class="fa fa-3x fa-graduation-cap text-primary mb-4"></i>
+                <h5 class="mb-3">Expert Instructors</h5>
+                <p>
+                  Learn from skilled instructors who are experts in their fields.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+            <div class="service-item text-center pt-3">
+              <div class="p-4">
+                <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                <h5 class="mb-3">Online Classes</h5>
+                <p>
+                  Access high-quality education from anywhere with our online classes.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+            <div class="service-item text-center pt-3">
+              <div class="p-4">
+                <i class="fa fa-3x fa-home text-primary mb-4"></i>
+                <h5 class="mb-3">Hands-On Projects</h5>
+                <p>
+                  Apply your knowledge through hands-on projects for practical experience.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+            <div class="service-item text-center pt-3">
+              <div class="p-4">
+                <i class="fa fa-3x fa-book-open text-primary mb-4"></i>
+                <h5 class="mb-3">e-Library Access</h5>
+                <p>
+                  Explore our extensive e-Library for additional learning resources.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Service End -->
+
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="row g-5">
+          <div
+            class="col-lg-6 wow fadeInUp"
+            data-wow-delay="0.1s"
+            style="min-height: 400px"
+          >
+            <div class="position-relative h-100">
+              <img
+                class="img-fluid position-absolute w-100 h-100"
+                src="{{ asset('build/images/about.5f8b4861.jpg') }}"
+                alt=""
+                style="object-fit: cover"
+              />
+            </div>
+          </div>
+          <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+            <h6 class="section-title bg-white text-start text-primary pe-3">
+              About Us
+            </h6>
+            <h1 class="mb-4">Welcome to Jagaad Academy</h1>
+            <p class="mb-4">
+              Embark on a journey of discovery with Jagaad Academy, your gateway to a world of knowledge and learning. 
+              Dive into a diverse range of courses designed to enrich your mind and elevate your skills. Our online learning platform is crafted to provide you with an immersive and engaging educational experience.
+            </p>
+            <p class="mb-4">
+              Uncover new insights, acquire valuable skills, and connect with a community of learners from around the globe. Whether you're a seasoned professional or a curious enthusiast, Jagaad Academy is here to support your continuous learning journey. Join us, and let the pursuit of knowledge lead you to new horizons.
+            </p>
+            <div class="row gy-2 gx-4 mb-4">
+              <div class="col-sm-6">
+                <p class="mb-0">
+                  <i class="fa fa-arrow-right text-primary me-2"></i>Expert Instructors
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <p class="mb-0">
+                  <i class="fa fa-arrow-right text-primary me-2"></i>Online Classes
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <p class="mb-0">
+                  <i class="fa fa-arrow-right text-primary me-2"></i>Hands-On Projects
+                </p>
+              </div>
+              <div class="col-sm-6">
+                <p class="mb-0">
+                  <i class="fa fa-arrow-right text-primary me-2"></i>e-Library Access
+                </p>
+              </div>
+            </div>
+            <a class="btn btn-primary py-3 px-5 mt-2" href="{{ path('app_courses_index') }}" style="border-radius: 30px 30px 30px 30px">See Courses</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- About End -->
+
+    <!-- Categories Start -->
+    <div class="container-xxl py-5 category">
+      <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+          <h6 class="section-title bg-white text-center text-primary px-3">
+            Categories
+          </h6>
+          <h1 class="mb-5">Courses Categories</h1>
+        </div>
+        <div class="row g-3">
+          <div class="col-lg-7 col-md-6">
+            <div class="row g-3">
+              <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img class="img-fluid" src="{{ asset('build/images/cat-1.c251f2cc.jpg') }}" alt="" />
+                  <div
+                    class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                    style="margin: 1px"
+                  >
+                    <h5 class="m-0">Software Engineering</h5>
+                    <small class="text-primary"><strong>15 Courses</strong></small>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img class="img-fluid" src="{{ asset('build/images/cat-2.f7ebf377.jpg') }}" alt="" />
+                  <div
+                    class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                    style="margin: 1px"
+                  >
+                    <h5 class="m-0">Cloud Engineering</h5>
+                    <small class="text-primary"><strong>12 Courses</strong></small>
+                  </div>
+                </a>
+              </div>
+              <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                <a class="position-relative d-block overflow-hidden" href="">
+                  <img class="img-fluid" src="{{ asset('build/images/cat-3.a54e04e9.jpg') }}" alt="" />
+                  <div
+                    class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                    style="margin: 1px"
+                  >
+                    <h5 class="m-0">Product Management</h5>
+                    <small class="text-primary"><strong><strong>5 Courses</strong></strong></small>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col-lg-5 col-md-6 wow zoomIn"
+            data-wow-delay="0.7s"
+            style="min-height: 350px"
+          >
+            <a class="position-relative d-block h-100 overflow-hidden" href="">
+              <img
+                class="img-fluid position-absolute w-100 h-100"
+                src="{{ asset('build/images/cat-4.7e07c574.jpg') }}"
+                alt=""
+                style="object-fit: cover"
+              />
+              <div
+                class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3"
+                style="margin: 1px"
+              >
+                <h5 class="m-0">Blockchain and Smart Contracts</h5>
+                <small class="text-primary">5 Courses</small>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Categories Start -->
+    
+    <!-- Courses Start -->
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+          <h6 class="section-title bg-white text-center text-primary px-3">
+            Courses
+          </h6>
+          <h1 class="mb-5">Popular Courses</h1>
+        </div>
+        <div class="row g-4 justify-content-center align-items-center">
+          <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
+              <a class="flex-shrink-0 btn btn-lg btn-primary border-end" href="{{ path('app_courses_index') }}" style="border-radius: 30px 30px 30px 30px">
+                See Popular Courses by Reviews...
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Courses End -->
+
+    <!-- Team Start -->
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+          <h6 class="section-title bg-white text-center text-primary px-3">
+            Instructors
+          </h6>
+          <h1 class="mb-5">Expert Instructors</h1>
+        </div>
+        <div class="row g-4 justify-content-center align-items-center">
+          {% for instructor in instructors %}
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+              <div class="team-item bg-light">
+                <div class="position-relative overflow-hidden">
+                  <img class="img-fluid" src="{{ asset('build/images/team-1.df075697.jpg') }}" alt="" />
+                </div>
+                <div
+                  class="position-relative d-flex justify-content-center"
+                  style="margin-top: -23px"
+                >
+                  <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                    <a class="btn btn-sm-square btn-primary mx-1" href=""
+                      ><i class="fab fa-facebook-f"></i
+                    ></a>
+                    <a class="btn btn-sm-square btn-primary mx-1" href=""
+                      ><i class="fab fa-twitter"></i
+                    ></a>
+                    <a class="btn btn-sm-square btn-primary mx-1" href=""
+                      ><i class="fab fa-instagram"></i
+                    ></a>
+                  </div>
+                </div>
+                <div class="text-center p-4">
+                  <h5 class="mb-0">{{ instructor.firstName}} {{ instructor.lastName}}</h5>
+                  <small>Instructor</small>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <!-- Team End -->
+    
+    <!-- Testimonial Start -->
+    <div class="container-xxl py-5">
+      <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+          <h6 class="section-title bg-white text-center text-primary px-3">
+            TESTIMONIALS
+          </h6>
+          <h1 class="mb-5">Share your experience with us</h1>
+        </div>
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="bg-white text-center text-primary px-3">Follow Us!</h5>
+            <p class="mb-4">
+              We would like to connect with you on any of our social media channels.
+            </p>
+            <div class="d-flex align-items-center mb-4">
+              <a id="twitter" class="btn btn-outline-blue btn-primary text-center btn-social" href="https://twitter.com/Claircorp"
+                ><i class="fab fa-twitter"></i
+              ></a> Twitter
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-red btn-danger text-center btn-social" href="#"
+                ><i class="fab fa-youtube"></i
+              ></a> YouTube
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-blue btn-primary text-center btn-social" href="https://linkedin.com/in/samuel-aniogbu"
+                ><i class="fab fa-linkedin-in"></i
+              ></a> LinkedIn
+            </div>
+            <div class="d-flex align-items-center mb-4">
+              <a class="btn btn-outline-blue btn-primary text-center btn-social" href="https://facebook.com/samuel-aniogbu"
+                ><i class="fab fa-facebook"></i
+              ></a> Facebook
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
+            <div class="mb-4">
+              <h5 class="bg-white text-center text-primary px-3">Help us get better!!</h5>
+              <p class="mb-4">
+                We will love to hear about your experience. Kindly click the link to share your thoughts about the program, and we will share them with everyone.
+              </p>
+              <a href="{{ path('app_testimonial') }}">
+                <h6 class="bg-light text-center text-primary px-3">Click to Share...</h6>
+              </a>
+            </div>
+            <div>
+              <h5 class="bg-white text-center text-primary px-3">Questions or Enquiries!!</h5>
+              <p class="mb-4">
+                Do you have any questions or enquiries about any of our programs and events. Click the button and our correspondent will be in touch.
+              </p>
+              <a href="{{ path('app_contact') }}">
+                <h6 class="bg-light text-center text-primary px-3">Questions or Enquiries...</h6>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-12 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="text-center">
+              <h5 class=" text-center text-primary px-3">Alumni Students!!!</h5>
+            </div>
+            <div class="testimonial-container" style="max-height: 400px; overflow-y: auto;">
+              <div class="owl-carousel testimonial-carousel position-relative">
+                {% for testimonial in testimonials %}
+                  <div class="testimonial-item text-center">
+                    <img
+                      class="border rounded-circle p-2 mx-auto mb-3"
+                      src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
+                      style="width: 80px; height: 80px"
+                    />
+                    <h5 class="mb-0">{{ testimonial.name }}</h5>
+                    <div class="testimonial-text bg-light text-center p-4">
+                      <p class="mb-0">
+                        {{ testimonial.testimonial }}
+                      </p>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
+                  <a class="flex-shrink-0 btn btn-sm btn-primary border-end" href="{{ path('app_testimonial') }}" style="border-radius: 30px 30px 30px 30px">
+                    See More Testimonials...
+                  </a>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Testimonial End -->
+
+{% endblock %}

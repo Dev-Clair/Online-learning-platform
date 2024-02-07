@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container py-2"> 
+        <h4>User Accounts</h4>
+        
+        {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+            <div class="dropdown">
+                <a href="#" class="btn btn-sm btn-primary my-3 mb-3 float-end dropdown-toggle" data-bs-toggle="dropdown">
+                    Create Account <i class="fa-light fa-colon"></i>
+                </a>
+                <div class="dropdown-menu fade-down">
+                    <a href="{{ path('app_admin_new_admin') }}" class="btn btn-outline dropdown-item">
+                        Admin
+                    </a>
+
+                    <a href="{{ path('app_admin_new_instructor') }}" class="btn btn-outline dropdown-item">
+                        Instructor
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        <table class="table table-striped table-bordered mt-4">
+            <thead class="thead-dark text-center">
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td class="btn btn-group">
+                        <a class="btn btn-primary rounded btn-sm" href="{{ path('app_admin_show', {'userslug': user.userslug}) }}">
+                            <i class="fas fa-eye"></i> 
+                        </a>
+                        
+                        <a class="btn btn-secondary rounded btn-sm" href="{{ path('app_admin_edit', {'userslug': user.userslug}) }}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

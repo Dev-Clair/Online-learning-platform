@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-xxl py-5">
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+        {% for message in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">
+                Enrolled Students
+                </h6>
+                <h1 class="mb-5">Your Students</h1>
+            </div>
+            <div class="row g-4 justify-content-left">
+                {% for enrollment in enrollments %}
+                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="course-item bg-light">
+                            <div class="position-relative overflow-hidden">
+                                <img class="img-fluid" src="{{ asset('build/images/team-3.ea511638.jpg') }}" alt="" />
+                                <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                    <a href="{{ path('app_courses_unenroll', {'courseslug': enrollment.courses.courseslug}) }}" class="flex-shrink-0 btn btn-sm btn-danger px-3 border-end" style="border-radius: 30px 30px 30px 30px">Unenroll</a>
+                                </div>
+                            </div>
+                            <div class="text-center p-4 pb-0">
+                                <h3 class="mb-4">{{ enrollment.student.firstName }} {{ enrollment.student.lastName }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>
+                        <strong>Oops! <br> No students have registered for this course yet.</strong>
+                    </p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
