@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
 use App\Entity\Testimonial;
 use App\Form\TestimonialFormType;
+use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TestimonialController extends AbstractController
 {
     #[Route('/testimonial', name: 'app_testimonial', methods: ['GET', 'POST'])]
-    public function index(Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, StudentRepository $studentRepository, EntityManagerInterface $entityManager): Response
     {
         $testimonial = new Testimonial();
         $form = $this->createForm(TestimonialFormType::class, $testimonial);
@@ -24,7 +24,7 @@ class TestimonialController extends AbstractController
 
             $form_email = $form->get('email')->getData();
 
-            $user = $userRepository->findOneBy(['email' => $form_email]);
+            $user = $studentRepository->findOneBy(['email' => $form_email]);
 
             if ($user) {
 
