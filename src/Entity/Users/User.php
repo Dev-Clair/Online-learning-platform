@@ -65,7 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        // Create and assign new profile to user on instantiation
+        // Create and assign new profile to user on instantiation (user account creation)
         $this->profile = new Profile;
     }
 
