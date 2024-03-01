@@ -4,7 +4,7 @@ services:
     image: "redis:7.2-alpine"
     container_name: online_learning_cache
     ports:
-      - "8800:6379"
+      - "6379:6379"
 
   mysql_service:
     image: "mariadb:11.0"
@@ -13,24 +13,17 @@ services:
     volumes:
       - ".:/application"
     environment:
-      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_USER}"
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_ROOT_USER=root
+      - MARIADB_DATABASE_NAME=jagaadonline
     ports:
-      - "8803:3306"
-
-  # phpmyadmin:
-  #   image: "phpmyadmin/phpmyadmin:latest"
-  #   container_name: online_learning_phpmyadmin
-  #   ports:
-  #     - "8801:80"
-  #   environment:
-  #     - PMA_ARBITRARY=1
-  #     - PMA_HOST=online_learning_mariadb
+      - "3306:3306"
 
   db_admin_service:
     image: "adminer:latest"
     container_name: online_learning_db_admin
     ports:
-      - "8801:80"
+      - "8801:8801"
 
   webserver_service:
     image: "nginx:alpine"
@@ -49,7 +42,7 @@ services:
       - "host.docker.internal:host-gateway"
     working_dir: /application
     expose:
-      - 9900
+      - 9000
     environment:
       - PHP_IDE_CONFIG=serverName=localhost
     volumes:
@@ -59,8 +52,8 @@ services:
   mailer:
     image: mailhog/mailhog
     ports:
-      - "8800:1025"
-      - "8800:8025"
+      - "1025:1025"
+      - "8025:8025"
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
