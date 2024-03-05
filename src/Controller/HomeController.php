@@ -31,7 +31,7 @@ class HomeController extends AbstractController
         $app_home_cache = [
             'instructors' => $instructorRepository->getInstructors() ?? [],
 
-            'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
+            // 'testimonials' => $testimonialRepository->findBy([], [], limit: 2, offset: 0) ?? []
         ];
 
         return $this->render('home/index.html.twig', $app_home_cache);

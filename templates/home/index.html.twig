@@ -224,7 +224,7 @@
           <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
               <a class="flex-shrink-0 btn btn-lg btn-primary border-end" href="{{ path('app_courses_index') }}" style="border-radius: 30px 30px 30px 30px">
-                See Popular Courses by Reviews...
+                See Popular Courses by Categories...
               </a>
             </div>
           </div>
@@ -339,21 +339,23 @@
             </div>
             <div class="testimonial-container" style="max-height: 400px; overflow-y: auto;">
               <div class="owl-carousel testimonial-carousel position-relative">
-                {% for testimonial in testimonials %}
-                  <div class="testimonial-item text-center">
-                    <img
-                      class="border rounded-circle p-2 mx-auto mb-3"
-                      src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
-                      style="width: 80px; height: 80px"
-                    />
-                    <h5 class="mb-0">{{ testimonial.name }}</h5>
-                    <div class="testimonial-text bg-light text-center p-4">
-                      <p class="mb-0">
-                        {{ testimonial.testimonial }}
-                      </p>
+                {% if testimonials is not null %}
+                  {% for testimonial in testimonials %}
+                    <div class="testimonial-item text-center">
+                      <img
+                        class="border rounded-circle p-2 mx-auto mb-3"
+                        src="{{ asset('build/images/testimonial-1.6c1e18bc.jpg') }}"
+                        style="width: 80px; height: 80px"
+                      />
+                      <h5 class="mb-0">{{ testimonial.name }}</h5>
+                      <div class="testimonial-text bg-light text-center p-4">
+                        <p class="mb-0">
+                          {{ testimonial.testimonial }}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                {% endfor %}
+                  {% endfor %}
+                {% endif %}
               </div>
               <div class="position-relative overflow-hidden d-flex justify-content-center align-items-center">
                   <a class="flex-shrink-0 btn btn-sm btn-primary border-end" href="{{ path('app_testimonial') }}" style="border-radius: 30px 30px 30px 30px">
