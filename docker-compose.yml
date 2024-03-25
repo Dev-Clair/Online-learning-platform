@@ -32,8 +32,6 @@ services:
       - ".:/application"
     environment:
       - MARIADB_ROOT_PASSWORD=root
-      - MARIADB_ROOT_USER=root
-      - MARIADB_DATABASE_NAME=jagaadonline
     ports:
       - "3306:3306"
 
